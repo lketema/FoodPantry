@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "616178528212",
+    "firebase_url": "https://foodpantrysupport.firebaseio.com",
+    "project_id": "foodpantrysupport",
+    "storage_bucket": "foodpantrysupport.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:616178528212:android:1712758c7fca35dd",
+        "android_client_info": {
+          "package_name": "com.example.foodpantrysupport.foodpantrysupport"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "616178528212-ji72rt0ptffs5cpje109knbj4ujptfoa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.foodpantrysupport.foodpantrysupport",
+            "certificate_hash": "091d82d07d4989614358563363400c1dba910301"
+          }
+        },
+        {
+          "client_id": "616178528212-qo625tagqqbe51aheba3km3t30p5qbcc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHlS13GPhUv420WUbD_mdwaoE2owdkTc4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "616178528212-qo625tagqqbe51aheba3km3t30p5qbcc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:616178528212:android:fc5d99a4077d692a",
+        "android_client_info": {
+          "package_name": "com.example.group_project.foodpantry"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "616178528212-s5i1bbroet95ioga8nopia8usr0c206f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.group_project.foodpantry",
+            "certificate_hash": "091d82d07d4989614358563363400c1dba910301"
+          }
+        },
+        {
+          "client_id": "616178528212-qo625tagqqbe51aheba3km3t30p5qbcc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHlS13GPhUv420WUbD_mdwaoE2owdkTc4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "616178528212-qo625tagqqbe51aheba3km3t30p5qbcc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
