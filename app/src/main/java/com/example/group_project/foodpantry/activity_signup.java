@@ -18,7 +18,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class SignUp extends AppCompatActivity {
+public class activity_signup extends AppCompatActivity {
 
 //    String fullname="",emailAddr="", password="";
 
@@ -35,12 +35,12 @@ public class SignUp extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        setContentView(R.layout.activity_signup);
         TextView textViewLogin = (TextView) findViewById(R.id.textViewLogin);
         textViewLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent LoginIntent = new Intent(SignUp.this, MainActivity.class);
+                Intent LoginIntent = new Intent(activity_signup.this, MainActivity.class);
                 startActivity(LoginIntent);
             }
         });
