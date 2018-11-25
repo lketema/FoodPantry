@@ -82,7 +82,7 @@ public class activity_signup extends AppCompatActivity {
 
         if (name.length() == 0){
             TextView errMsg = (TextView) findViewById(R.id.textViewError);
-            errMsg.setText("Fullname must not be empty");
+            errMsg.setText("Name must not be empty");
             findViewById(R.id.editTextName).requestFocus();
             return false;
         }
