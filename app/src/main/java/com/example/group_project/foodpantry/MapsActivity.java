@@ -7,6 +7,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -24,12 +25,14 @@ import com.google.android.gms.tasks.Task;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
-
+    private String TAG = "Maps Activity";
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private Location mCurrentLocation;
-    private final int LOCATION_PERMISSION_CODE = 1;
-    private String TAG = "Maps Activity";
+
+    private final int LOCATION_PERMISSION_CODE = 4;
+    private EditText mZipCode;
+
     private Boolean useZipCode = false;
     private Boolean permissionGranted = false;
     private Boolean gotLocation = false;
@@ -43,6 +46,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
         //get last known location through fused location
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        mZipCode = findViewById(R.id.addrZipcode);
     }
 
     @Override
@@ -50,15 +54,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
 
-        if(gotLocation){
+        if(getPhoneLocation()){
             mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude())));
+        }
+        else{
+            Log.i(TAG, "Could not get location on MapReady");
+            Log.i(TAG, "gotlocation on MapReady : " + Boolean.toString(gotLocation));
         }
        // LatLng sydney = new LatLng(-34, 151);
        // mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
       //  mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
-    private void getPhoneLocation(){
+    private Boolean getPhoneLocation(){
         getPhoneLocationPermission();
         try{
         if(permissionGranted){
@@ -69,6 +77,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     if(task.isSuccessful()){ //got location
                         gotLocation = true;
                         mCurrentLocation = (Location) task.getResult();
+                        Log.i(TAG, "gotlocation: " + Boolean.toString(gotLocation));
+
                     }
                     else{
                        Log.i(TAG, "Could not get location");
@@ -83,6 +93,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // needs to handles or error
             Log.i(TAG, "Security Exception when getting locaton: " + e.getMessage());
         }
+        if(gotLocation) return true;
+        else return false;
     }
 
     private void getPhoneLocationPermission(){
