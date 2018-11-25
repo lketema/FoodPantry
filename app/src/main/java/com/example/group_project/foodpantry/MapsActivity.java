@@ -52,10 +52,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-
-        if(getPhoneLocation()){
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude())));
+        getPhoneLocationPermission();
+        if(permissionGranted){
+            getPhoneLocation();
+           // mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude())));
+            mMap.setMyLocationEnabled(true);
         }
         else{
             Log.i(TAG, "Could not get location on MapReady");
@@ -66,8 +67,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
       //  mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
-    private Boolean getPhoneLocation(){
-        getPhoneLocationPermission();
+    private void getPhoneLocation(){
+
         try{
         if(permissionGranted){
             Task lastLocation = mFusedLocationProviderClient.getLastLocation();
@@ -75,16 +76,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 @Override
                 public void onComplete(@NonNull Task task) {
                     if(task.isSuccessful()){ //got location
-                        gotLocation = true;
-                        mCurrentLocation = (Location) task.getResult();
-                        Log.i(TAG, "gotlocation: " + Boolean.toString(gotLocation));
-
+                        //gotLocation = true;
+                        //mCurrentLocation = (Location) task.getResult();
+                        //Log.i(TAG, "gotlocation: " + Boolean.toString(gotLocation));
+                        helperLocation((Location)task.getResult());
                     }
                     else{
                        Log.i(TAG, "Could not get location");
                     }
                 }
             });
+            Log.i(TAG, "gotlocation38: " + Boolean.toString(gotLocation));
         }
         else{
             //TODO implement use by zipcode
@@ -93,10 +95,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // needs to handles or error
             Log.i(TAG, "Security Exception when getting locaton: " + e.getMessage());
         }
-        if(gotLocation) return true;
-        else return false;
+
     }
 
+    private void helperLocation(Location loc){
+        gotLocation = true;
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(loc.getLatitude(), loc.getLongitude()), 15f));
+        mCurrentLocation = loc;
+    }
     private void getPhoneLocationPermission(){
         Log.i(TAG, "Getting Phone's Location");
         if (ActivityCompat.checkSelfPermission(MapsActivity.this, ACCESS_FINE_LOCATION)
