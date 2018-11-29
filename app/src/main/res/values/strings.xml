@@ -29,4 +29,7 @@
     <string name="thursday">Th</string>
     <string name="friday">Fr</string>
     <string name="saturday">Sa</string>
+
+    <!-- MapActivity -->
+    <string name="zipCodeAddress">Search with ZipCode or Address</string>
 </resources>
