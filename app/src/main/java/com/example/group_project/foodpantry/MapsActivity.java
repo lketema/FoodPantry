@@ -21,14 +21,16 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import java.io.IOException;
 import java.util.List;
 
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
     private String TAG = "Maps Activity";
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationProviderClient;
@@ -58,7 +60,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(38.98, -76.94), 15f));
         getPhoneLocation();
 
+        addMarkers();
         // add Pantries from Database and google Search API
+        mMap.setInfoWindowAdapter(new CustomInfoAdapterMaps(getApplicationContext()));
+       // mMap.setOnMapClickListener(this);
+        //mMap.setOnInfoWindowClickListener(this);
+
 
     }
 
@@ -100,7 +107,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Toast.makeText(getApplicationContext(), "Enter an Address or ZipCode", Toast.LENGTH_LONG).show();
         }
 
+    }
+    /*
+    when setting the marker from database, we need to
+    display the pantry name, address, email and
+    if volunteers are needed.
+     */
 
+    private void addMarkers(){
+        final LatLng testing = new LatLng(38.88, -76.00);
+            mMap.addMarker(new MarkerOptions()
+                .position(testing)
+                    .title("Pantry Name")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
     }
 
 
