@@ -1,5 +1,6 @@
 package com.example.group_project.foodpantry;
 
+import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -10,7 +11,6 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -23,35 +23,24 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-
+import com.google.android.gms.tasks.OnSuccessListener;
 import java.io.IOException;
 import java.util.List;
 
-import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     private String TAG = "Maps Activity";
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationProviderClient;
-    private Location mCurrentLocation;
-    private double mLatitude = 1.0;
-    private double mLongitude = 1.0;
+    public Location mCurrentLocation = null;
 
     private final int LOCATION_PERMISSION_CODE = 4;
-    private EditText mZipCode;
 
-
-   // private Boolean useZipCode = false;
-    private Boolean permissionGranted = false;
-    //private Boolean gotLocation = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // Obtain the MapFragment and get notified when the map is ready to be used.
-        //mZipCode = findViewById(R.id.AddrZipcode);
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
@@ -65,20 +54,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        getPhoneLocationPermission();
-        if(permissionGranted){
-            getPhoneLocation();
-            mMap.addMarker(new MarkerOptions().position(new LatLng(mLatitude, mLongitude)).title("You"));
-            Log.i(TAG, " Location of the phone after access is : " + Double.toString(mLatitude) + " " + Double.toString(mLongitude));
-           // mMap.setMyLocationEnabled(true);
-        }
-        else{
-            Log.i(TAG, "Permission Not Granted");
-            // move to default Washington DC
-            updateLocation(38.98, -76.94, null);
-            mMap.addMarker(new MarkerOptions().position(new LatLng(mLatitude, mLongitude)).title("Default"));
-
-        }
+        //default
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(38.98, -76.94), 15f));
+        getPhoneLocation();
 
         // add Pantries from Database and google Search API
 
@@ -125,66 +103,45 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    /**
-     * if permission is granted for Location access, it will call FusedLocationProviderClient
-     * to access the phone last location.
-     */
-
-    private void getPhoneLocation(){
-        try{
-            if(permissionGranted){
-                Task<Location> lastLocation;
-                if(null != (lastLocation = mFusedLocationProviderClient.getLastLocation())) {
-                    lastLocation.addOnCompleteListener(new OnCompleteListener<Location>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Location> task) {
-                            if (task.isSuccessful()) { //got location
-                                Location temp = task.getResult();
-                                if (temp != null){
-                                    updateLocation(temp.getLatitude(), temp.getLongitude(), temp);
-                                }
-                            } else {
-                                Log.i(TAG, "Could not get location");
-                            }
-                        }
-                    });
-                }
-            }
-        }
-        catch (SecurityException e){
-            Log.i(TAG, "Security Exception when getting locaton: " + e.getMessage());
-        }
-
-    }
 
     /**
      * update location will move map view to specified latitude and longitude
      * if location is specified, it will update the mCurrentLocation
-     * @param lat
-     * @param lng
      * @param loc
      */
     private void updateLocation(double lat, double lng, Location loc){
          mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 15f));
-         if(loc != null){
+         if (loc != null){  // for case where user enable their location
+             mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title("You"));
              mCurrentLocation = loc;
          }
-         mLatitude = lat;
-         mLongitude = lng;
-        // mMap.addMarker(new MarkerOptions().position(new LatLng(mLatitude, mLongitude)).title("You"));
-     //    Log.i(TAG, " Location of the phone after access is INslafjalfjlsd : " + Double.toString(mLatitude) + " " + Double.toString(mLongitude));
-
     }
-    private void getPhoneLocationPermission(){
-        Log.i(TAG, "Getting Phone's Location");
-        if (ActivityCompat.checkSelfPermission(MapsActivity.this, ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
+    private void getPhoneLocation(){
+        Log.i(TAG, "Getting Phone's Location Permission");
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             // Permission is not granted  --- request perms, return handled by onRequestPermissionsResult
-            requestPermissions(new String[] {ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_CODE);
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                    LOCATION_PERMISSION_CODE);
         }
-        else{
-           //permission granted for location
-            permissionGranted = true;
+        else {
+            try {
+                mFusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        if (location != null) {
+                            MapsActivity.this.updateLocation(location.getLatitude(), location.getLongitude(), location);
+                        } else {
+                             Log.i(TAG, "Could not get location");
+                        }
+
+                        }
+                    });
+            }
+            catch (SecurityException e){
+                Log.i(TAG, "Security Exception when getting locaton: " + e.getMessage());
+            }
         }
     }
 
@@ -194,15 +151,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             case LOCATION_PERMISSION_CODE: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                    getPhoneLocationPermission();
+                    getPhoneLocation();
                 } else {
                     Toast.makeText(getApplicationContext(),
                             "Location Access Not Granted", Toast.LENGTH_LONG).show();
                     Log.i(TAG, "Location permission was not granted");
                     //default location washington dc
-
-                   // mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(38.90, 77.09), 30f));
                 }
+                return;
             }
 
         }
