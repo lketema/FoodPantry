@@ -36,8 +36,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private Location mCurrentLocation;
-    private double mLatitude;
-    private double mLongitude;
+    private double mLatitude = 1.0;
+    private double mLongitude = 1.0;
 
     private final int LOCATION_PERMISSION_CODE = 4;
     private EditText mZipCode;
@@ -68,17 +68,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         getPhoneLocationPermission();
         if(permissionGranted){
             getPhoneLocation();
-           //mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude())));
-            mMap.setMyLocationEnabled(true);
-
+            mMap.addMarker(new MarkerOptions().position(new LatLng(mLatitude, mLongitude)).title("You"));
+            Log.i(TAG, " Location of the phone after access is : " + Double.toString(mLatitude) + " " + Double.toString(mLongitude));
+           // mMap.setMyLocationEnabled(true);
         }
         else{
             Log.i(TAG, "Permission Not Granted");
+            // move to default Washington DC
+            updateLocation(38.98, -76.94, null);
+            mMap.addMarker(new MarkerOptions().position(new LatLng(mLatitude, mLongitude)).title("Default"));
 
         }
-       // LatLng sydney = new LatLng(-34, 151);
-       // mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-      //  mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+        // add Pantries from Database and google Search API
+
     }
 
     /**
@@ -88,12 +91,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * @param view
      */
     public void onClickSearchButton(View view){
-        Button mSearchButton = findViewById(R.id.SearchButton);
+       // Button mSearchButton = findViewById(R.id.SearchButton);
         EditText mZipCodeAddr = findViewById(R.id.AddrZipcode);
         String mText = mZipCodeAddr.getText().toString();
 
         List<Address> mAddressList = null;
-        if(mText != null && mText != ""){
+        if(!mText.equals("")){
             Geocoder mGeocoder = new Geocoder(this);
             try {
                 mAddressList = mGeocoder.getFromLocationName(mText, 1);
@@ -102,7 +105,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Log.i(TAG, "Error Getting Location from Address or Zipcode");
             }
 
-            if(mAddressList != null){
+            if(mAddressList != null && mAddressList.size() != 0){
                 Address mAddress = mAddressList.get(0);
                 //Location newLoc = new Location(mFusedLocationProviderClient);
                 if (mAddress != null) {
@@ -110,18 +113,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     updateLocation(mAddress.getLatitude(), mAddress.getLongitude(), null);
                 }
             }
+            else{
+                // make toast message saying wrong address input
+                Toast.makeText(getApplicationContext(), "Incorrect Address Input, Please Try Again", Toast.LENGTH_LONG).show();
+            }
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Enter an Address or ZipCode", Toast.LENGTH_LONG).show();
         }
 
 
     }
 
-    private void getPhoneLocation(){
+    /**
+     * if permission is granted for Location access, it will call FusedLocationProviderClient
+     * to access the phone last location.
+     */
 
+    private void getPhoneLocation(){
         try{
             if(permissionGranted){
                 Task<Location> lastLocation;
                 if(null != (lastLocation = mFusedLocationProviderClient.getLastLocation())) {
-
                     lastLocation.addOnCompleteListener(new OnCompleteListener<Location>() {
                         @Override
                         public void onComplete(@NonNull Task<Location> task) {
@@ -139,21 +152,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
         catch (SecurityException e){
-            // needs to handles or error
             Log.i(TAG, "Security Exception when getting locaton: " + e.getMessage());
         }
 
     }
 
+    /**
+     * update location will move map view to specified latitude and longitude
+     * if location is specified, it will update the mCurrentLocation
+     * @param lat
+     * @param lng
+     * @param loc
+     */
     private void updateLocation(double lat, double lng, Location loc){
-         LatLng mLatLng = new LatLng(lat, loc.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(mLatLng).title("Home"));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 15f));
-            if(loc != null){
-                mCurrentLocation = loc;
-            }
-            mLatitude = lat;
-            mLongitude = lng;
+         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 15f));
+         if(loc != null){
+             mCurrentLocation = loc;
+         }
+         mLatitude = lat;
+         mLongitude = lng;
+        // mMap.addMarker(new MarkerOptions().position(new LatLng(mLatitude, mLongitude)).title("You"));
+     //    Log.i(TAG, " Location of the phone after access is INslafjalfjlsd : " + Double.toString(mLatitude) + " " + Double.toString(mLongitude));
 
     }
     private void getPhoneLocationPermission(){
@@ -162,7 +181,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 != PackageManager.PERMISSION_GRANTED) {
             // Permission is not granted  --- request perms, return handled by onRequestPermissionsResult
             requestPermissions(new String[] {ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_CODE);
-            return;
         }
         else{
            //permission granted for location
@@ -181,9 +199,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Toast.makeText(getApplicationContext(),
                             "Location Access Not Granted", Toast.LENGTH_LONG).show();
                     Log.i(TAG, "Location permission was not granted");
-                    useZipCode = true;
+                    //default location washington dc
+
+                   // mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(38.90, 77.09), 30f));
                 }
-                return;
             }
 
         }

@@ -7,14 +7,15 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <EditText
             android:id="@+id/AddrZipcode"
-            android:layout_width="299dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:ems="10"
+            android:layout_weight="3"
+
             android:hint="@string/zipCodeAddress"
             android:inputType="textPostalAddress" />
 
@@ -23,8 +24,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Search"
-            android:onClick="onClickSearchButton"/>
+            android:onClick="onClickSearchButton"
+            android:text="Search" />
 
 
     </LinearLayout>
