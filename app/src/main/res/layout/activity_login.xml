@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray"
@@ -24,9 +26,9 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/imageViewLogIn"
                 android:layout_width="match_parent"
-                android:layout_height="104dp"
+                android:layout_height="180dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="0dp"
@@ -39,44 +41,24 @@
                 android:layout_alignParentTop="true">
 
                 <EditText
-                    android:id="@+id/editTextName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@+id/editTextPhone"
-                    android:layout_alignStart="@+id/editTextPhone"
-                    android:ems="10"
-                    android:hint="Fullname"
-                    android:inputType="text" />
-
-                <EditText
-                    android:id="@+id/editTextPhone"
+                    android:id="@+id/editTextLogInEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginBottom="102dp"
-                    android:layout_marginEnd="72dp"
-                    android:ems="10"
-                    android:hint="Phone Number"
-                    android:inputType="text|phone" />
-
-                <EditText
-                    android:id="@+id/editTextEmail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignStart="@+id/editTextPhone"
-                    android:layout_marginBottom="53dp"
+                    android:layout_marginBottom="73dp"
+                    android:layout_marginEnd="74dp"
                     android:ems="10"
                     android:hint="Email"
                     android:inputType="textEmailAddress" />
 
                 <EditText
-                    android:id="@+id/editTextPassword"
+                    android:id="@+id/editTextLogInPassword"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_alignStart="@+id/editTextPhone"
+                    android:layout_alignStart="@+id/editTextLogInEmail"
+                    android:layout_marginBottom="12dp"
                     android:ems="10"
                     android:hint="Password"
                     android:inputType="textPassword" />
@@ -94,13 +76,13 @@
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/buttonRegister"
+                android:id="@+id/buttonLogin"
                 android:layout_width="202dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
+                android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="37dp"
-                android:text="Register"
+                android:layout_marginTop="47dp"
+                android:text="Login"
                 android:visibility="visible" />
 
         </RelativeLayout>
@@ -112,52 +94,33 @@
             android:layout_alignParentTop="true">
 
             <TextView
-                android:id="@+id/textViewLogin"
+                android:id="@+id/textViewSignUp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="15dp"
-                android:text="Already registered! Login Me."
+                android:layout_marginBottom="65dp"
+                android:text="Not registered yet! Create Account"
                 android:textStyle="bold" />
 
-            <RadioGroup
-                android:id="@+id/radioButtonGroup"
+
+            <TextView
+                android:id="@+id/textViewForgotPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_alignStart="@+id/textViewLogin"
-                android:checkedButton="@+id/radioButtonVolunteer">
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="21dp"
+                android:text="Forgot Password"
+                android:textStyle="bold" />
 
-                <RadioButton
-                    android:id="@+id/radioButtonVolunteer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Volunteer"/>
-
-                <RadioButton
-                    android:id="@+id/radioButtonOwner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Pantry Owner"/>
-
-                <RadioButton
-                    android:id="@+id/radioButtonRcp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Recipient"/>
-            </RadioGroup>
 
             <TextView
-                android:id="@+id/textViewSignUpError"
+                android:id="@+id/textViewLogInError"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toStartOf="@+id/textViewLogin"
-                android:textColor="@color/red"/>
+                android:textColor="@color/red" />
 
         </RelativeLayout>
 
