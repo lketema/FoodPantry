@@ -28,6 +28,7 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -56,7 +57,7 @@ public class AddEventActivity extends AppCompatActivity {
     private Button chooseDateButton;
     private static TextView selectedEventDate;
 
-    private LinearLayout pantryLayout;
+    private RelativeLayout pantryLayout;
     private CheckBox[] dayCheckboxes;
 
     private static boolean openTimeSet = false;

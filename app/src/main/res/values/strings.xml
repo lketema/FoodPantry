@@ -7,6 +7,7 @@
     <string name="register_event_location">Address</string>
     <string name="register_event_phone">Phone Number</string>
     <string name="register_event_email">Email Address</string>
+    <string name="register_event_website">Website</string>
     <string name="no_date_set_string">0000&#8211;00&#8211;00</string>
     <string name="no_time_set_string">00:00:00</string>
     <string name="choose_date_string">Choose Date</string>
