@@ -47,6 +47,7 @@ public class AddEventActivity extends AppCompatActivity {
     private EditText locationEditText;
     private EditText phoneEditText;
     private EditText emailEditText;
+    private EditText websiteEditText;
     private RadioGroup typeGroup;
     private Button chooseOpenButton;
     private Button chooseCloseButton;
@@ -76,6 +77,7 @@ public class AddEventActivity extends AppCompatActivity {
         locationEditText = findViewById(R.id.location_event_input);
         phoneEditText = findViewById(R.id.phone_event_input);
         emailEditText = findViewById(R.id.email_event_input);
+        websiteEditText = findViewById(R.id.website_event_input);
 
         typeGroup = findViewById(R.id.register_type_group);
 
@@ -161,7 +163,7 @@ public class AddEventActivity extends AppCompatActivity {
     private void submitEvent() {
         //check validity
         if (isEmpty(nameEditText) || isEmpty(locationEditText) || isEmpty(phoneEditText) || isEmpty(emailEditText)) {
-            Toast.makeText(this, "Please fill out all fields", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please fill out all required fields", Toast.LENGTH_SHORT).show();
             return;
         }
         if (isInvalidEventOrPantry()) {
@@ -175,8 +177,8 @@ public class AddEventActivity extends AppCompatActivity {
 
         //get confirmation
         new AlertDialog.Builder(this)
-                .setTitle("Title")
-                .setMessage("Do you really want to whatever?")
+                .setTitle("Submit Event")
+                .setMessage("Do you really want to submit this pantry/event?")
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 

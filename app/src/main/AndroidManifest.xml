@@ -56,6 +56,10 @@
         <activity
             android:name=".AddEventActivity"
             android:label="@string/title_activity_add_event"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".EventConfirmationActivity"
+            android:label="@string/title_activity_event_confirmation"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
