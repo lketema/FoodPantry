@@ -26,7 +26,7 @@ public class OptionsActivity extends Activity{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Get the view from activity_main.xml
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_options);
 
         // Locate the button in activity_main.xml
         favButton = (Button) findViewById(R.id.FavoritesButton);
