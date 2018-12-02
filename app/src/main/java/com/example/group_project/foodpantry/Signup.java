@@ -24,7 +24,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class activity_signup extends AppCompatActivity {
+public class Signup extends AppCompatActivity {
 
 //    String fullname="",emailAddr="", password="";
 
@@ -94,7 +94,7 @@ public class activity_signup extends AppCompatActivity {
         textViewLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent LoginIntent = new Intent(activity_signup.this, Login.class);
+                Intent LoginIntent = new Intent(Signup.this, Login.class);
                 startActivity(LoginIntent);
             }
         });
