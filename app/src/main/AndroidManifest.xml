@@ -86,7 +86,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
+
         <activity android:name=".ForgotPassword"></activity>
         <activity android:name=".RegistrationInfo">
             <intent-filter>
@@ -94,11 +94,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-=======
-        <activity android:name=".ForgotPassword" />
-        <activity android:name=".PantryInfo" />
+
+
         <activity android:name=".RegistrationListActivty"></activity>
->>>>>>> 33b492eef6a89a298d87b519963c924032f4954e
     </application>
 
 </manifest>
