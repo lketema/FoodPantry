@@ -3,16 +3,27 @@ package com.example.group_project.foodpantry;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class OptionsActivity extends Activity{
 
     Button favButton;
-    Button histButton;
+    Button registButton;
     Button addEventButton;
+    User user;
 
 
     /**
@@ -24,11 +35,30 @@ public class OptionsActivity extends Activity{
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
         super.onCreate(savedInstanceState);
-        // Get the view from activity_main.xml
+        Intent data = getIntent();
+        final String currentID = data.getStringExtra("userID");
+
+        database.child("userID").addValueEventListener(new ValueEventListener() {
+           @Override
+           public void onDataChange(DataSnapshot dataSnapshot) {
+
+               user = dataSnapshot.getValue(User.class);
+
+           }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+        } );
+
+
+
         setContentView(R.layout.activity_options);
 
-        // Locate the button in activity_main.xml
         favButton = (Button) findViewById(R.id.FavoritesButton);
 
         // Capture button clicks
@@ -37,35 +67,42 @@ public class OptionsActivity extends Activity{
 
                 // Start NewActivity.class
                 Intent myIntent = new Intent(OptionsActivity.this, FavoritesActivity.class);
+                myIntent.putExtra("userID", currentID);
                 startActivity(myIntent);
             }
         });
 
         // Locate the button in activity_main.xml
-        histButton = (Button) findViewById(R.id.HistoryButton);
+        registButton = (Button) findViewById(R.id.MyRegistrationsButton);
 
         // Capture button clicks
-        histButton.setOnClickListener(new OnClickListener() {
+        registButton.setOnClickListener(new OnClickListener() {
             public void onClick(View arg0) {
 
                 // Start NewActivity.class
-                Intent myIntent = new Intent(OptionsActivity.this, HistoryActivity.class);
+                Intent myIntent = new Intent(OptionsActivity.this, MyRegistrationsActivity.class);
+                myIntent.putExtra("userID", currentID);
                 startActivity(myIntent);
             }
         });
 
-        // Locate the button in activity_main.xml
-        addEventButton = (Button) findViewById(R.id.AddEventButton);
 
-        // Capture button clicks
-        addEventButton.setOnClickListener(new OnClickListener() {
-            public void onClick(View arg0) {
 
-                // Start NewActivity.class
-                Intent myIntent = new Intent(OptionsActivity.this, AddEventActivity.class);
-                startActivity(myIntent);
-            }
-        });
+        if(user.getUserType().equals("owner")) {
+            // Locate the button in activity_main.xml
+            addEventButton = (Button) findViewById(R.id.AddEventButton);
+
+            // Capture button clicks
+            addEventButton.setOnClickListener(new OnClickListener() {
+                public void onClick(View arg0) {
+
+                    // Start NewActivity.class
+                    Intent myIntent = new Intent(OptionsActivity.this, AddEventActivity.class);
+                    myIntent.putExtra("userID", currentID);
+                    startActivity(myIntent);
+                }
+            });
+        }
 
 
     }

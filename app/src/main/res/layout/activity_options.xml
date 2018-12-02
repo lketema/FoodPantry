@@ -11,17 +11,17 @@
         android:text="Favorites" />
 
     <Button
-        android:id="@+id/HistoryButton"
+        android:id="@+id/MyRegistrationsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/FavoritesButton"
-        android:text="History" />
+        android:text="My Registrations" />
 
     <Button
         android:id="@+id/AddEventButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/HistoryButton"
+        android:layout_below="@+id/MyRegistrationsButton"
         android:text="Add an Event" />
 
 </RelativeLayout>
