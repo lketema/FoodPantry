@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -29,7 +31,7 @@ public class RegistrationInfo extends AppCompatActivity {
     private Registration registration;
     private User user;
 
-    FirebaseDatabase database;
+    DatabaseReference database;
         /**
      * String name, String address, String phoneNumber, String
      emailAddress, String website, String timeOpen, String timeClosed,
@@ -41,7 +43,7 @@ public class RegistrationInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_pantry);
 
-        database = FirebaseDatabase.getInstance();
+        database = FirebaseDatabase.getInstance().getReference();
 
         addr = findViewById(R.id.pantryAddress);
         phNum = findViewById(R.id.pantryPhone);
@@ -50,14 +52,25 @@ public class RegistrationInfo extends AppCompatActivity {
         directions = findViewById(R.id.directionsButton);
 
         Intent intent = getIntent();
-        final String pantryId = intent.getStringExtra("pantryId"),
+        final String registrationID = intent.getStringExtra("registrationID"),
             userID = intent.getStringExtra("userID");
 
         // access to database
-        database.getReference().child("registration").child(pantryId).addValueEventListener(new ValueEventListener() {
+        DatabaseReference child = database.child("registration").child(registrationID);
+
+        child.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-               // pantry = dataSnapshot.getValue();
+
+                if (dataSnapshot.hasChild("daysOpen")) {
+                    registration = (Pantry) dataSnapshot.getValue(Pantry.class);
+                } else {
+                    registration = (Event) dataSnapshot.getValue(Event.class);
+                }
+
+
+                Log.i("TAGGY", registration.toString());
+
 
             }
 
@@ -67,7 +80,18 @@ public class RegistrationInfo extends AppCompatActivity {
             }
         });
         //getDatabaseInfo(pantryId);
+        child = database.child("users").child(userID);
+        child.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                user = dataSnapshot.getValue(User.class);
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        })
         //
 
 
@@ -75,19 +99,11 @@ public class RegistrationInfo extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                        Uri.parse("google.navigation:q=" + "7999 Regents dr, College Park, MD"));
+                        Uri.parse("google.navigation:q=" + registration.getAddress()));
                 startActivity(intent);
             }
         });
 
     }
 
-    private void getDatabaseInfo(String id){
-        addr.setText("hello");
-        phNum.setText("phNum");
-        emAddr.setText("emAddr");
-
-
-
-    }
 }

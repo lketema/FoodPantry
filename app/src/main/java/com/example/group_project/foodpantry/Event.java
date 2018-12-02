@@ -24,4 +24,8 @@ public class Event extends Registration {
         return false;
     }
 
+    public String toString() {
+        return super.toString() + ", " + eventDate;
+    }
+
 }
