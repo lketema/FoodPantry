@@ -38,4 +38,10 @@ public class Pantry extends Registration {
     public void setDayOperational(int day, boolean open) {
         daysOpen.set(day,open);
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + ", " + daysOpen.toString();
+    }
+
 }
