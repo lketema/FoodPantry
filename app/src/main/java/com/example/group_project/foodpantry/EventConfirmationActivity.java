@@ -21,6 +21,7 @@ public class EventConfirmationActivity extends AppCompatActivity {
 
     private boolean isEvent = false;
     private String website = "www.example.com";
+    private String userID = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +33,9 @@ public class EventConfirmationActivity extends AppCompatActivity {
         successText = findViewById(R.id.success_label);
         shareButton = findViewById(R.id.share_button);
 
-        //isEvent = (boolean)getIntent().getExtras().get("isEvent");
-        //website = (String)getIntent().getExtras().get("website");
+        isEvent = (boolean)getIntent().getExtras().get("isEvent");
+        website = (String)getIntent().getExtras().get("website");
+        userID = (String)getIntent().getExtras().get("userID");
 
 
         shareButton.setOnClickListener(new OnClickListener() {
@@ -46,24 +48,14 @@ public class EventConfirmationActivity extends AppCompatActivity {
 
     private void showShareDialog() {
         final String message = getShareMessage();
-
-        if (isEvent) {
-            new AlertDialog.Builder(this)
-                    .setTitle("Share Event:")
-                    .setMessage(message)
-                    .setNegativeButton(android.R.string.ok, null).show();
-        } else {
-            new AlertDialog.Builder(this)
-                    .setTitle("Share Pantry:")
-                    .setMessage(message)
-                    .setNeutralButton(android.R.string.copy, new DialogInterface.OnClickListener() {
+        new AlertDialog.Builder(this)
+                .setTitle("Share Pantry:")
+                .setMessage(message)
+                .setNeutralButton(android.R.string.copy, new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            copyText(message);
-                        }
+                        public void onClick(DialogInterface dialogInterface, int i) { copyText(message); }
                     })
-                    .setNegativeButton(android.R.string.ok, null).show();
-        }
+                .setNegativeButton(android.R.string.ok, null).show();
 
     }
 

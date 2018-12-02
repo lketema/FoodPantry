@@ -183,7 +183,8 @@ public class AddEventActivity extends AppCompatActivity {
 
     private void submitEvent() {
         //check validity
-        if (isEmpty(nameEditText) || isEmpty(locationEditText) || isEmpty(phoneEditText) || isEmpty(emailEditText)) {
+        if (isEmpty(nameEditText) || isEmpty(locationEditText) || isEmpty(phoneEditText) || isEmpty(emailEditText)
+                || isEmpty(websiteEditText)) {
             Toast.makeText(this, "Please fill out all required fields", Toast.LENGTH_LONG).show();
             return;
         }
@@ -271,7 +272,6 @@ public class AddEventActivity extends AppCompatActivity {
 
         }
 
-        Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
     }
 
     private void addToUserTable(final String key) {
@@ -286,7 +286,7 @@ public class AddEventActivity extends AppCompatActivity {
 
                 database.child("users").child(userID).setValue(user);
 
-                Toast.makeText(getApplicationContext(), "Updated user",Toast.LENGTH_LONG).show();
+                startConfirmationActivity();
             }
 
             @Override
@@ -296,6 +296,16 @@ public class AddEventActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void startConfirmationActivity() {
+        Intent conf = new Intent(AddEventActivity.this, EventConfirmationActivity.class);
+
+        conf.putExtra("userID", userID);
+        conf.putExtra("website", websiteEditText.getText().toString());
+        conf.putExtra("isEvent", isEvent);
+
+        startActivity(conf);
     }
 
     private boolean isEmpty (EditText v) {
