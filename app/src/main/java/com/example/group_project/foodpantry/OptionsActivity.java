@@ -89,7 +89,7 @@ public class OptionsActivity extends Activity{
 
 
         if(user.getUserType().equals("owner")) {
-            // Locate the button in activity_main.xml
+            // Locate the button in activity_options.xml
             addEventButton = (Button) findViewById(R.id.AddEventButton);
 
             // Capture button clicks

@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import android.support.annotation.NonNull;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -27,6 +28,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -39,6 +41,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 
 
 public class AddEventActivity extends AppCompatActivity {
@@ -69,6 +74,9 @@ public class AddEventActivity extends AppCompatActivity {
     private static boolean closeTimeSet = false;
     private static boolean dateSet = false;
     private static boolean isEvent = false;
+
+    private String userID = null;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +113,9 @@ public class AddEventActivity extends AppCompatActivity {
         dayCheckboxes[4] = findViewById(R.id.checkbox_thu);
         dayCheckboxes[5] = findViewById(R.id.checkbox_fri);
         dayCheckboxes[6] = findViewById(R.id.checkbox_sat);
+
+        Intent data = getIntent();
+        userID = data.getExtras().getString("userID");
 
         submitButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -257,7 +268,25 @@ public class AddEventActivity extends AppCompatActivity {
     }
 
     private void addToUserTable(String key) {
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
 
+        database.child("userID").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                user = dataSnapshot.getValue(User.class);
+
+                Log.i("AddEventActivity", user.getName());
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getApplicationContext(), "Cancelled", Toast.LENGTH_LONG).show();
+                Log.i("AddEventActivity", databaseError.toString());
+            }
+
+        } );
     }
 
     private boolean isEmpty (EditText v) {
