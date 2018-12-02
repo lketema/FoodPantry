@@ -28,6 +28,18 @@ import android.widget.Toast;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 
+import java.util.List;
+import java.util.ArrayList;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 
 public class AddEventActivity extends AppCompatActivity {
 
@@ -203,6 +215,49 @@ public class AddEventActivity extends AppCompatActivity {
     private void sendToFireBase() {
         //send to Firebase
         //start next event
+        if (isEvent) {
+            Event e = new Event(nameEditText.getText().toString(), locationEditText.getText().toString(),
+                    phoneEditText.getText().toString(), emailEditText.getText().toString(),
+                    websiteEditText.getText().toString(), selectedEventDate.getText().toString(),
+                    selectedOpenTime.getText().toString(), selectedCloseTime.getText().toString());
+
+            DatabaseReference regRef = FirebaseDatabase
+                    .getInstance()
+                    .getReference("registration");
+
+            regRef.push().setValue(e);
+        } else {
+            List<Boolean> daysOpen = new ArrayList<Boolean>(7);
+
+            for (int i = 0 ; i < dayCheckboxes.length; i++) {
+                daysOpen.add(dayCheckboxes[i].isChecked());
+            }
+
+            Pantry p = new Pantry(nameEditText.getText().toString(), locationEditText.getText().toString(),
+                    phoneEditText.getText().toString(), emailEditText.getText().toString(),
+                    websiteEditText.getText().toString(), selectedOpenTime.getText().toString(),
+                    selectedCloseTime.getText().toString(), daysOpen);
+
+            final DatabaseReference regRef = FirebaseDatabase
+                    .getInstance()
+                    .getReference("registration");
+
+            regRef.push().setValue(p).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    // Write was successful!
+                    String key = regRef.getKey();
+                    addToUserTable(key);
+                }
+            });
+
+        }
+
+        Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
+    }
+
+    private void addToUserTable(String key) {
+
     }
 
     private boolean isEmpty (EditText v) {
