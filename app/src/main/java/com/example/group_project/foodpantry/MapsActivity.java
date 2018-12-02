@@ -140,7 +140,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
              .title("P09308q50458q9034090509")
              .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
         databaseReference = FirebaseDatabase.getInstance().getReference("Registration");
-
+       /* FirebaseDatabase.getInstance().getReference().child("users")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            User user = snapshot.getValue(User.class);
+                            System.out.println(user.email);
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+    */
     }
 
 
