@@ -27,6 +27,10 @@ public class Pantry extends Registration {
         return day < 0 || day > 6 ? false : daysOpen.get(day);
     }
 
+    public boolean isPantry() {
+        return true;
+    }
+
     public void setDayOperational(int day, boolean open) {
         daysOpen.set(day,open);
     }

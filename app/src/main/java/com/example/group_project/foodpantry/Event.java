@@ -1,6 +1,7 @@
 package com.example.group_project.foodpantry;
 
 public class Event extends Registration {
+
     private String eventDate;
 
     public Event(String name, String address, String phoneNumber, String
@@ -15,7 +16,8 @@ public class Event extends Registration {
         return eventDate;
     }
 
-    public void setEventDate(String eventDate) {
-        this.eventDate = eventDate;
+    public boolean isPantry() {
+        return false;
     }
+
 }

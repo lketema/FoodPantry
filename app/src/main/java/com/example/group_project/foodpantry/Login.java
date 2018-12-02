@@ -51,7 +51,8 @@ public class Login extends AppCompatActivity {
         textViewSignUp.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent LoginIntent = new Intent(Login.this, activity_signup.class);
+                Log.i(TAG, "Go to Sign Up Page");
+                Intent LoginIntent = new Intent(Login.this, Signup.class);
                 startActivity(LoginIntent);
             }
         });
@@ -94,7 +95,10 @@ public class Login extends AppCompatActivity {
 
                             //if the email is verified then it will take user to map activity
                             if (user.isEmailVerified()){
+                                String currentUID = user.getUid().toString();
+
                                 Intent LoginIntent = new Intent(Login.this, MapsActivity.class);
+                                LoginIntent.putExtra("userID", currentUID);
                                 startActivity(LoginIntent);
 
                             } else {

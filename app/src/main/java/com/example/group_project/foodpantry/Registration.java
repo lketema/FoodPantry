@@ -1,6 +1,7 @@
 package com.example.group_project.foodpantry;
 
 public abstract class Registration {
+
     private String name, address, phoneNumber, emailAddress, website;
     private String timeOpen, timeClosed;
 
@@ -16,6 +17,8 @@ public abstract class Registration {
     }
 
     protected Registration() {}
+
+    public abstract boolean isPantry();
 
     public String getName() {
         return name;
@@ -37,9 +40,14 @@ public abstract class Registration {
         return website;
     }
 
-    public String getTimeOpen() {return timeOpen;}
+    public String getTimeOpen() {
+        return timeOpen;
+    }
 
-    public String getTimeClosed() { return timeClosed; }
+    public String getTimeClosed() {
+        return timeClosed;
+    }
+
 
     public void setName(String name) {
         this.name = name;
@@ -61,7 +69,12 @@ public abstract class Registration {
         this.website = website;
     }
 
-    public void setTimeOpen(String open) { this.timeOpen = open; }
+    public void setTimeOpen(String timeOpen) {
+        this.timeOpen = timeOpen;
+    }
 
-    public void setTimeClosed(String time) { this.timeClosed = time; }
+    public void setTimeClosed(String timeClosed) {
+        this.timeClosed = timeClosed;
+    }
+
 }

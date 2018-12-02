@@ -1,6 +1,7 @@
 package com.example.group_project.foodpantry;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -26,6 +27,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -37,6 +41,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public Location mCurrentLocation = null;
 
     private final int LOCATION_PERMISSION_CODE = 4;
+    Intent getsIntent;
+    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +53,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
+        getsIntent = getIntent();
         //get last known location through fused location
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -62,12 +68,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         addMarkers();
         // add Pantries from Database and google Search API
+
+       // final Intent nextScreen = new Intent(MapsActivity.this, PantryInfo.class);
         mMap.setInfoWindowAdapter(new CustomInfoAdapterMaps(getApplicationContext()));
-       // mMap.setOnMapClickListener(this);
-        //mMap.setOnInfoWindowClickListener(this);
+       // mMap.setOnMapClickListener(this)
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Intent nextScreen = new Intent(MapsActivity.this, PantryInfo.class);
+                nextScreen.putExtra("userID", getsIntent.getStringExtra("userID"));
+                nextScreen.putExtra("pantryId", marker.getTitle());
+                startActivity(nextScreen);
+            }
+        });
+
 
 
     }
+
+
 
     /**
      * Called by the Search Button on map,
@@ -116,10 +135,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void addMarkers(){
         final LatLng testing = new LatLng(38.88, -76.00);
-            mMap.addMarker(new MarkerOptions()
-                .position(testing)
-                    .title("Pantry Name")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+        mMap.addMarker(new MarkerOptions()
+             .position(testing)
+             .title("P09308q50458q9034090509")
+             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+        databaseReference = FirebaseDatabase.getInstance().getReference("Registration");
+       /* FirebaseDatabase.getInstance().getReference().child("users")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            User user = snapshot.getValue(User.class);
+                            System.out.println(user.email);
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+    */
     }
 
 
