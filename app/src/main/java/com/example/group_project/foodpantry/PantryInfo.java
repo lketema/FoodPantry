@@ -39,11 +39,10 @@ public class PantryInfo extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
 
-        addr = findViewById(R.id.pantryAddressInfo);
-        phNum = findViewById(R.id.pantryPhoneInfo);
-        emAddr = findViewById(R.id.pantryEmailInfo);
-        timeOpen = findViewById(R.id.pantryTimeOpenInfo);
-        timeClosed = findViewById(R.id.pantryTimeClosedInfo);
+        addr = findViewById(R.id.pantryAddress);
+        phNum = findViewById(R.id.pantryPhone);
+        emAddr = findViewById(R.id.pantryEmail);
+
 
         directions = findViewById(R.id.directionsButton);
         Intent intent = getIntent();
