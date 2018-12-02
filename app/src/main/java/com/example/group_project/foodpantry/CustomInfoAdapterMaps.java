@@ -8,10 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,23 +27,27 @@ public class CustomInfoAdapterMaps implements GoogleMap.InfoWindowAdapter {
 
     public void render(Marker marker, View view){
         String pantryId = marker.getTitle();
+        TextView pantryTitle = (TextView) view.findViewById(R.id.pantryTitle);
+        TextView pantryAddress = (TextView) view.findViewById(R.id.pantryAddress);
+        TextView pantryEmail = (TextView) view.findViewById(R.id.pantryEmail);
+        TextView pantryVolunteers = (TextView) view.findViewById(R.id.pantryVolunteers);
                 //
         if(pantryId != null){
             String[] info = pantryInfo(pantryId);
             if (info.length == 4){
-                TextView pantryTitle = (TextView) view.findViewById(R.id.pantryTitle);
+
                 if(info[0] != "")  pantryTitle.setText(info[0]);
                 else pantryTitle.setText("");
 
-                TextView pantryAddress = (TextView) view.findViewById(R.id.pantryAddress);
+
                 if(info[1] != "")   pantryAddress.setText(info[1]);
                 else pantryAddress.setText("");
 
-                TextView pantryEmail = (TextView) view.findViewById(R.id.pantryEmail);
+
                 if(info[2] != "")   pantryEmail.setText(info[2]);
                 else pantryEmail.setText("");
 
-                TextView pantryVolunteers = (TextView) view.findViewById(R.id.pantryVolunteers);
+
                 if(info[3] != "")    pantryVolunteers.setText(info[3]);
                 else pantryVolunteers.setText("");
             }

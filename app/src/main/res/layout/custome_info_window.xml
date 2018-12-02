@@ -1,40 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:background="@color/gray"
- >
-    <LinearLayout
+    android:layout_height="match_parent" >
+
+
+    <!--Title-->
+
+    <TextView
+        android:id="@+id/pantryName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+
+    <TextView
+        android:id="@+id/pantryAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
-        <TextView
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/pantryName"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:ems="10"
+        />
+
+
+    <TextView
+        android:id="@+id/pantryPhone"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_below="@id/pantryAddress"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="100dp"
+        />
+
+    <TextView
+        android:id="@+id/pantryEmail"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_below="@id/pantryPhone"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="100dp"
+        />
+
+    <TextView
+        android:id="@+id/pantryWebsite"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_below="@id/pantryEmail"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="100dp"
+        />
+
+
+    <!-- Type -->
+
+    <!--Time and date-->
+    <TextView
+        android:id="@+id/pantryTimeOpenClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_below="@+id/pantryWebsite"
+        />
+
+    <!--Event Specific Layout-->
+    <TextView
+        android:id="@+id/eventDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pantryTimeOpenClose"
+         />
+
+
+    <!--Pantry Specific Layout-->
+
+        <RelativeLayout
+            android:id="@+id/pantry_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id = "@+id/pantryTitle"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id = "@+id/pantryAddress"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id = "@+id/pantryEmail"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id = "@+id/pantryVolunteers"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-</LinearLayout>
+            android:layout_below="@+id/pantryTimeOpenClose">
+
+            <TextView
+                android:id="@+id/pantryDays"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/days_open_string"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp" />
+
+            <LinearLayout
+                android:id="@+id/days_open_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/pantryDays"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
+                android:orientation="horizontal">
+
+                <CheckBox android:id="@+id/checkbox_sun"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sunday" />
+                <CheckBox android:id="@+id/checkbox_mon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/monday" />
+                <CheckBox android:id="@+id/checkbox_tue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tuesday" />
+                <CheckBox android:id="@+id/checkbox_wed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wednesday" />
+                <CheckBox android:id="@+id/checkbox_thu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/thursday" />
+                <CheckBox android:id="@+id/checkbox_fri"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/friday" />
+                <CheckBox android:id="@+id/checkbox_sat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/saturday" />
+
+            </LinearLayout>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
