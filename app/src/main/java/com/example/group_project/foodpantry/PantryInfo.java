@@ -1,8 +1,10 @@
 package com.example.group_project.foodpantry;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -39,6 +41,7 @@ public class PantryInfo extends AppCompatActivity {
         timeOpen = findViewById(R.id.pantryTimeOpenInfo);
         timeClosed = findViewById(R.id.pantryTimeClosedInfo);
 
+        directions = findViewById(R.id.directionsButton);
         Intent intent = getIntent();
         String pantryId = intent.getStringExtra("pantryId");
         String uId = intent.getStringExtra("userID");
@@ -47,7 +50,14 @@ public class PantryInfo extends AppCompatActivity {
         // access to database
         getDatabaseInfo(pantryId);
 
-
+        directions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                        Uri.parse("google.navigation:q=" + "7999 Regents dr, College Park, MD"));
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -55,6 +65,8 @@ public class PantryInfo extends AppCompatActivity {
         addr.setText("hello");
         phNum.setText("phNum");
         emAddr.setText("emAddr");
+
+
 
     }
 }
