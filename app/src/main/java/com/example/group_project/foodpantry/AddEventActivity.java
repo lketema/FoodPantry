@@ -53,6 +53,7 @@ public class AddEventActivity extends AppCompatActivity {
     private Button chooseCloseButton;
     private static TextView selectedOpenTime;
     private static TextView selectedCloseTime;
+    private TextView titleTextView;
 
     private LinearLayout eventLayout;
     private Button chooseDateButton;
@@ -72,6 +73,8 @@ public class AddEventActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_event);
 
         //register all layout elements
+        titleTextView = findViewById(R.id.TitleLabel);
+
         submitButton = findViewById(R.id.submit_button);
         nameEditText = findViewById(R.id.name_event_input);
         locationEditText = findViewById(R.id.location_event_input);
@@ -148,12 +151,16 @@ public class AddEventActivity extends AppCompatActivity {
         pantryLayout.setVisibility(View.GONE);
         eventLayout.setVisibility(View.VISIBLE);
         submitButton.setText(R.string.submit_register_event);
+        titleTextView.setText(R.string.title_register_event);
+        nameEditText.setHint(R.string.register_event_name);
     }
 
     private void isPantryLayout() {
         pantryLayout.setVisibility(View.VISIBLE);
         eventLayout.setVisibility(View.GONE);
         submitButton.setText(R.string.submit_register_pantry);
+        titleTextView.setText(R.string.title_register_pantry);
+        nameEditText.setHint(R.string.register_pantry_name);
     }
 
     /////////////////////////////
@@ -163,29 +170,42 @@ public class AddEventActivity extends AppCompatActivity {
     private void submitEvent() {
         //check validity
         if (isEmpty(nameEditText) || isEmpty(locationEditText) || isEmpty(phoneEditText) || isEmpty(emailEditText)) {
-            Toast.makeText(this, "Please fill out all required fields", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please fill out all required fields", Toast.LENGTH_LONG).show();
             return;
         }
         if (isInvalidEventOrPantry()) {
-            Toast.makeText(this, "Please set all dates and times", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please set all dates and times", Toast.LENGTH_LONG).show();
             return;
         }
         if (isInvalidTimeOrDate()) {
-            Toast.makeText(this, "Invalid date or time", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Invalid date or time", Toast.LENGTH_LONG).show();
             return;
         }
 
         //get confirmation
-        new AlertDialog.Builder(this)
-                .setTitle("Submit Event")
-                .setMessage("Do you really want to submit this pantry/event?")
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+        if (isEvent) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Submit Event")
+                    .setMessage("Register this event?")
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        sendToFireBase();
-                    }})
-                .setNegativeButton(android.R.string.no, null).show();
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            sendToFireBase();
+                        }})
+                    .setNegativeButton(android.R.string.no, null).show();
+        } else {
+            new AlertDialog.Builder(this)
+                    .setTitle("Submit Pantry")
+                    .setMessage("Register this pantry?")
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            sendToFireBase();
+                        }})
+                    .setNegativeButton(android.R.string.no, null).show();
+        }
 
     }
 

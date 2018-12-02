@@ -3,7 +3,9 @@
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_add_event">AddEventActivity</string>
     <string name="title_register_event"><u>Register Event</u></string>
-    <string name="register_event_name">Pantry/Event Name*</string>
+    <string name="title_register_pantry"><u>Register Pantry</u></string>
+    <string name="register_event_name">Event Name*</string>
+    <string name="register_pantry_name">Pantry Name*</string>
     <string name="register_event_location">Address*</string>
     <string name="register_event_phone">Phone Number*</string>
     <string name="register_event_email">Email Address*</string>
@@ -33,5 +35,12 @@
 
     <!-- MapActivity -->
     <string name="zipCodeAddress">Search with ZipCode or Address</string>
-    <string name="title_activity_event_confirmation">EventConfirmationActivity</string>
+
+    <!--Event Confirmation Strings-->
+    <string name="title_activity_event_confirmation"><u>Registration Confirmed</u></string>
+    <string name="confirmation_congratulations">Congratulations!</string>
+    <string name="success_pantry">You have successfully created a pantry.</string>
+    <string name="success_event">You have successfully created an event.</string>
+    <string name="share_button_event">Share your event!</string>
+    <string name="share_button_pantry">Share your pantry!</string>
 </resources>

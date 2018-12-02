@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
-        android:text="@string/title_register_event"
+        android:text="@string/title_register_pantry"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="30sp"
         android:textStyle="bold" />
@@ -30,7 +30,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:ems="10"
-        android:hint="@string/register_event_name"
+        android:hint="@string/register_pantry_name"
         android:inputType="textShortMessage" >
 
         <requestFocus />
@@ -109,17 +109,18 @@
         android:orientation="horizontal" >
 
         <RadioButton
-            android:id="@+id/is_event"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/event_string" />
-
-        <RadioButton
             android:id="@+id/is_pantry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
             android:text="@string/pantry_string" />
+
+        <RadioButton
+            android:id="@+id/is_event"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/event_string" />
+
     </RadioGroup>
 
 
@@ -286,7 +287,7 @@
     <Button
         android:id="@+id/submit_button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="20dp"

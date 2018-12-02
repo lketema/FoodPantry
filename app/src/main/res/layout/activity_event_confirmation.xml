@@ -4,6 +4,61 @@
     android:layout_height="match_parent" >
 
 
+    <!--Title-->
 
+    <TextView
+        android:id="@+id/TitleLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="@string/title_activity_event_confirmation"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+
+    <TextView
+        android:id="@+id/congratulations_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TitleLabel"
+        android:layout_marginTop="75dp"
+        android:layout_marginStart="50dp"
+        android:text="@string/confirmation_congratulations"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textColor="@color/congrats_blue"/>
+
+    <TextView
+        android:id="@+id/success_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/congratulations_label"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="50dp"
+        android:text="@string/success_pantry"
+        android:textSize="14sp"
+        android:textColor="@color/congrats_blue"/>
+
+    <RelativeLayout
+        android:id="@+id/share_button_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/success_label">
+
+        <Button
+            android:id="@+id/share_button"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:text="@string/share_button_pantry"
+            android:textSize="18dp"
+            android:background="@drawable/share_button_drawable"
+            android:textColor="@android:color/white"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>
