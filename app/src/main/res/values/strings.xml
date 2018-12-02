@@ -35,6 +35,7 @@
 
     <!-- MapActivity -->
     <string name="zipCodeAddress">Search with ZipCode or Address</string>
+<<<<<<< HEAD
 
     <!--Event Confirmation Strings-->
     <string name="title_activity_event_confirmation"><u>Registration Confirmed</u></string>
@@ -44,3 +45,7 @@
     <string name="share_button_event">Share your event!</string>
     <string name="share_button_pantry">Share your pantry!</string>
 </resources>
+=======
+    <string name="title_activity_event_confirmation">EventConfirmationActivity</string>
+</resources>
+>>>>>>> b84560c5994ac3fb14b2738f07c1440deb698e9c
