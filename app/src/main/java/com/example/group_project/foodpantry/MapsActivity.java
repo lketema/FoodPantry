@@ -27,8 +27,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.List;
@@ -63,15 +66,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         //default
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(38.98, -76.94), 15f));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                new LatLng(38.98, -76.94), 15f));
         getPhoneLocation();
 
         addMarkers();
         // add Pantries from Database and google Search API
 
        // final Intent nextScreen = new Intent(MapsActivity.this, PantryInfo.class);
+
+        //this prevents the window from moving when clicking marker
+        mMap.setOnMarkerClickListener(
+                new GoogleMap.OnMarkerClickListener() {
+                    public boolean onMarkerClick(Marker marker) {
+                        marker.showInfoWindow();
+                        return true;
+                    }
+                });
         mMap.setInfoWindowAdapter(new CustomInfoAdapterMaps(getApplicationContext()));
-       // mMap.setOnMapClickListener(this)
+
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
@@ -81,8 +94,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 startActivity(nextScreen);
             }
         });
-
-
 
     }
 
@@ -119,11 +130,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
             else{
                 // make toast message saying wrong address input
-                Toast.makeText(getApplicationContext(), "Incorrect Address Input, Please Try Again", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),
+                        "Incorrect Address Input, Please Try Again", Toast.LENGTH_LONG).show();
             }
         }
         else{
-            Toast.makeText(getApplicationContext(), "Enter an Address or ZipCode", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),
+                    "Enter an Address or ZipCode", Toast.LENGTH_LONG).show();
         }
 
     }
@@ -134,26 +147,77 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
 
     private void addMarkers(){
-        final LatLng testing = new LatLng(38.88, -76.00);
-        mMap.addMarker(new MarkerOptions()
-             .position(testing)
-             .title("P09308q50458q9034090509")
-             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-        databaseReference = FirebaseDatabase.getInstance().getReference("Registration");
-       /* FirebaseDatabase.getInstance().getReference().child("users")
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child("registration")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            User user = snapshot.getValue(User.class);
-                            System.out.println(user.email);
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    if(postSnapshot.hasChild("daysOpen")){
+                        Pantry temp = postSnapshot.getValue(Pantry.class);
+                        if(temp != null) {
+                            Double[] latlng = getLatLng(temp.getAddress());
+                        /*
+                        When adding marker store the event or pantry ID as name
+                        to get Id, do postSnapshot.getKey()
+                        */
+                            if (latlng.length == 2) {
+                                mMap.addMarker(new MarkerOptions()
+                                        .position(new LatLng(latlng[0], latlng[1]))
+                                        .title(postSnapshot.getKey())
+                                        .icon(BitmapDescriptorFactory
+                                                .defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                                );
+                            }
                         }
                     }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                    else{
+                        Log.i(TAG, "I am a");
+                        Event temp = postSnapshot.getValue(Event.class);
+                        if(temp != null) {
+                            Double[] latlng = getLatLng(temp.getAddress());
+                            if (latlng.length == 2) {
+                                mMap.addMarker(new MarkerOptions()
+                                        .position(new LatLng(latlng[0], latlng[1]))
+                                        .title(postSnapshot.getKey())
+                                        .icon(BitmapDescriptorFactory
+                                                .defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA))
+                                );
+                            }
+                        }
                     }
-                });
-    */
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.i(TAG, "Database error: " + databaseError.getMessage());
+            }
+        });
+
+    }
+
+    private Double[] getLatLng(String address){
+        Double[] latlng = new Double[2];
+        List<Address> mAddressList = null;
+        Geocoder mGeocoder = new Geocoder(this);
+        try {
+            mAddressList = mGeocoder.getFromLocationName(address, 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.i(TAG, "Error Getting Location from pantry/Event Address");
+        }
+
+        if(mAddressList != null && mAddressList.size() != 0){
+            Address mAddress = mAddressList.get(0);
+            if (mAddress != null) {
+                latlng[0] = mAddress.getLatitude();
+                latlng[1] = mAddress.getLongitude();
+            }
+        }
+        return latlng;
     }
 
 
