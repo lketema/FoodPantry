@@ -14,6 +14,8 @@ public class User {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.userType = userType;
+//        this.favorites.add("ABC_Pantry");
+//        this.favorites.add("UMD PANTRY");
     }
 
     public String getName() {

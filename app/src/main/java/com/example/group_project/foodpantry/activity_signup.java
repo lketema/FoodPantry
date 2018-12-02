@@ -209,15 +209,15 @@ public class activity_signup extends AppCompatActivity {
                                 addProfileInDB(user, "users");
 
                                 //DB: add users into different profiles based on userTypes
-                                if(userType.equals(UserType.OWNER.getUserType())){
-                                    addProfileInDB(user,"pantryOwners");
-                                } else if(userType.equals(UserType.VOLUNTEER.getUserType())){
-                                    addProfileInDB(user,"volunteers");
-                                } else if(userType.equals(UserType.RECIPIENT.getUserType())){
-                                    addProfileInDB(user,"recipients");
-                                }
+//                                if(userType.equals(UserType.OWNER.getUserType())){
+//                                    addProfileInDB(user,"pantryOwners");
+//                                } else if(userType.equals(UserType.VOLUNTEER.getUserType())){
+//                                    addProfileInDB(user,"volunteers");
+//                                } else if(userType.equals(UserType.RECIPIENT.getUserType())){
+//                                    addProfileInDB(user,"recipients");
+//                                }
 
-
+                                setDefaultValues();
 
 
 
@@ -233,6 +233,19 @@ public class activity_signup extends AppCompatActivity {
 
     }
 
+    private void setDefaultValues(){
+        EditTextFullname.setText("");
+        EditTextPhoneNumber.setText("");
+        EditTextEmailAddr.setText("");
+        EditTextPassword.setText("");
+
+        radioButtonOwner.setChecked(false);
+        radioButtonVolunteer.setChecked(false);
+        radioButtonRecipient.setChecked(false);
+
+
+
+    }
     private void addProfileInDB(User userObj, String rootName){
         final FirebaseUser currentUser = mAuth.getCurrentUser();
         DatabaseReference currentUID = database.getReference(rootName)
@@ -248,18 +261,17 @@ public class activity_signup extends AppCompatActivity {
                     currentUser.sendEmailVerification();
                     Toast.makeText(getApplicationContext(), "User is Successfully registered", Toast.LENGTH_SHORT).show();
 
-                    EditTextFullname.setText("");
-                    EditTextPhoneNumber.setText("");
-                    EditTextEmailAddr.setText("");
-                    EditTextPassword.setText("");
+
                 }
 
             }
         });
     }
 
+
     private boolean emailValidation(String emailAddr){
 
+        //return true when email is valid
         boolean isValid = false;
         Pattern pattern;
         Matcher matcher;
@@ -282,6 +294,7 @@ public class activity_signup extends AppCompatActivity {
 
     private boolean phoneNumValidation(String phoneNumber){
 
+        //return true when phone is valid
         boolean isValid = false;
 
         String format = "[a-zA-Z]+";
