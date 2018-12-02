@@ -95,7 +95,10 @@ public class Login extends AppCompatActivity {
 
                             //if the email is verified then it will take user to map activity
                             if (user.isEmailVerified()){
+                                String currentUID = user.getUid().toString();
+
                                 Intent LoginIntent = new Intent(Login.this, MapsActivity.class);
+                                LoginIntent.putExtra("userID", currentUID);
                                 startActivity(LoginIntent);
 
                             } else {
