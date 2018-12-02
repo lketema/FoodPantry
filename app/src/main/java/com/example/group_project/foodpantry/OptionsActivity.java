@@ -88,7 +88,7 @@ public class OptionsActivity extends Activity{
 
 
 
-        if(user.getUserType().equals("owner")) {
+        if(true/*user.getUserType().equals("owner")*/) {
             // Locate the button in activity_options.xml
             addEventButton = (Button) findViewById(R.id.AddEventButton);
 
@@ -98,7 +98,7 @@ public class OptionsActivity extends Activity{
 
                     // Start NewActivity.class
                     Intent myIntent = new Intent(OptionsActivity.this, AddEventActivity.class);
-                    myIntent.putExtra("userID", currentID);
+                    myIntent.putExtra("userID", "UDFlWpEIbrd0906YczwPsvHZvFc2");
                     startActivity(myIntent);
                 }
             });

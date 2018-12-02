@@ -232,11 +232,18 @@ public class AddEventActivity extends AppCompatActivity {
                     websiteEditText.getText().toString(), selectedEventDate.getText().toString(),
                     selectedOpenTime.getText().toString(), selectedCloseTime.getText().toString());
 
-            DatabaseReference regRef = FirebaseDatabase
+            final DatabaseReference regRef = FirebaseDatabase
                     .getInstance()
                     .getReference("registration");
 
-            regRef.push().setValue(e);
+            regRef.push().setValue(e, new DatabaseReference.CompletionListener() {
+                @Override
+                public void onComplete(DatabaseError databaseError,
+                                       DatabaseReference databaseReference) {
+                    String key = databaseReference.getKey();
+                    addToUserTable(key);
+                }
+            });
         } else {
             List<Boolean> daysOpen = new ArrayList<Boolean>(7);
 
@@ -253,11 +260,11 @@ public class AddEventActivity extends AppCompatActivity {
                     .getInstance()
                     .getReference("registration");
 
-            regRef.push().setValue(p).addOnSuccessListener(new OnSuccessListener<Void>() {
+            regRef.push().setValue(p, new DatabaseReference.CompletionListener() {
                 @Override
-                public void onSuccess(Void aVoid) {
-                    // Write was successful!
-                    String key = regRef.getKey();
+                public void onComplete(DatabaseError databaseError,
+                                       DatabaseReference databaseReference) {
+                    String key = databaseReference.getKey();
                     addToUserTable(key);
                 }
             });
@@ -267,26 +274,28 @@ public class AddEventActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
     }
 
-    private void addToUserTable(String key) {
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+    private void addToUserTable(final String key) {
+        final DatabaseReference database = FirebaseDatabase.getInstance().getReference();
 
-        database.child("userID").addValueEventListener(new ValueEventListener() {
+        database.child("users").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 user = dataSnapshot.getValue(User.class);
 
-                Log.i("AddEventActivity", user.getName());
+                user.addRegistration(key);
 
+                database.child("users").child(userID).setValue(user);
+
+                Toast.makeText(getApplicationContext(), "Updated user",Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getApplicationContext(), "Cancelled", Toast.LENGTH_LONG).show();
-                Log.i("AddEventActivity", databaseError.toString());
+                Toast.makeText(getApplicationContext(), "Cancelled",Toast.LENGTH_LONG).show();
+                Log.e("AddEventActivity", databaseError.toString());
             }
+        });
 
-        } );
     }
 
     private boolean isEmpty (EditText v) {
