@@ -1,19 +1,13 @@
 package com.example.group_project.foodpantry;
 
 public class Event extends Registration {
-    private String eventDate;
-
     public Event(String name, String address, String phoneNumber, String
-        emailAddress, String website, String eventDate) {
-        super(name, address, phoneNumber, emailAddress, website);
-        this.eventDate = eventDate;
+        emailAddress, String website, String timeOpen, String timeClosed) {
+        super(name, address, phoneNumber, emailAddress, website, timeOpen, timeClosed);
     }
 
-    public String getEventDate() {
-        return eventDate;
+    public boolean isPantry() {
+        return false;
     }
 
-    public void setEventDate(String eventDate) {
-        this.eventDate = eventDate;
-    }
 }
