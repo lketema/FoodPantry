@@ -76,15 +76,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
        // final Intent nextScreen = new Intent(MapsActivity.this, PantryInfo.class);
 
         //this prevents the window from moving when clicking marker
+
+        mMap.setInfoWindowAdapter(new CustomInfoAdapterMaps(getApplicationContext()));
+
         mMap.setOnMarkerClickListener(
                 new GoogleMap.OnMarkerClickListener() {
                     public boolean onMarkerClick(Marker marker) {
                         marker.showInfoWindow();
+
                         return true;
                     }
                 });
-        mMap.setInfoWindowAdapter(new CustomInfoAdapterMaps(getApplicationContext()));
-
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {

@@ -18,6 +18,14 @@ import com.google.firebase.database.ValueEventListener;
 public class CustomInfoAdapterMaps implements GoogleMap.InfoWindowAdapter {
     private final View mInfoWindowView;
     private Context mContext;
+    private TextView pantryName;
+    private TextView pantryAddress;
+    private TextView pantryPhone;
+    private TextView pantryWebsite;
+    private TextView eventDate;
+    private TextView pantryTimeOpenClose;
+    private TextView clickForMore;
+    private boolean foundId = false;
 
     private String TAG = "Custom Info Adapter";
     public CustomInfoAdapterMaps(Context c){
@@ -26,37 +34,27 @@ public class CustomInfoAdapterMaps implements GoogleMap.InfoWindowAdapter {
     }
 
     public void render(Marker marker, View view){
+        pantryName = (TextView) view.findViewById(R.id.pantryName);
+        pantryAddress = (TextView) view.findViewById(R.id.pantryAddress);
+        pantryPhone = (TextView) view.findViewById(R.id.pantryPhone);
+
+        pantryWebsite = (TextView) view.findViewById(R.id.pantryWebsite);
+        eventDate = (TextView) view.findViewById(R.id.eventDate);
+
+        pantryTimeOpenClose = (TextView) view.findViewById(R.id.pantryTimeOpenClose);
+
+        clickForMore = (TextView) view.findViewById(R.id.pantryMoreInfo);
+        clickForMore.setVisibility(View.GONE);
+
         String pantryId = marker.getTitle();
-        TextView pantryTitle = (TextView) view.findViewById(R.id.pantryTitle);
-        TextView pantryAddress = (TextView) view.findViewById(R.id.pantryAddress);
-        TextView pantryEmail = (TextView) view.findViewById(R.id.pantryEmail);
-        TextView pantryVolunteers = (TextView) view.findViewById(R.id.pantryVolunteers);
-                //
+       // Log.i(TAG, "Pantry ID: " + pantryId);
         if(pantryId != null){
-            String[] info = pantryInfo(pantryId);
-            if (info.length == 4){
-
-                if(info[0] != "")  pantryTitle.setText(info[0]);
-                else pantryTitle.setText("");
-
-
-                if(info[1] != "")   pantryAddress.setText(info[1]);
-                else pantryAddress.setText("");
-
-
-                if(info[2] != "")   pantryEmail.setText(info[2]);
-                else pantryEmail.setText("");
-
-
-                if(info[3] != "")    pantryVolunteers.setText(info[3]);
-                else pantryVolunteers.setText("");
-            }
-
+           pantryInfo(pantryId);
         }
-        //return
+
     }
 
-    private String[] pantryInfo(final String pantryId){
+    private void pantryInfo(final String pantryId){
         //connect to database and get Pantry info
         //dummy data
 
@@ -64,22 +62,34 @@ public class CustomInfoAdapterMaps implements GoogleMap.InfoWindowAdapter {
         databaseReference.child("registration").addListenerForSingleValueEvent(new ValueEventListener() {
               @Override
               public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    boolean found = false;
                     for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                        if(postSnapshot.getKey().equals(pantryId)){
+                        if(postSnapshot.getKey() != null && postSnapshot.getKey().equals(pantryId)){
                             if(postSnapshot.hasChild("daysOpen")){
                                 Pantry temp = postSnapshot.getValue(Pantry.class);
                                 if(temp != null) {
                                     displayPantry(temp);
+                                   // foundId = true;
+                                    found = true;
                                 }
                             }
                             else{
-                                Log.i(TAG, "I am a");
+
                                 Event temp = postSnapshot.getValue(Event.class);
                                 if(temp != null) {
                                     displayEvent(temp);
+                                  //  foundId = true;
+                                    found = true;
                                 }
                             }
                         }
+                    }
+                    if(!found){
+                        //make everything go away
+                        //
+                       Log.i(TAG, pantryId);
+                       mInfoWindowView.setVisibility(View.GONE);
+
                     }
               }
 
@@ -88,18 +98,31 @@ public class CustomInfoAdapterMaps implements GoogleMap.InfoWindowAdapter {
                   Log.i(TAG, "Database error: " + databaseError.getMessage());
               }
         });
-        String[] info = {"pantryName", "7999 Regents Dr, College Park, MD", "pantry1@pantries.com", "Yes"};
 
-        return info;
     }
 
     private void displayPantry(Pantry pantry){
+        pantryName.setText(pantry.getName());
+        pantryAddress.setText("Address: " + pantry.getAddress());
+        pantryPhone.setText("Phone Number: " + pantry.getPhoneNumber());
+        pantryWebsite.setText("Website: " + pantry.getWebsite());
 
+        eventDate.setVisibility(View.GONE);
+        pantryTimeOpenClose.setText("Time Open: " + pantry.getTimeOpen() + " - " + pantry.getTimeClosed() );
+        clickForMore.setVisibility(View.VISIBLE);
     }
 
     private void displayEvent(Event event){
+        pantryName.setText(event.getName());
+        pantryAddress.setText("Address: " + event.getAddress());
+        pantryPhone.setText("Phone Number: " + event.getPhoneNumber());
+        pantryWebsite.setText("Website: " + event.getWebsite());
 
+        eventDate.setText("Event Date: " + event.getEventDate());
+        pantryTimeOpenClose.setText("Time Open: " + event.getTimeOpen() + " - " + event.getTimeClosed() );
+        clickForMore.setVisibility(View.VISIBLE);
     }
+
 
     @Override
     public View getInfoWindow(Marker marker) {
