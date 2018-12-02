@@ -50,6 +50,14 @@ public class PantryInfo extends AppCompatActivity {
         // access to database
         getDatabaseInfo(pantryId);
 
+        //
+        favorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // update in the database for the user.
+            }
+        });
+
         directions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
