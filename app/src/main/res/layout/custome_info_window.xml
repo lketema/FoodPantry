@@ -14,7 +14,6 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="15sp"
         android:textStyle="bold" />
 
@@ -26,20 +25,21 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/pantryName"
         android:layout_marginTop="5dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:ems="10"
         />
 
-
+    <!--  android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp" -->
     <TextView
         android:id="@+id/pantryPhone"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_below="@id/pantryAddress"
         android:layout_marginTop="5dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         />
 
     <TextView
@@ -48,8 +48,8 @@
         android:layout_width="wrap_content"
         android:layout_below="@id/pantryPhone"
         android:layout_marginTop="5dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         />
 
 
@@ -62,8 +62,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:layout_below="@+id/pantryWebsite"
         />
 
@@ -74,20 +74,19 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/pantryTimeOpenClose"
         android:layout_marginTop="5dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
          />
 
     <TextView
         android:id="@+id/pantryMoreInfo"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/eventDate"
         android:layout_marginTop="5dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:text="Click for More Info!"
-        />
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:text="Click for More Info!" />
 
 
     </RelativeLayout>
