@@ -18,23 +18,26 @@ public class CustomInfoAdapterMaps implements GoogleMap.InfoWindowAdapter {
     }
 
     public void render(Marker marker, View view){
-        String pantryName = marker.getTitle();
-        if(pantryName != null){
-            String[] info = pantryInfo(pantryName);
-            if (info.length == 3){
+        String pantryId = marker.getTitle();
+
+        //
+        if(pantryId != null){
+            String[] info = pantryInfo(pantryId);
+            if (info.length == 4){
                 TextView pantryTitle = (TextView) view.findViewById(R.id.pantryTitle);
-                pantryTitle.setText(pantryName);
+                if(info[0] != "")  pantryTitle.setText(info[0]);
+                else pantryTitle.setText("");
 
                 TextView pantryAddress = (TextView) view.findViewById(R.id.pantryAddress);
-                if(info[0] != "")   pantryAddress.setText(info[0]);
+                if(info[1] != "")   pantryAddress.setText(info[1]);
                 else pantryAddress.setText("");
 
                 TextView pantryEmail = (TextView) view.findViewById(R.id.pantryEmail);
-                if(info[1] != "")   pantryEmail.setText(info[1]);
+                if(info[2] != "")   pantryEmail.setText(info[2]);
                 else pantryEmail.setText("");
 
                 TextView pantryVolunteers = (TextView) view.findViewById(R.id.pantryVolunteers);
-                if(info[2] != "")    pantryVolunteers.setText(info[2]);
+                if(info[3] != "")    pantryVolunteers.setText(info[3]);
                 else pantryVolunteers.setText("");
             }
 
@@ -45,7 +48,7 @@ public class CustomInfoAdapterMaps implements GoogleMap.InfoWindowAdapter {
     private String[] pantryInfo(String name){
         //connect to database and get Pantry info
         //dummy data
-        String[] info = {"7999 Regents Dr, College Park, MD", "pantry1@pantries.com", "Yes"};
+        String[] info = {"pantryName", "7999 Regents Dr, College Park, MD", "pantry1@pantries.com", "Yes"};
 
         return info;
     }

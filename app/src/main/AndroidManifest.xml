@@ -93,6 +93,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ForgotPassword"></activity>
+        <activity android:name=".PantryInfo"></activity>
     </application>
 
 </manifest>

@@ -1,6 +1,7 @@
 package com.example.group_project.foodpantry;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -37,6 +38,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public Location mCurrentLocation = null;
 
     private final int LOCATION_PERMISSION_CODE = 4;
+    Intent getsIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +49,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
+        getsIntent = getIntent();
         //get last known location through fused location
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -62,12 +64,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         addMarkers();
         // add Pantries from Database and google Search API
+
+       // final Intent nextScreen = new Intent(MapsActivity.this, PantryInfo.class);
         mMap.setInfoWindowAdapter(new CustomInfoAdapterMaps(getApplicationContext()));
-       // mMap.setOnMapClickListener(this);
-        //mMap.setOnInfoWindowClickListener(this);
+       // mMap.setOnMapClickListener(this)
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Intent nextScreen = new Intent(MapsActivity.this, PantryInfo.class);
+                nextScreen.putExtra("userID", getsIntent.getStringExtra("userID"));
+                nextScreen.putExtra("pantryId", marker.getTitle());
+                startActivity(nextScreen);
+            }
+        });
+
 
 
     }
+
+
 
     /**
      * Called by the Search Button on map,
@@ -118,7 +133,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         final LatLng testing = new LatLng(38.88, -76.00);
             mMap.addMarker(new MarkerOptions()
                 .position(testing)
-                    .title("Pantry Name")
+                 .title("P09308q50458q9034090509")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
     }
 
