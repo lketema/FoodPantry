@@ -22,6 +22,8 @@ public class PantryInfo extends AppCompatActivity {
     private TextView timeClosed;
     private CheckBox favorite;
 
+    private Pantry pantry;
+
 
     FirebaseDatabase database;
         /**
@@ -34,6 +36,8 @@ public class PantryInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_pantry);
+
+        database = FirebaseDatabase.getInstance();
 
         addr = findViewById(R.id.pantryAddressInfo);
         phNum = findViewById(R.id.pantryPhoneInfo);
@@ -51,12 +55,7 @@ public class PantryInfo extends AppCompatActivity {
         getDatabaseInfo(pantryId);
 
         //
-        favorite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // update in the database for the user.
-            }
-        });
+
 
         directions.setOnClickListener(new View.OnClickListener() {
             @Override

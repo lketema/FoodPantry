@@ -16,6 +16,10 @@ public class Event extends Registration {
         return eventDate;
     }
 
+    public void setEventDate(String eventDate) {
+        this.eventDate = eventDate;
+    }
+
     public boolean isPantry() {
         return false;
     }

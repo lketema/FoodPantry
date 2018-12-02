@@ -1,16 +1,23 @@
 package com.example.group_project.foodpantry;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PantryOwner extends User {
-    private ArrayList<String> registrations = new ArrayList<>();
+    private List<String> registrations = new ArrayList<>();
 
     public PantryOwner(String name, String email, String phoneNumber, String userType) {
         super(name, email, phoneNumber, userType);
     }
 
-    public ArrayList<String> getRegistrations() {
+    public PantryOwner() {}
+
+    public List<String> getRegistrations() {
         return registrations;
+    }
+
+    public void setRegistrations(List<String> registrations) {
+        this.registrations = registrations;
     }
 
     public void addRegistration(String registrationID) {

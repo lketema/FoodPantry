@@ -2,8 +2,7 @@ package com.example.group_project.foodpantry;
 
 public abstract class Registration {
 
-    private String name, address, phoneNumber, emailAddress, website;
-    private String timeOpen, timeClosed;
+    private String name, address, phoneNumber, emailAddress, website, timeOpen, timeClosed;
 
     protected Registration(String name, String address, String phoneNumber,
         String emailAddress, String website, String timeOpen, String timeClosed) {

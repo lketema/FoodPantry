@@ -23,6 +23,10 @@ public class Pantry extends Registration {
         return daysOpen;
     }
 
+    public void setDaysOpen(List<Boolean> daysOpen) {
+        this.daysOpen = daysOpen;
+    }
+
     public Boolean isOpenOn(int day) {
         return day < 0 || day > 6 ? false : daysOpen.get(day);
     }

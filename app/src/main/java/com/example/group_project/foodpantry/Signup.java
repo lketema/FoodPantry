@@ -251,7 +251,6 @@ public class Signup extends AppCompatActivity {
         DatabaseReference currentUID = database.getReference(rootName)
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-
         //after sucessfully Creating uID for firbase authentication
         //add UID and userInfo in DB under 'usernames' branch
         currentUID.setValue(userObj).addOnCompleteListener(new OnCompleteListener<Void>() {

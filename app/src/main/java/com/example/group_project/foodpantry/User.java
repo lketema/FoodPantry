@@ -1,12 +1,12 @@
 package com.example.group_project.foodpantry;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 public class User {
 
     private String name, email, phoneNumber, userType;
-    private ArrayList<String> favorites = new ArrayList<>();
+    private List<String> favorites = new ArrayList<>();
 
 
     public User(String name, String email, String phoneNumber, String userType) {
@@ -17,6 +17,8 @@ public class User {
 //        this.favorites.add("ABC_Pantry");
 //        this.favorites.add("UMD PANTRY");
     }
+
+    public User() {}
 
     public String getName() {
         return name;
@@ -34,8 +36,12 @@ public class User {
         return userType;
     }
 
-    public ArrayList<String> getFavorites() {
+    public List<String> getFavorites() {
         return favorites;
+    }
+
+    public void setFavorites(List<String> favorites) {
+        this.favorites = favorites;
     }
 
     public void setName(String name) {
