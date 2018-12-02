@@ -43,5 +43,6 @@
     <string name="success_event">You have successfully created an event.</string>
     <string name="share_button_event">Share your event!</string>
     <string name="share_button_pantry">Share your pantry!</string>
+    <string name="title_activity_registrations_list">RegistrationsListActivity</string>
 
 </resources>

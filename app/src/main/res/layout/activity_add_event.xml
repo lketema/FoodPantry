@@ -18,6 +18,44 @@
         android:textSize="30sp"
         android:textStyle="bold" />
 
+    <!-- Type -->
+
+    <TextView
+        android:id="@+id/register_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/TitleLabel"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:text="@string/title_register_type"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <RadioGroup
+        android:id="@+id/register_type_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/register_type"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/is_pantry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/pantry_string" />
+
+        <RadioButton
+            android:id="@+id/is_event"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/event_string" />
+
+    </RadioGroup>
+
 
     <!--Standard inputs-->
 
@@ -26,7 +64,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/TitleLabel"
+        android:layout_below="@+id/register_type_group"
         android:layout_marginTop="10dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
@@ -86,52 +124,13 @@
         android:inputType="textEmailAddress" />
 
 
-    <!-- Type -->
-
-    <TextView
-        android:id="@+id/register_type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/website_event_input"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="20dp"
-        android:text="@string/title_register_type"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <RadioGroup
-        android:id="@+id/register_type_group"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_below="@id/register_type"
-        android:orientation="horizontal" >
-
-        <RadioButton
-            android:id="@+id/is_pantry"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="@string/pantry_string" />
-
-        <RadioButton
-            android:id="@+id/is_event"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/event_string" />
-
-    </RadioGroup>
-
-
     <!--Time and date-->
 
     <LinearLayout
         android:id="@+id/opens_at_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/register_type_group"
+        android:layout_below="@id/website_event_input"
         android:layout_alignParentStart="true"
         android:layout_marginTop="8dp"
         android:layout_marginStart="20dp" >

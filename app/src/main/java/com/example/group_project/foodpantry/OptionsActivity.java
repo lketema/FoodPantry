@@ -38,9 +38,9 @@ public class OptionsActivity extends Activity{
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
         super.onCreate(savedInstanceState);
         Intent data = getIntent();
-        final String currentID = data.getStringExtra("userID");
+        final String currentID = "UDFlWpEIbrd0906YczwPsvHZvFc2";//data.getStringExtra("userID");
 
-        database.child("userID").addValueEventListener(new ValueEventListener() {
+        database.child("users").child(currentID).addValueEventListener(new ValueEventListener() {
            @Override
            public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -75,22 +75,14 @@ public class OptionsActivity extends Activity{
         // Locate the button in activity_main.xml
         registButton = (Button) findViewById(R.id.MyRegistrationsButton);
 
-        // Capture button clicks
-        registButton.setOnClickListener(new OnClickListener() {
-            public void onClick(View arg0) {
-
-                // Start NewActivity.class
-                Intent myIntent = new Intent(OptionsActivity.this, MyRegistrationsActivity.class);
-                myIntent.putExtra("userID", currentID);
-                startActivity(myIntent);
-            }
-        });
-
-
 
         if(true/*user.getUserType().equals("owner")*/) {
             // Locate the button in activity_options.xml
             addEventButton = (Button) findViewById(R.id.AddEventButton);
+            registButton = findViewById(R.id.MyRegistrationsButton);
+
+            addEventButton.setVisibility(View.VISIBLE);
+            registButton.setVisibility(View.VISIBLE);
 
             // Capture button clicks
             addEventButton.setOnClickListener(new OnClickListener() {
@@ -99,6 +91,15 @@ public class OptionsActivity extends Activity{
                     // Start NewActivity.class
                     Intent myIntent = new Intent(OptionsActivity.this, AddEventActivity.class);
                     myIntent.putExtra("userID", "UDFlWpEIbrd0906YczwPsvHZvFc2");
+                    startActivity(myIntent);
+                }
+            });
+
+            registButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent myIntent = new Intent(OptionsActivity.this, RegistrationListActivty.class);
+                    myIntent.putExtra("userID", currentID);
                     startActivity(myIntent);
                 }
             });

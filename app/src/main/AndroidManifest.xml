@@ -59,20 +59,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".AddEventActivity"
             android:label="@string/title_activity_add_event"
             android:theme="@style/AppTheme.NoActionBar">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
         <activity
             android:name=".EventConfirmationActivity"
             android:label="@string/title_activity_event_confirmation"
@@ -82,9 +78,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
         <activity android:name=".Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -92,8 +86,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ForgotPassword"></activity>
-        <activity android:name=".PantryInfo"></activity>
+        <activity android:name=".ForgotPassword" />
+        <activity android:name=".PantryInfo" />
+        <activity android:name=".RegistrationListActivty"></activity>
     </application>
 
 </manifest>
