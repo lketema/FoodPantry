@@ -72,27 +72,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         addMarkers();
         // add Pantries from Database and google Search API
-
-       // final Intent nextScreen = new Intent(MapsActivity.this, PantryInfo.class);
-
         //this prevents the window from moving when clicking marker
 
-        mMap.setInfoWindowAdapter(new CustomInfoAdapterMaps(getApplicationContext()));
+       mMap.setInfoWindowAdapter(new CustomInfoAdapterMaps(this));
 
         mMap.setOnMarkerClickListener(
                 new GoogleMap.OnMarkerClickListener() {
                     public boolean onMarkerClick(Marker marker) {
-                        marker.showInfoWindow();
-
+                        if(!marker.getTitle().equals("You")) {
+                            marker.showInfoWindow();
+                        }
                         return true;
                     }
                 });
+
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                Intent nextScreen = new Intent(MapsActivity.this, PantryInfo.class);
+                Intent nextScreen = new Intent(MapsActivity.this, RegistrationInfo.class);
                 nextScreen.putExtra("userID", getsIntent.getStringExtra("userID"));
-                nextScreen.putExtra("pantryId", marker.getTitle());
+                nextScreen.putExtra("registrationID", marker.getTitle());
                 startActivity(nextScreen);
             }
         });
@@ -165,7 +164,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         When adding marker store the event or pantry ID as name
                         to get Id, do postSnapshot.getKey()
                         */
-                            if (latlng.length == 2) {
+                            if (latlng.length == 2 && latlng[0] != null && latlng[1] != null) {
                                 mMap.addMarker(new MarkerOptions()
                                         .position(new LatLng(latlng[0], latlng[1]))
                                         .title(postSnapshot.getKey())
@@ -180,7 +179,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         Event temp = postSnapshot.getValue(Event.class);
                         if(temp != null) {
                             Double[] latlng = getLatLng(temp.getAddress());
-                            if (latlng.length == 2) {
+                            if (latlng.length == 2 && latlng[0] != null && latlng[1] != null) {
                                 mMap.addMarker(new MarkerOptions()
                                         .position(new LatLng(latlng[0], latlng[1]))
                                         .title(postSnapshot.getKey())
