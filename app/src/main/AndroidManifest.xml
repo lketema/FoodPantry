@@ -52,7 +52,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity_signup">
+        <activity android:name=".Signup">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -51,6 +51,7 @@ public class Login extends AppCompatActivity {
         textViewSignUp.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                Log.i(TAG, "Go to Sign Up Page");
                 Intent LoginIntent = new Intent(Login.this, Signup.class);
                 startActivity(LoginIntent);
             }
