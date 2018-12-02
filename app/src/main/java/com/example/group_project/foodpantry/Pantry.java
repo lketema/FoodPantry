@@ -1,4 +1,4 @@
-
+package com.example.group_project.foodpantry;
 
 public class Pantry extends Registration {
     
