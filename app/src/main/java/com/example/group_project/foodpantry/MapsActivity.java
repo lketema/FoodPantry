@@ -89,7 +89,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                Intent nextScreen = new Intent(MapsActivity.this, PantryInfo.class);
+                Intent nextScreen = new Intent(MapsActivity.this, RegistrationInfo.class);
                 nextScreen.putExtra("userID", getsIntent.getStringExtra("userID"));
                 nextScreen.putExtra("registrationID", marker.getTitle());
                 startActivity(nextScreen);
