@@ -57,21 +57,6 @@ public class RegistrationListActivity extends ListActivity {
         mAdapter = new RegistrationListAdapter(ownedThings, getApplicationContext());
         getListView().setAdapter(mAdapter);
 
-        getListView().setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.i(TAG, "short click");
-                String regId = ownedIDs.get(i);
-
-                Intent intent = new Intent(RegistrationListActivity.this, RegistrationInfo.class);
-
-                intent.putExtra("registrationID", regId);
-                intent.putExtra("userID", userID);
-
-                startActivity(intent);
-            }
-        });
-
         getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
@@ -104,6 +89,21 @@ public class RegistrationListActivity extends ListActivity {
                 }
 
                 return true;
+            }
+        });
+
+        getListView().setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.i(TAG, "short click");
+                String regId = ownedIDs.get(i);
+
+                Intent intent = new Intent(RegistrationListActivity.this, RegistrationInfo.class);
+
+                intent.putExtra("registrationID", regId);
+                intent.putExtra("userID", userID);
+
+                startActivity(intent);
             }
         });
 
