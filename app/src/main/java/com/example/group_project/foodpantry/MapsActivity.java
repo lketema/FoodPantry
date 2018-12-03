@@ -103,6 +103,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mEventHash = new HashMap<>();
         userType = "";
         listUser = new ArrayList<>();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
     }
 
     @Override
@@ -113,7 +114,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 new LatLng(38.98, -76.94), ZOOM));
         getPhoneLocation();
 
-        // access firebase database for stored
+        // access firebase database for stored and also add on registration added listener
         addMarkers();
 
     }
@@ -168,15 +169,20 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
      */
 
     private void addMarkers(){
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+
         databaseReference.child("registration")
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+                .addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    if(postSnapshot.hasChild("daysOpen")){
+                    if((!MapsActivity.this.mPantryHash.isEmpty() && MapsActivity.this.mPantryHash.containsKey(postSnapshot.getKey()))
+                            || !MapsActivity.this.mEventHash.isEmpty() && MapsActivity.this.mEventHash.containsKey(postSnapshot.getKey())){
+
+                        // do nothing if pantry already in map
+                    }
+                    else if(postSnapshot.hasChild("daysOpen")){
                         Pantry temp = postSnapshot.getValue(Pantry.class);
                         if(temp != null) {
                             Double[] latlng = getLatLng(temp.getAddress());
