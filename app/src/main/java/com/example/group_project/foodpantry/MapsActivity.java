@@ -59,6 +59,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     Map<String, Event> mEventHash;
     private String userType, currentID;
 
+    private boolean hasRegistrations = false;
+
     //for purpose of immutability
     ArrayList<User> listUser;
 
@@ -333,20 +335,22 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
        // Toast.makeText(getApplicationContext(), currentID, Toast.LENGTH_LONG).show();
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference.child("users")
+        databaseReference.child("users").child(currentID)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                            if (ds.getKey().equals(MapsActivity.this.currentID)) {
-                                User userTemp = ds.getValue(User.class);
-                                if (userTemp != null) {
-                                    if (!userTemp.getUserType().equals("owner")) {
-                                        addEventMenu.setVisible(false);
-                                        myRegistrationMenu.setVisible(false);
-                                    }
-                                }
-                            }
+
+                        Log.i("MapsActivity", "Found user");
+
+                        User tempuser = dataSnapshot.getValue(User.class);
+
+                        if (!tempuser.getUserType().equals("owner")) {
+                            addEventMenu.setVisible(false);
+                            myRegistrationMenu.setVisible(false);
+                        }
+
+                        if (dataSnapshot.hasChild("registrations")) {
+                            MapsActivity.this.hasRegistrations = true;
                         }
                     }
 
@@ -370,10 +374,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 startActivity(myIntent);
                 return true;
             case R.id.myRegistrationsMenu:
-                myIntent = new Intent(MapsActivity.this,  RegistrationListActivity.class);
-                myIntent.putExtra("userID", currentID);
-                startActivity(myIntent);
-                return true;
+                if (hasRegistrations) {
+                    myIntent = new Intent(MapsActivity.this,  RegistrationListActivity.class);
+                    myIntent.putExtra("userID", currentID);
+                    startActivity(myIntent);
+                    return true;
+                } else {
+                    Toast.makeText(getApplicationContext(), "No registrations! Choose Add an Event to get started.", Toast.LENGTH_LONG).show();
+                    return true;
+                }
+
             case R.id.addAnEventMenu:
                 // AddEventActivity.class
                 myIntent = new Intent(MapsActivity.this,  AddEventActivity.class);
