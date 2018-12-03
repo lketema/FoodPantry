@@ -38,7 +38,7 @@ public class OptionsActivity extends Activity{
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
         super.onCreate(savedInstanceState);
         Intent data = getIntent();
-        final String currentID = "UDFlWpEIbrd0906YczwPsvHZvFc2";//data.getStringExtra("userID");
+        final String currentID = data.getStringExtra("userID"); //"UDFlWpEIbrd0906YczwPsvHZvFc2";//
 
         database.child("users").child(currentID).addValueEventListener(new ValueEventListener() {
             @Override

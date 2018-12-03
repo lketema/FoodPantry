@@ -26,6 +26,8 @@ import com.google.firebase.database.DatabaseError;
 
 public class RegistrationListActivity extends AppCompatActivity {
 
+    final private String TAG = "RegList";
+
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -33,7 +35,7 @@ public class RegistrationListActivity extends AppCompatActivity {
     private String userID;
     private User user;
 
-    private List<Registration> ownedThings;
+    private List<Registration> ownedThings = new ArrayList<>();
     private List<String> ownedIDs;
 
     @Override
@@ -42,6 +44,8 @@ public class RegistrationListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registration_list_activty);
 
         userID = (String)getIntent().getExtras().get("userID");
+
+        Log.i(TAG, userID);
 
         mRecyclerView = findViewById(R.id.reg_list_view);
 
@@ -54,7 +58,7 @@ public class RegistrationListActivity extends AppCompatActivity {
 
         getUserRegistrations();
 
-        mAdapter = new RegistrationListAdapter(ownedThings); //TODO: put proper items as argument
+        mAdapter = new RegistrationListAdapter(ownedThings);
         mRecyclerView.setAdapter(mAdapter);
 
     }
@@ -65,8 +69,9 @@ public class RegistrationListActivity extends AppCompatActivity {
         database.child("users").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.i(TAG, "here");
                 user = dataSnapshot.getValue(User.class);
-                ownedIDs = user.getRegistrations();
+                RegistrationListActivity.this.ownedIDs = user.getRegistrations();
 
                 for (String pid : ownedIDs) {
                     addRegistrationInfo(pid);
@@ -89,10 +94,10 @@ public class RegistrationListActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.hasChild("daysOpen")) {
                     Pantry temp = dataSnapshot.getValue(Pantry.class);
-                    ownedThings.add(temp);
+                    RegistrationListActivity.this.ownedThings.add(temp);
                 } else {
                     Event temp = dataSnapshot.getValue(Event.class);
-                    ownedThings.add(temp);
+                    RegistrationListActivity.this.ownedThings.add(temp);
                 }
             }
 
