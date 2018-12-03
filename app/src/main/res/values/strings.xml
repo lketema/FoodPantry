@@ -45,4 +45,7 @@
     <string name="share_button_pantry">Share your pantry!</string>
     <string name="title_activity_registrations_list">RegistrationsListActivity</string>
 
+    <!--Reg List Strings-->
+    <string name="reg_list_title"><u>Your Registrations</u></string>
+
 </resources>

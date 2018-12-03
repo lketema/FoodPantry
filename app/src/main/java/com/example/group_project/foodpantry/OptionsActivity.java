@@ -98,7 +98,7 @@ public class OptionsActivity extends Activity{
             registButton.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent myIntent = new Intent(OptionsActivity.this, RegistrationListActivty.class);
+                    Intent myIntent = new Intent(OptionsActivity.this, RegistrationListActivity.class);
                     myIntent.putExtra("userID", currentID);
                     startActivity(myIntent);
                 }
