@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -43,9 +44,11 @@ public class OptionsActivity extends Activity{
 
         setContentView(R.layout.activity_options);
 
-        database.child("users").child(currentID).addValueEventListener(new ValueEventListener() {
+        database.child("users").child(currentID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Log.i("Options", "here");
 
                 user = dataSnapshot.getValue(User.class);
 
