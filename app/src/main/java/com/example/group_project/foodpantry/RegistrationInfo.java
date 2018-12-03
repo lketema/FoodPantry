@@ -110,16 +110,22 @@ public class RegistrationInfo extends AppCompatActivity {
                 returnIntent = new Intent(RegistrationInfo.this, MapsActivity.class)
                         .putExtra("userID", userID)
                         .putExtra("registrationID", registrationID);
+                returnIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 break;
             case "RegistrationListActivity":
                 returnIntent = new Intent(RegistrationInfo.this, RegistrationListActivity.class)
                         .putExtra("userID", userID)
                         .putExtra("registrationID", registrationID);
+                returnIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 break;
             default: // "FavoritesActivity"
                 returnIntent = new Intent(RegistrationInfo.this, FavoritesActivity.class)
                         .putExtra("userID", userID)
                         .putExtra("registrationID", registrationID);
+                returnIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         }
 
         // access to database for registration
