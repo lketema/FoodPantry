@@ -17,6 +17,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Login extends AppCompatActivity {
 
     EditText EditTextLogInEmail, EditTextLogInPassword;
@@ -36,8 +39,13 @@ public class Login extends AppCompatActivity {
         emailVerifyMsg = (TextView) findViewById(R.id.textViewVerificationMsg);
         emailVerifyMsg.setVisibility(TextView.INVISIBLE);
 
+        logInEmail = EditTextLogInEmail.getText().toString().trim();
+        logInpassword = EditTextLogInPassword.getText().toString().trim();
+
         mAuth = FirebaseAuth.getInstance();
 
+        TextView errMsg = (TextView) findViewById(R.id.textViewLogInError);
+        errMsg.setText("");
         Button registerBtn = (Button) findViewById(R.id.buttonLogin);
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
@@ -78,53 +86,112 @@ public class Login extends AppCompatActivity {
 //        updateUI(currentUser);
     }
 
-    public void logIn(){
+    public void logIn() {
         logInEmail = EditTextLogInEmail.getText().toString().trim();
         logInpassword = EditTextLogInPassword.getText().toString().trim();
 
+        TextView errMsg = (TextView) findViewById(R.id.textViewLogInError);
+        errMsg.setText("");
 
-        mAuth.signInWithEmailAndPassword(logInEmail, logInpassword)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        TextView errMsg = (TextView) findViewById(R.id.textViewLogInError);
-                        errMsg.setText("");
-                        emailVerifyMsg.setVisibility(TextView.INVISIBLE);
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithEmail:success");
+        emailVerifyMsg.setVisibility(TextView.INVISIBLE);
+        if (validateTextFields() == true) {
+            mAuth.signInWithEmailAndPassword(logInEmail, logInpassword)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            TextView errMsg = (TextView) findViewById(R.id.textViewLogInError);
+                            errMsg.setText("");
+                            emailVerifyMsg.setVisibility(TextView.INVISIBLE);
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d(TAG, "signInWithEmail:success");
 
-                            FirebaseUser user = mAuth.getCurrentUser();
-
-
-                            //if the email is verified then it will take user to map activity
-                            if (user.isEmailVerified()){
+                                FirebaseUser user = mAuth.getCurrentUser();
                                 emailVerifyMsg.setVisibility(TextView.INVISIBLE);
-                                String currentUID = user.getUid().toString();
 
-                                Intent LoginIntent = new Intent(Login.this, MapsActivity.class);
-                                LoginIntent.putExtra("userID", currentUID);
-                                startActivity(LoginIntent);
+                                //if the email is verified then it will take user to map activity
+                                if (user.isEmailVerified()) {
+                                    emailVerifyMsg.setVisibility(TextView.INVISIBLE);
+                                    String currentUID = user.getUid().toString();
+
+                                    Intent LoginIntent = new Intent(Login.this, MapsActivity.class);
+                                    LoginIntent.putExtra("userID", currentUID);
+                                    startActivity(LoginIntent);
+
+                                } else {
+                                    emailVerifyMsg.setVisibility(TextView.VISIBLE);
+                                    user.sendEmailVerification();
+                                    Log.i(TAG, "Verification email is sent once again");
+
+                                    EditTextLogInPassword.setText("");
+//                                errMsg.setText("Please Verify your email!");
+                                }
 
                             } else {
-                                emailVerifyMsg.setVisibility(TextView.VISIBLE);
-                                user.sendEmailVerification();
-                                Log.i(TAG, "Verification email is sent once again");
-//                                errMsg.setText("Please Verify your email!");
+                                // If sign in fails, display a message to the user.
+                                Log.w(TAG, "signInWithEmail:failure", task.getException());
+                                errMsg.setText("Email and/or Password do not match ");
+                                Toast.makeText(Login.this, "Invalid Email or Password.",
+                                        Toast.LENGTH_LONG).show();
+                                EditTextLogInPassword.setText("");
                             }
 
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            errMsg.setText("Email and/or Password do not match ");
-                            Toast.makeText(Login.this, "Invalid Email or Password.",
-                                    Toast.LENGTH_LONG).show();
-                            EditTextLogInPassword.setText("");
+                            // ...
                         }
+                    });
 
-                        // ...
-                    }
-                });
+        }else {
 
+        }
     }
+
+    private boolean validateTextFields(){
+        TextView errMsg = (TextView) findViewById(R.id.textViewLogInError);
+        errMsg.setText("");
+
+
+        boolean isEmailAddrValid = emailValidation(logInEmail);
+        if (isEmailAddrValid == false){
+            errMsg.setText("Please provide a valid email address. ");
+            EditTextLogInPassword.setText("");
+
+            return false;
+
+        }
+        Log.i(TAG, "PASSWORD LENGTH : " +logInpassword.length());
+        if (logInpassword.length() < 6){
+            errMsg.setText("Please provide a valid password");
+            EditTextLogInPassword.setText("");
+
+            return false;
+        }
+
+
+
+        return true;
+    }
+
+    private boolean emailValidation(String emailAddr){
+
+        //return true when email is valid
+        boolean isValid = false;
+        Pattern pattern;
+        Matcher matcher;
+
+        String emailFormat = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                +"[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+        pattern = Pattern.compile(emailFormat);
+
+        matcher = pattern.matcher(emailAddr);
+        isValid = matcher.matches();
+
+        if(isValid == true){
+            return true;
+        }
+
+        return isValid;
+    }
+
+
 }
