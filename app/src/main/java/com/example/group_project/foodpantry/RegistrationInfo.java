@@ -28,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
+import java.util.regex.Pattern;
 
 public class RegistrationInfo extends AppCompatActivity {
 
@@ -392,7 +393,7 @@ public class RegistrationInfo extends AppCompatActivity {
         mUpdateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (registration != null) {
+                if (registration != null && allFieldsAreValid()) {
                     //update the registration properly
                     registration.setName(mNameEdit.getText().toString());
                     registration.setAddress(mAddressEdit.getText().toString());
@@ -429,6 +430,50 @@ public class RegistrationInfo extends AppCompatActivity {
             }
         });
 
+    }
+
+    private boolean allFieldsAreValid() {
+        if (registration == null) return false;
+
+        String name = registration.getName().trim(),
+                phoneNum = registration.getPhoneNumber().trim(),
+                email = registration.getEmailAddress().trim(),
+
+        String emailRegex = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                +"[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$",
+                phoneNumRegex = "^\\d+$";
+
+        if (name.equals("")) {
+            Toast.makeText(RegistrationInfo.this, "Please provide a name", Toast.LENGTH_SHORT).show();
+            findViewById(R.id.pRegistrationName).requestFocus();
+            return false;
+        }
+
+        if (phoneNum.equals("")) {
+            Toast.makeText(RegistrationInfo.this, "Please provide a phone number", Toast.LENGTH_SHORT).show();
+            findViewById(R.id.pRegistrationPhoneNumber).requestFocus();
+            return false;
+        }
+
+        if (phoneNum.length() > 10 || !Pattern.matches(phoneNumRegex, phoneNum)) {
+            Toast.makeText(RegistrationInfo.this, "Please provide a 10 digit phone number", Toast.LENGTH_SHORT).show();
+            findViewById(R.id.pRegistrationPhoneNumber).requestFocus();
+            return false;
+        }
+
+        if (email.equals("")) {
+            Toast.makeText(RegistrationInfo.this, "Please provide an email", Toast.LENGTH_SHORT).show();
+            findViewById(R.id.pRegistrationEmail).requestFocus();
+            return false;
+        }
+
+        if (!Pattern.matches(emailRegex, email)) {
+            Toast.makeText(RegistrationInfo.this, "Please provide a valid email", Toast.LENGTH_SHORT).show();
+            findViewById(R.id.pRegistrationEmail).requestFocus();
+            return false;
+        }
+
+        return true;
     }
 
     private static String getDateString(int year, int monthOfYear, int dayOfMonth) {
