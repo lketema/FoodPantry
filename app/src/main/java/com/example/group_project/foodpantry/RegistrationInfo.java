@@ -95,7 +95,7 @@ public class RegistrationInfo extends AppCompatActivity {
 
         //get info from Intent
         Intent intent = getIntent();
-        final String registrationID = "-LSkjneBfQkmH5uRnctE",
+        final String registrationID = //"-LSkjneBfQkmH5uRnctE",
                 //"-LShP2YO09BOj_rW3Z4n",
                //"-LSoiOUalxyyMwiLJVts",
                  intent.getStringExtra("registrationID"),
