@@ -97,10 +97,13 @@ public class RegistrationInfo extends AppCompatActivity {
         Intent intent = getIntent();
         final String registrationID = //"-LSkjneBfQkmH5uRnctE",
                 //"-LShP2YO09BOj_rW3Z4n",
-                intent.getStringExtra("registrationID"),
+               "-LSoiOUalxyyMwiLJVts",
+                // intent.getStringExtra("registrationID"),
+
         userID = //"9NsphmjGzagiimXZwb9PQzWicXx1";
+                "foPc4vl745Z5oUe2NvrBaLlRUg83";
                 //"1yfb4cmbjeZf85VEfhphObkkoVg1";
-                        intent.getStringExtra("userID");
+                        //intent.getStringExtra("userID");
 
         // access to database for registration
         DatabaseReference child = database.child("registration").child(registrationID);
@@ -382,9 +385,20 @@ public class RegistrationInfo extends AppCompatActivity {
                     registration.setTimeOpen(mTimeOpenEdit.getText().toString());
                     registration.setTimeClosed(mTimeClosedEdit.getText().toString());
                     if (!isPantry) ((Event) registration).setEventDate(mEventDateEdit.getText().toString());
-
+                    else {
+                        ((Pantry) registration).setDayOperational(Pantry.SUNDAY, mSun.isChecked());
+                        ((Pantry) registration).setDayOperational(Pantry.MONDAY, mMon.isChecked());
+                        ((Pantry) registration).setDayOperational(Pantry.TUESDAY, mTue.isChecked());
+                        ((Pantry) registration).setDayOperational(Pantry.WEDNESDAY, mWed.isChecked());
+                        ((Pantry) registration).setDayOperational(Pantry.THURSDAY, mThu.isChecked());
+                        ((Pantry) registration).setDayOperational(Pantry.FRIDAY, mFri.isChecked());
+                        ((Pantry) registration).setDayOperational(Pantry.SATURDAY, mSat.isChecked());
+                    }
                     Log.i("TAGGY", registration.toString());
 
+                    //display Toast
+                    Toast.makeText(RegistrationInfo.this, "Successfully updated registration!", Toast.LENGTH_SHORT);
+                    
                     //update in database
                     database.child("registration").child(registrationID).setValue(registration);
                 }
