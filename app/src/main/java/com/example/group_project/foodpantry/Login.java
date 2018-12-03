@@ -22,6 +22,7 @@ public class Login extends AppCompatActivity {
     EditText EditTextLogInEmail, EditTextLogInPassword;
     String logInEmail="", logInpassword="";
     String TAG = "LOG_IN: ";
+    TextView emailVerifyMsg;
 
     private FirebaseAuth mAuth;
     @Override
@@ -32,7 +33,8 @@ public class Login extends AppCompatActivity {
         EditTextLogInEmail = (EditText) findViewById(R.id.editTextLogInEmail);
         EditTextLogInPassword = (EditText) findViewById(R.id.editTextLogInPassword);
 
-
+        emailVerifyMsg = (TextView) findViewById(R.id.textViewVerificationMsg);
+        emailVerifyMsg.setVisibility(TextView.INVISIBLE);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -95,6 +97,7 @@ public class Login extends AppCompatActivity {
 
                             //if the email is verified then it will take user to map activity
                             if (user.isEmailVerified()){
+                                emailVerifyMsg.setVisibility(TextView.INVISIBLE);
                                 String currentUID = user.getUid().toString();
 
                                 Intent LoginIntent = new Intent(Login.this, MapsActivity.class);
@@ -102,16 +105,19 @@ public class Login extends AppCompatActivity {
                                 startActivity(LoginIntent);
 
                             } else {
-
-                                errMsg.setText("Please Verify your email!");
+                                emailVerifyMsg.setVisibility(TextView.VISIBLE);
+                                user.sendEmailVerification();
+                                Log.i(TAG, "Verification email is sent once again");
+//                                errMsg.setText("Please Verify your email!");
                             }
 
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                             errMsg.setText("Please provide a Valid Email/Password");
-                            Toast.makeText(Login.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Login.this, "Invalid Email or Password.",
+                                    Toast.LENGTH_LONG).show();
+                            EditTextLogInPassword.setText("");
                         }
 
                         // ...

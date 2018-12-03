@@ -39,12 +39,12 @@ public class ForgotPassword extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()){
                             Toast.makeText(ForgotPassword.this, " Password reset email has been sent!",
-                                    Toast.LENGTH_SHORT).show();
+                                    Toast.LENGTH_LONG).show();
                             Intent logIntent = new Intent(ForgotPassword.this, Login.class);
                             startActivity(logIntent);
                         } else {
                             Toast.makeText(ForgotPassword.this, "Unable to Find Account with given email. ",
-                                    Toast.LENGTH_SHORT).show();
+                                    Toast.LENGTH_LONG).show();
                         }
                     }
                 });

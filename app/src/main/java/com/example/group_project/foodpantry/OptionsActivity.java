@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,6 +25,7 @@ public class OptionsActivity extends Activity{
     Button registButton;
     Button addEventButton;
     User user;
+    DatabaseReference database;
 
 
     /**
@@ -35,16 +37,49 @@ public class OptionsActivity extends Activity{
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+        database = FirebaseDatabase.getInstance().getReference();
         super.onCreate(savedInstanceState);
-        Intent data = getIntent();
+        final Intent data = getIntent();
         final String currentID = "UDFlWpEIbrd0906YczwPsvHZvFc2";//data.getStringExtra("userID");
 
         database.child("users").child(currentID).addValueEventListener(new ValueEventListener() {
            @Override
            public void onDataChange(DataSnapshot dataSnapshot) {
 
-               user = dataSnapshot.getValue(User.class);
+               User newUser = dataSnapshot.getValue(User.class);
+
+               user = new User(newUser.getName(), newUser.getEmail(), newUser.getEmail(), newUser.getUserType());
+
+               if(user.getUserType().equals("owner")) {
+                   // Locate the button in activity_options.xml
+                   addEventButton = (Button) findViewById(R.id.AddEventButton);
+                   registButton = findViewById(R.id.MyRegistrationsButton);
+
+                   addEventButton.setVisibility(View.VISIBLE);
+                   registButton.setVisibility(View.VISIBLE);
+
+                   // Capture button clicks
+                   addEventButton.setOnClickListener(new OnClickListener() {
+                       public void onClick(View arg0) {
+
+                           // Start NewActivity.class
+                           Intent myIntent = new Intent(OptionsActivity.this, AddEventActivity.class);
+                           myIntent.putExtra("userID", currentID);
+                           startActivity(myIntent);
+                       }
+                   });
+
+                   registButton.setOnClickListener(new OnClickListener() {
+                       @Override
+                       public void onClick(View view) {
+                           Intent myIntent = new Intent(OptionsActivity.this, RegistrationListActivity.class);
+                           myIntent.putExtra("userID", currentID);
+                           startActivity(myIntent);
+                       }
+                   });
+               }
+
+
 
            }
 
@@ -54,6 +89,7 @@ public class OptionsActivity extends Activity{
             }
 
         } );
+
 
 
 
@@ -71,39 +107,6 @@ public class OptionsActivity extends Activity{
                 startActivity(myIntent);
             }
         });
-
-        // Locate the button in activity_main.xml
-        registButton = (Button) findViewById(R.id.MyRegistrationsButton);
-
-
-        if(true/*user.getUserType().equals("owner")*/) {
-            // Locate the button in activity_options.xml
-            addEventButton = (Button) findViewById(R.id.AddEventButton);
-            registButton = findViewById(R.id.MyRegistrationsButton);
-
-            addEventButton.setVisibility(View.VISIBLE);
-            registButton.setVisibility(View.VISIBLE);
-
-            // Capture button clicks
-            addEventButton.setOnClickListener(new OnClickListener() {
-                public void onClick(View arg0) {
-
-                    // Start NewActivity.class
-                    Intent myIntent = new Intent(OptionsActivity.this, AddEventActivity.class);
-                    myIntent.putExtra("userID", "UDFlWpEIbrd0906YczwPsvHZvFc2");
-                    startActivity(myIntent);
-                }
-            });
-
-            registButton.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent myIntent = new Intent(OptionsActivity.this, RegistrationListActivity.class);
-                    myIntent.putExtra("userID", currentID);
-                    startActivity(myIntent);
-                }
-            });
-        }
 
 
     }

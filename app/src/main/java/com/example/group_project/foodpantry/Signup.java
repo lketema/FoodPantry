@@ -203,27 +203,20 @@ public class Signup extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
+                                Log.i(TAG,"SUCCESS: UID is created with email and password");
+
 
                                 User user = new User(fullname, email, phone, userType);
                                 //DB: Add  into main profile of all users
                                 addProfileInDB(user, "users");
 
-                                //DB: add users into different profiles based on userTypes
-//                                if(userType.equals(UserType.OWNER.getUserType())){
-//                                    addProfileInDB(user,"pantryOwners");
-//                                } else if(userType.equals(UserType.VOLUNTEER.getUserType())){
-//                                    addProfileInDB(user,"volunteers");
-//                                } else if(userType.equals(UserType.RECIPIENT.getUserType())){
-//                                    addProfileInDB(user,"recipients");
-//                                }
 
-                                setDefaultValues();
 
 
 
 
                             } else {
-                                Toast.makeText(getApplicationContext(), "User Not registered", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "User account is already created with given email.", Toast.LENGTH_LONG).show();
 
                             }
 
@@ -257,9 +250,14 @@ public class Signup extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
+                    Log.i(TAG, "SUCCESS: User profile is populated in DB");
                     currentUser.sendEmailVerification();
-                    Toast.makeText(getApplicationContext(), "User is Successfully registered", Toast.LENGTH_SHORT).show();
-
+                    Log.i(TAG, "A verification Email is Sent");
+                    Toast.makeText(getApplicationContext(), "A user account has been created and a verification email has been sent. Please verify your email.", Toast.LENGTH_LONG).show();
+                    Intent LoginIntent = new Intent(Signup.this, Login.class);
+                    startActivity(LoginIntent);
+                    setDefaultValues();
+                    finish();
 
                 }
 

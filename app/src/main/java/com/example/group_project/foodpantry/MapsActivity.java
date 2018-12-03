@@ -10,9 +10,12 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -37,12 +40,12 @@ import java.io.IOException;
 import java.util.List;
 
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback{
     private String TAG = "Maps Activity";
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     public Location mCurrentLocation = null;
-
+    private Marker mLastSelectedMarker;
     private final int LOCATION_PERMISSION_CODE = 4;
     Intent getsIntent;
     DatabaseReference databaseReference;
@@ -53,12 +56,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
         // Obtain the MapFragment and get notified when the map is ready to be used.
 
+
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         getsIntent = getIntent();
         //get last known location through fused location
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        ImageView settingIcon = (ImageView) findViewById(R.id.settingIcon);
+        settingIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent nextScreen = new Intent(MapsActivity.this, OptionsActivity.class);
+                nextScreen.putExtra("userID", getsIntent.getStringExtra("userID"));
+                startActivity(nextScreen);
+            }
+        });
 
     }
 
@@ -73,28 +87,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         addMarkers();
         // add Pantries from Database and google Search API
         //this prevents the window from moving when clicking marker
-
-       mMap.setInfoWindowAdapter(new CustomInfoAdapterMaps(this));
-
-        mMap.setOnMarkerClickListener(
-                new GoogleMap.OnMarkerClickListener() {
-                    public boolean onMarkerClick(Marker marker) {
-                        if(!marker.getTitle().equals("You")) {
-                            marker.showInfoWindow();
-                        }
-                        return true;
-                    }
-                });
-
-        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-                Intent nextScreen = new Intent(MapsActivity.this, RegistrationInfo.class);
-                nextScreen.putExtra("userID", getsIntent.getStringExtra("userID"));
-                nextScreen.putExtra("registrationID", marker.getTitle());
-                startActivity(nextScreen);
-            }
-        });
 
     }
 
@@ -197,6 +189,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Log.i(TAG, "Database error: " + databaseError.getMessage());
             }
         });
+
+        mMap.setOnMarkerClickListener(
+                new GoogleMap.OnMarkerClickListener() {
+                    public boolean onMarkerClick(Marker marker) {
+                        //MapsActivity.this.mMap.setInfoWindowAdapter(new CustomInfoAdapterMaps(MapsActivity.this));
+
+                        if(marker != null && !marker.getTitle().equals("You")) {
+                            marker.showInfoWindow();
+                        }
+
+                        return true;
+                    }
+                });
+
+        mMap.setInfoWindowAdapter(new CustomInfoAdapterMaps(this));
+
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Intent nextScreen = new Intent(MapsActivity.this, RegistrationInfo.class);
+                nextScreen.putExtra("userID", getsIntent.getStringExtra("userID"));
+                nextScreen.putExtra("registrationID", marker.getTitle());
+                startActivity(nextScreen);
+            }
+        });
+
+
 
     }
 
