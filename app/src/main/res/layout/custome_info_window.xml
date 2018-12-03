@@ -9,7 +9,7 @@
     <!--Title android:background="@color/white"-->
 
     <TextView
-        android:id="@+id/pantryName"
+        android:id="@+id/registrationName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -19,11 +19,11 @@
 
 
     <TextView
-        android:id="@+id/pantryAddress"
+        android:id="@+id/registrationAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/pantryName"
+        android:layout_below="@+id/registrationName"
         android:layout_marginTop="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginEnd="2dp"
@@ -35,20 +35,20 @@
     android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp" -->
     <TextView
-        android:id="@+id/pantryPhone"
+        android:id="@+id/registrationPhone"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:layout_below="@id/pantryAddress"
+        android:layout_below="@id/registrationAddress"
         android:layout_marginTop="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginEnd="2dp"
         />
 
     <TextView
-        android:id="@+id/pantryWebsite"
+        android:id="@+id/registrationWebsite"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:layout_below="@id/pantryPhone"
+        android:layout_below="@id/registrationPhone"
         android:layout_marginTop="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginEnd="2dp"
@@ -60,13 +60,13 @@
 
     <!--Time and date-->
     <TextView
-        android:id="@+id/pantryTimeOpenClose"
+        android:id="@+id/registrationTimeOpenClose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginEnd="2dp"
-        android:layout_below="@+id/pantryWebsite"
+        android:layout_below="@+id/registrationWebsite"
         />
 
     <!--Event Specific Layout-->
@@ -74,14 +74,14 @@
         android:id="@+id/eventDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/pantryTimeOpenClose"
+        android:layout_below="@+id/registrationTimeOpenClose"
         android:layout_marginTop="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginEnd="2dp"
          />
 
     <TextView
-        android:id="@+id/pantryMoreInfo"
+        android:id="@+id/registrationMoreInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/eventDate"

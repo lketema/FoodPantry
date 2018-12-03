@@ -1,6 +1,9 @@
 package com.example.group_project.foodpantry;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +16,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,14 +57,86 @@ public class RegistrationListActivity extends ListActivity {
         mAdapter = new RegistrationListAdapter(ownedThings, getApplicationContext());
         getListView().setAdapter(mAdapter);
 
-        getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        getListView().setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.i(TAG, adapterView.getClass().toString());
-                Log.i(TAG, view.getClass().toString());
+                Log.i(TAG, "short click");
+                String regId = ownedIDs.get(i);
+
+                Intent intent = new Intent(RegistrationListActivity.this, RegistrationInfo.class);
+
+                intent.putExtra("registrationID", regId);
+                intent.putExtra("userID", userID);
+
+                startActivity(intent);
             }
         });
 
+        getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+                                           final int pos, long id) {
+
+                final String regId = ownedIDs.get(pos);
+
+                if (mAdapter.getItem(pos) instanceof Event) {
+                    new AlertDialog.Builder(RegistrationListActivity.this)
+                            .setTitle("Delete Event")
+                            .setMessage("Would you like to delete this event?")
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    deleteReg(regId, pos);
+                                }})
+                            .setNegativeButton(android.R.string.no, null).show();
+                } else {
+                    new AlertDialog.Builder(RegistrationListActivity.this)
+                            .setTitle("Delete Pantry")
+                            .setMessage("Would you like to delete this pantry?")
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    deleteReg(regId, pos);
+                                }})
+                            .setNegativeButton(android.R.string.no, null).show();
+                }
+
+                return true;
+            }
+        });
+
+    }
+
+    private void deleteReg(final String regID, final int pos) {
+        //Steps:
+        // 1. Delete from user registration list
+        // 2. Delete from registrations
+
+        final DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+
+        database.child("users").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                user = dataSnapshot.getValue(User.class);
+                user.removeRegistration(regID);
+
+                database.child("users").child(userID).setValue(user);
+
+                database.child("registration").child(regID).removeValue();
+
+                ownedIDs.remove(regID);
+                mAdapter.remove(pos);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getApplicationContext(), "Cancelled",Toast.LENGTH_LONG).show();
+                Log.e("AddEventActivity", databaseError.toString());
+            }
+        });
     }
 
     private void getUserRegistrations() {
@@ -68,7 +145,6 @@ public class RegistrationListActivity extends ListActivity {
         database.child("users").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.i(TAG, "here");
                 user = dataSnapshot.getValue(User.class);
                 RegistrationListActivity.this.ownedIDs = user.getRegistrations();
 

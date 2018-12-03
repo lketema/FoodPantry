@@ -80,4 +80,8 @@ public class User {
         this.registrations.add(regID);
     }
 
+    public void removeRegistration(String regID) {
+        this.registrations.remove(regID);
+    }
+
 }
