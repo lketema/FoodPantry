@@ -91,7 +91,7 @@ public class EventConfirmationActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(EventConfirmationActivity.this,
-                OptionsActivity.class);
+                MapsActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
