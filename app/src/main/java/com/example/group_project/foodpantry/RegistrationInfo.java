@@ -91,7 +91,7 @@ public class RegistrationInfo extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        })
+        });
         //
 
 
