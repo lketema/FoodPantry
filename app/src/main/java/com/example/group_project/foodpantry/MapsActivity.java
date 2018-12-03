@@ -249,6 +249,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Intent nextScreen = new Intent(MapsActivity.this, RegistrationInfo.class);
                 nextScreen.putExtra("userID", currentID);
                 nextScreen.putExtra("registrationID", marker.getTitle());
+                nextScreen.putExtra("return", "MapsActivity");
                 startActivity(nextScreen);
             }
         });

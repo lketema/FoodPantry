@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -39,7 +38,7 @@ public class RegistrationInfo extends AppCompatActivity {
     private RelativeLayout mTimeRelativeLayout, mPantryRelativeLayout;
 
     private static EditText mTimeOpenEdit, mTimeClosedEdit, mEventDateEdit;
-    private Button mWebsiteButton, mDirectionsButton, mUpdateButton;
+    private Button mWebsiteButton, mDirectionsButton, mUpdateButton, mBackButton;
     private CheckBox mFavorite, mSun, mMon, mTue, mWed, mThu, mFri, mSat;
 
     private Registration registration;
@@ -83,6 +82,7 @@ public class RegistrationInfo extends AppCompatActivity {
         mWebsiteButton = (Button) findViewById(R.id.websiteButton);
         mDirectionsButton = (Button) findViewById(R.id.directionsButton);
         mUpdateButton = (Button) findViewById(R.id.updateButton);
+        mBackButton = (Button) findViewById(R.id.goBackButton);
 
         mFavorite = (CheckBox) findViewById(R.id.favorites);
         mSun = (CheckBox) findViewById(R.id.checkbox_sun);
@@ -94,16 +94,33 @@ public class RegistrationInfo extends AppCompatActivity {
         mSat = (CheckBox) findViewById(R.id.checkbox_sat);
 
         //get info from Intent
-        Intent intent = getIntent();
-        final String registrationID = //"-LSkjneBfQkmH5uRnctE",
-                //"-LShP2YO09BOj_rW3Z4n",
-               //"-LSoiOUalxyyMwiLJVts",
-                 intent.getStringExtra("registrationID"),
+        final Intent intent = getIntent();
 
-        userID = //"9NsphmjGzagiimXZwb9PQzWicXx1";
+        final String registrationID = intent.getStringExtra("registrationID"),
+                //"-LSkjneBfQkmH5uRnctE" "-LSoiOUalxyyMwiLJVts",
+
+        userID = intent.getStringExtra("userID");
                 //"foPc4vl745Z5oUe2NvrBaLlRUg83";
                 //"1yfb4cmbjeZf85VEfhphObkkoVg1";
-                        intent.getStringExtra("userID");
+
+        final Intent returnIntent;
+
+        switch(intent.getStringExtra("return")) {
+            case "MapsActivity":
+                returnIntent = new Intent(RegistrationInfo.this, MapsActivity.class)
+                        .putExtra("userID", userID)
+                        .putExtra("registrationID", registrationID);
+                break;
+            case "RegistrationListActivity":
+                returnIntent = new Intent(RegistrationInfo.this, RegistrationListActivity.class)
+                        .putExtra("userID", userID)
+                        .putExtra("registrationID", registrationID);
+                break;
+            default: // "FavoritesActivity"
+                returnIntent = new Intent(RegistrationInfo.this, FavoritesActivity.class)
+                        .putExtra("userID", userID)
+                        .putExtra("registrationID", registrationID);
+        }
 
         // access to database for registration
         DatabaseReference child = database.child("registration").child(registrationID);
@@ -402,6 +419,13 @@ public class RegistrationInfo extends AppCompatActivity {
                     //update in database
                     database.child("registration").child(registrationID).setValue(registration);
                 }
+            }
+        });
+
+        mBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(returnIntent);
             }
         });
 

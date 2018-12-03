@@ -102,6 +102,7 @@ public class RegistrationListActivity extends ListActivity {
 
                 intent.putExtra("registrationID", regId);
                 intent.putExtra("userID", userID);
+                intent.putExtra("return", "RegistrationListActivity");
 
                 startActivity(intent);
             }

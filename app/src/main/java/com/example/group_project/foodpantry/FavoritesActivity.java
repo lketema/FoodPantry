@@ -49,12 +49,13 @@ public class FavoritesActivity extends ListActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.i(TAG, "short click");
-//                String regId = ownedIDs.get(i);
+//              String regId = ownedIDs.get(i);
 //
 //                Intent intent = new Intent(FavoritesActivity.this, RegistrationInfo.class);
 //
 //                intent.putExtra("registrationID", regId);
 //                intent.putExtra("userID", userID);
+//                intent.putExtra("return", "FavoritesActivity");
 //
 //                startActivity(intent);
             }
