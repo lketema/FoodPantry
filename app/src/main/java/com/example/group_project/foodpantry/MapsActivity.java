@@ -46,7 +46,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback{
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapLoadedCallback{
     private String TAG = "Maps Activity";
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationProviderClient;
@@ -108,12 +108,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         mMap = googleMap;
         //default
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                 new LatLng(38.98, -76.94), ZOOM));
         getPhoneLocation();
-
+        mMap.setOnMapLoadedCallback(this);
         // access firebase database for stored and also add on registration added listener
         addMarkers();
 
@@ -251,6 +252,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 startActivity(nextScreen);
             }
         });
+
+        //
 
     }
 
@@ -433,4 +436,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
+    @Override
+    public void onMapLoaded() {
+        findViewById(R.id.loadingMaps).setVisibility(View.GONE);
+    }
 }
