@@ -39,8 +39,13 @@ public class OptionsActivity extends Activity{
     public void onCreate(Bundle savedInstanceState) {
         database = FirebaseDatabase.getInstance().getReference();
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_options);
         final Intent data = getIntent();
         final String currentID = "UDFlWpEIbrd0906YczwPsvHZvFc2";//data.getStringExtra("userID");
+
+        // Locate the button in activity_options.xml
+        addEventButton = findViewById(R.id.AddEventButton);
+        registButton = findViewById(R.id.MyRegistrationsButton);
 
         database.child("users").child(currentID).addValueEventListener(new ValueEventListener() {
            @Override
@@ -51,9 +56,6 @@ public class OptionsActivity extends Activity{
                user = new User(newUser.getName(), newUser.getEmail(), newUser.getEmail(), newUser.getUserType());
 
                if(user.getUserType().equals("owner")) {
-                   // Locate the button in activity_options.xml
-                   addEventButton = (Button) findViewById(R.id.AddEventButton);
-                   registButton = findViewById(R.id.MyRegistrationsButton);
 
                    addEventButton.setVisibility(View.VISIBLE);
                    registButton.setVisibility(View.VISIBLE);
@@ -85,15 +87,10 @@ public class OptionsActivity extends Activity{
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.e("OptionsActivity", databaseError.toString());
             }
 
         } );
-
-
-
-
-        setContentView(R.layout.activity_options);
 
         favButton = (Button) findViewById(R.id.FavoritesButton);
 
