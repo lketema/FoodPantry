@@ -24,7 +24,7 @@ import java.util.List;
 
 public class FavoritesActivity extends ListActivity {
 
-    final private String TAG = "RegList";
+    final private String TAG = "FavList";
 
     private RegistrationListAdapter mAdapter;
 
