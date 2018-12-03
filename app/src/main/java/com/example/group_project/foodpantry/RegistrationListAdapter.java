@@ -31,6 +31,11 @@ public class RegistrationListAdapter extends BaseAdapter {
 
     }
 
+    public void remove(int pos) {
+        items.remove(pos);
+        notifyDataSetChanged();
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View dataView = convertView;
@@ -75,6 +80,7 @@ public class RegistrationListAdapter extends BaseAdapter {
     public long getItemId(int pos) {
         return pos;
     }
+
 
 
     public static class ViewHolder {
