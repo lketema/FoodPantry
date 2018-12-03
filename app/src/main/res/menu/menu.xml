@@ -12,5 +12,9 @@
         android:id="@+id/addAnEventMenu"
         android:title="Add an Event"/>
 
+    <item
+        android:id="@+id/logoutMenu"
+        android:title="Logout"/>
+
 
 </menu>

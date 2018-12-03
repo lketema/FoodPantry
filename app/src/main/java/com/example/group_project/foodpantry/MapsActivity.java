@@ -32,6 +32,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -61,6 +62,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     //for purpose of immutability
     ArrayList<User> listUser;
 
+    private FirebaseAuth mAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +73,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        mAuth = FirebaseAuth.getInstance();
 
 
         //Intent getsIntent = getIntent();
@@ -324,6 +329,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         final MenuItem addEventMenu = menu.findItem(R.id.addAnEventMenu);
 
+        final MenuItem logoutMenu = menu.findItem(R.id.logoutMenu);
+
        // Toast.makeText(getApplicationContext(), currentID, Toast.LENGTH_LONG).show();
         databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child("users")
@@ -372,6 +379,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 myIntent = new Intent(MapsActivity.this,  AddEventActivity.class);
                 myIntent.putExtra("userID", currentID);
                 startActivity(myIntent);
+                return true;
+            case R.id.logoutMenu:
+                mAuth.signOut();
+
+                myIntent = new Intent (MapsActivity.this, Login.class);
+                myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(myIntent);
+
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

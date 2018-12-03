@@ -277,16 +277,16 @@ public class AddEventActivity extends AppCompatActivity {
     private void addToUserTable(final String key) {
         final DatabaseReference database = FirebaseDatabase.getInstance().getReference();
 
+        Log.i("AddEvent", userID + " : " + key);
+
         database.child("users").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.hasChild("registrations")) {
-                    Log.i("AddEvent", "here");
-                    user = dataSnapshot.getValue(PantryOwner.class);
-                    user.addRegistration(key);
-                    database.child("users").child(userID).setValue(user);
-                    startConfirmationActivity();
-                }
+                Log.i("AddEvent", "here");
+                user = dataSnapshot.getValue(PantryOwner.class);
+                user.addRegistration(key);
+                database.child("users").child(userID).setValue(user);
+                startConfirmationActivity();
 
             }
 
