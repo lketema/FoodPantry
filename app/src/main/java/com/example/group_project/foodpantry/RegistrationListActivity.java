@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -30,7 +31,7 @@ public class RegistrationListActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private LinearLayoutManager mLayoutManager;
 
     private String userID;
     private User user;
@@ -60,6 +61,10 @@ public class RegistrationListActivity extends AppCompatActivity {
 
         mAdapter = new RegistrationListAdapter(ownedThings);
         mRecyclerView.setAdapter(mAdapter);
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
+                mLayoutManager.getOrientation());
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
 
     }
 
@@ -99,6 +104,8 @@ public class RegistrationListActivity extends AppCompatActivity {
                     Event temp = dataSnapshot.getValue(Event.class);
                     RegistrationListActivity.this.ownedThings.add(temp);
                 }
+                Log.i(TAG, pid);
+                mAdapter.notifyDataSetChanged();
             }
 
             @Override

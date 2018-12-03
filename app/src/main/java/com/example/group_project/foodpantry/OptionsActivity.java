@@ -48,8 +48,6 @@ public class OptionsActivity extends Activity{
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                Log.i("Options", "here");
-
                 user = dataSnapshot.getValue(User.class);
 
                 if(user.getUserType().equals("owner")) {
