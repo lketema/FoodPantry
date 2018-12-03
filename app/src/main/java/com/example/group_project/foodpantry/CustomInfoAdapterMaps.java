@@ -13,13 +13,8 @@ import java.util.Map;
 public class CustomInfoAdapterMaps implements GoogleMap.InfoWindowAdapter {
     private final View mInfoWindowView;
     private Context mContext;
-    private TextView registrationName;
-    private TextView registrationAddress;
-    private TextView registrationPhone;
-    private TextView registrationWebsite;
-    private TextView eventDate;
-    private TextView registrationTimeOpenClose;
-    private TextView clickForMore;
+    private TextView registrationName, registrationAddress, registrationPhone, registrationWebsite,
+            eventDate, registrationTimeOpenClose, clickForMore;
     Map<String, Event> mEvents;
     Map<String, Pantry> mPantry;
 

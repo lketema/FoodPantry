@@ -13,6 +13,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -36,6 +39,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,10 +52,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public Location mCurrentLocation = null;
     private final int LOCATION_PERMISSION_CODE = 4;
     private final float ZOOM = 11.0f;
-    Intent getsIntent;
+
     DatabaseReference databaseReference;
     Map<String, Pantry> mPantryHash;
     Map<String, Event> mEventHash;
+    private String userType, currentID;
+
+    //for purpose of immutability
+    ArrayList<User> listUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,23 +72,30 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
 
 
-        getsIntent = getIntent();
+        //Intent getsIntent = getIntent();
+        currentID =  getIntent().getStringExtra("userID");
+        //TODO REMOVE this later
+        //currentID = "tQU5y7uqtFWRp9eoKXwAjqRWo7L2";
 
         //provides last known device location if permission given.
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         // the settings icon which serves to open the OptionsActivity
+        // replaced by menu
+        /*
         ImageView settingIcon = (ImageView) findViewById(R.id.settingIcon);
         settingIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent nextScreen = new Intent(MapsActivity.this, OptionsActivity.class);
-                nextScreen.putExtra("userID", getsIntent.getStringExtra("userID"));
+                nextScreen.putExtra("userID", currentID);
                 startActivity(nextScreen);
             }
-        });
+        }); */
         mPantryHash = new HashMap<>();
         mEventHash = new HashMap<>();
+        userType = "";
+        listUser = new ArrayList<>();
     }
 
     @Override
@@ -217,7 +233,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onInfoWindowClick(Marker marker) {
                 Intent nextScreen = new Intent(MapsActivity.this, RegistrationInfo.class);
-                nextScreen.putExtra("userID", getsIntent.getStringExtra("userID"));
+                nextScreen.putExtra("userID", currentID);
                 nextScreen.putExtra("registrationID", marker.getTitle());
                 startActivity(nextScreen);
             }
@@ -298,6 +314,70 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         }
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+
+        // if user is not owner, they don't need the other two items
+        final MenuItem myRegistrationMenu = menu.findItem(R.id.myRegistrationsMenu);
+
+        final MenuItem addEventMenu = menu.findItem(R.id.addAnEventMenu);
+
+       // Toast.makeText(getApplicationContext(), currentID, Toast.LENGTH_LONG).show();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child("users")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                            if (ds.getKey().equals(MapsActivity.this.currentID)) {
+                                User userTemp = ds.getValue(User.class);
+                                if (userTemp != null) {
+                                    if (!userTemp.getUserType().equals("owner")) {
+                                        addEventMenu.setVisible(false);
+                                        myRegistrationMenu.setVisible(false);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent myIntent;
+
+        switch (item.getItemId()) {
+            case R.id.favoritesMenu:
+                myIntent = new Intent(MapsActivity.this, FavoritesActivity.class);
+                myIntent.putExtra("userID", currentID);
+                startActivity(myIntent);
+                return true;
+            case R.id.myRegistrationsMenu:
+                myIntent = new Intent(MapsActivity.this,  RegistrationListActivity.class);
+                myIntent.putExtra("userID", currentID);
+                startActivity(myIntent);
+                return true;
+            case R.id.addAnEventMenu:
+                // AddEventActivity.class
+                myIntent = new Intent(MapsActivity.this,  AddEventActivity.class);
+                myIntent.putExtra("userID", currentID);
+                startActivity(myIntent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults){
@@ -318,4 +398,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
     }
+
+
 }
