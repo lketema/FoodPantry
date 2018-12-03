@@ -32,15 +32,20 @@ import java.util.Calendar;
 
 public class RegistrationInfo extends AppCompatActivity {
 
-    private TextView mPrivileges, mName, mAddress, mPhoneNumber, mEmail, mWebsite, mTimeOpenClose, mEventDate;
-    private EditText mNameEdit, mAddressEdit, mPhoneNumberEdit, mEmailEdit, mWebsiteEdit;
+    private TextView mPrivileges, mName, mAddress, mPhoneNumber,
+            mEmail, mWebsite, mTimeOpenClose, mEventDate, mTextEventDate;
+    private EditText mNameEdit, mAddressEdit, mPhoneNumberEdit,
+            mEmailEdit, mWebsiteEdit;
+    private RelativeLayout mTimeRelativeLayout, mPantryRelativeLayout;
+
     private static EditText mTimeOpenEdit, mTimeClosedEdit, mEventDateEdit;
-    private Button mWebsiteButton, mDirectionsButton;
+    private Button mWebsiteButton, mDirectionsButton, mUpdateButton;
     private CheckBox mFavorite, mSun, mMon, mTue, mWed, mThu, mFri, mSat;
 
     private Registration registration;
     private boolean isPantry = false;
     private User user;
+    private boolean isPantryOwner = false;
 
     private static DatabaseReference database;
 
@@ -61,18 +66,23 @@ public class RegistrationInfo extends AppCompatActivity {
         mWebsite = (TextView) findViewById(R.id.registrationWebsite);
         mTimeOpenClose = (TextView) findViewById(R.id.registrationTimeOpenClose);
         mEventDate = (TextView) findViewById(R.id.eventDate);
+        mTextEventDate = (TextView) findViewById(R.id.pTextEventDate);
 
         mNameEdit = (EditText) findViewById(R.id.pRegistrationName);
         mAddressEdit = (EditText) findViewById(R.id.pRegistrationAddress);
         mPhoneNumberEdit = (EditText) findViewById(R.id.pRegistrationPhoneNumber);
         mEmailEdit = (EditText) findViewById(R.id.pRegistrationEmail);
-        mWebsiteEdit = (EditText) findViewById(R.id.pRegistrationPhoneNumber);
+        mWebsiteEdit = (EditText) findViewById(R.id.pRegistrationWebsite);
         mTimeOpenEdit = (EditText) findViewById(R.id.pChangeOpenTime);
         mTimeClosedEdit = (EditText) findViewById(R.id.pChangeClosedTime);
         mEventDateEdit = (EditText) findViewById(R.id.pEventDate);
 
+        mTimeRelativeLayout = (RelativeLayout) findViewById(R.id.pChangeTimeOpenAndClose);
+        mPantryRelativeLayout = (RelativeLayout) findViewById(R.id.pantry_layout);
+
         mWebsiteButton = (Button) findViewById(R.id.websiteButton);
         mDirectionsButton = (Button) findViewById(R.id.directionsButton);
+        mUpdateButton = (Button) findViewById(R.id.updateButton);
 
         mFavorite = (CheckBox) findViewById(R.id.favorites);
         mSun = (CheckBox) findViewById(R.id.checkbox_sun);
@@ -85,10 +95,11 @@ public class RegistrationInfo extends AppCompatActivity {
 
         //get info from Intent
         Intent intent = getIntent();
-        final String registrationID = //"-LSkjneBfQkmH5uRnctE",
-                "-LShP2YO09BOj_rW3Z4n",
+        final String registrationID = "-LSkjneBfQkmH5uRnctE",
+                //"-LShP2YO09BOj_rW3Z4n",
                 //intent.getStringExtra("registrationID"),
-        userID = "1yfb4cmbjeZf85VEfhphObkkoVg1";
+        userID = //"9NsphmjGzagiimXZwb9PQzWicXx1";
+                "1yfb4cmbjeZf85VEfhphObkkoVg1";
                 //        intent.getStringExtra("userID");
 
         // access to database for registration
@@ -101,7 +112,7 @@ public class RegistrationInfo extends AppCompatActivity {
                 if (dataSnapshot.hasChild("daysOpen")) {
                     isPantry = true;
 
-                    registration = (Pantry) dataSnapshot.getValue(Pantry.class);
+                    registration = dataSnapshot.getValue(Pantry.class);
 
                     //may as well set Pantry specific stuff here
                     if (((Pantry) registration).isOpenOn(Pantry.SUNDAY)) mSun.setChecked(true);
@@ -115,16 +126,16 @@ public class RegistrationInfo extends AppCompatActivity {
                     //set Event views to be invisible
                     mEventDate.setVisibility(View.GONE);
                     mEventDateEdit.setVisibility(View.GONE);
+                    mTextEventDate.setVisibility(View.GONE);
 
                 } else {
-                    registration = (Event) dataSnapshot.getValue(Event.class);
-
-                    //set pantry views to be invisible
+                    registration = dataSnapshot.getValue(Event.class);
 
                     mEventDate.setText(((Event) registration).getEventDateForDisplay());
-                    mEventDateEdit.setText(((Event) registration).getEventDateForDisplay());
-                    RelativeLayout pantryLayout = (RelativeLayout) findViewById(R.id.pantry_layout);
-                    pantryLayout.setVisibility(View.GONE);
+                    mEventDateEdit.setText(((Event) registration).getEventDate());
+
+                    //set pantry views to be invisible
+                    mPantryRelativeLayout.setVisibility(View.GONE);
 
                 }
 
@@ -155,7 +166,13 @@ public class RegistrationInfo extends AppCompatActivity {
         child.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                user = dataSnapshot.getValue(User.class);
+                if (dataSnapshot.hasChild("registrations")) {
+                    isPantryOwner = true;
+                    user = dataSnapshot.getValue(PantryOwner.class);
+                } else {
+                    user = dataSnapshot.getValue(User.class);
+                }
+
                 //see if the user has this place as a favorite
                 //if so, check the favorites box
                 if (user.getFavorites().contains(registrationID)) mFavorite.setChecked(true);
@@ -163,40 +180,39 @@ public class RegistrationInfo extends AppCompatActivity {
                 //If user is the current registration owner,
                 // set the privilege of editing the stuff
                 if (user.getUserType().equals("owner")
-                        && dataSnapshot.hasChild("registrations")
-                        && ((PantryOwner) user).ownsRegistration(registrationID)) {
+                        && isPantryOwner && ((PantryOwner) user).ownsRegistration(registrationID)) {
+                    // set non-editable views invisible and allow owner to go to town
+                    mPrivileges.setVisibility(View.VISIBLE);
+                    mPrivileges.setText("Hi, owner! You can edit your registration information here");
+                    mName.setVisibility(View.GONE);
+                    mNameEdit.setVisibility(View.VISIBLE);
+                    mAddress.setVisibility(View.GONE);
+                    mAddressEdit.setVisibility(View.VISIBLE);
+                    mPhoneNumber.setVisibility(View.GONE);
+                    mPhoneNumberEdit.setVisibility(View.VISIBLE);
+                    mEmail.setVisibility(View.GONE);
+                    mEmailEdit.setVisibility(View.VISIBLE);
+                    mWebsite.setVisibility(View.GONE);
+                    mWebsiteEdit.setVisibility(View.VISIBLE);
+                    mTimeOpenClose.setVisibility(View.GONE);
+                    mTimeRelativeLayout.setVisibility(View.VISIBLE);
+                    mEventDate.setVisibility(View.GONE);
+                    if (!isPantry) {
+                        mEventDateEdit.setVisibility(View.VISIBLE);
+                        mTextEventDate.setVisibility(View.VISIBLE);
+                    }
 
+                    mUpdateButton.setVisibility(View.VISIBLE);
 
-                   // set non-editable views invisible and allow owner to go to town
-                   mPrivileges.setText("Hi, owner! You can edit your registration information here");
-                   mName.setVisibility(View.GONE);
-                   mAddress.setVisibility(View.GONE);
-                   mPhoneNumber.setVisibility(View.GONE);
-                   mEmail.setVisibility(View.GONE);
-                   mWebsite.setVisibility(View.GONE);
-                   mTimeOpenClose.setVisibility(View.GONE);
-                   mEventDate.setVisibility(View.GONE);
-                   mSun.setClickable(true);
-                   mMon.setClickable(true);
-                   mTue.setClickable(true);
-                   mWed.setClickable(true);
-                   mThu.setClickable(true);
-                   mFri.setClickable(true);
-                   mSat.setClickable(true);
+                    mSun.setClickable(true);
+                    mMon.setClickable(true);
+                    mTue.setClickable(true);
+                    mWed.setClickable(true);
+                    mThu.setClickable(true);
+                    mFri.setClickable(true);
+                    mSat.setClickable(true);
 
-                } else {
-                    //make all editable views invisible
-                    mPrivileges.setVisibility(View.GONE);
-                    mNameEdit.setVisibility(View.GONE);
-                    mAddressEdit.setVisibility(View.GONE);
-                    mPhoneNumberEdit.setVisibility(View.GONE);
-                    mEmailEdit.setVisibility(View.GONE);
-                    mWebsiteEdit.setVisibility(View.GONE);
-                    RelativeLayout rl = (RelativeLayout) findViewById(R.id.pChangeTimeOpenAndClose);
-                    rl.setVisibility(View.GONE);
-                    mEventDateEdit.setVisibility(View.GONE);
                 }
-
             }
 
             @Override
@@ -221,101 +237,17 @@ public class RegistrationInfo extends AppCompatActivity {
             }
         });
 
-        //add the appropriate listeners for updating database for pantry owner
-        mNameEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (!hasFocus) {
-                    if (registration != null) {
-                        registration.setName(((EditText) view).getText().toString());
-                        database.child("registration").child(registrationID).setValue(registration);
-                    }
-                }
-            }
-        });
-        mAddressEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (!hasFocus) {
-                    if (registration != null) {
-                        registration.setAddress(((EditText) view).getText().toString());
-                        database.child("registration").child(registrationID).setValue(registration);
-                    }
-                }
-            }
-        });
-        mPhoneNumberEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (!hasFocus) {
-                    if (registration != null) {
-                        registration.setPhoneNumber(((EditText) view).getText().toString());
-                        database.child("registration").child(registrationID).setValue(registration);
-                    }
-                }
-            }
-        });
-        mEmailEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (!hasFocus) {
-                    if (registration != null) {
-                        registration.setEmailAddress(((EditText) view).getText().toString());
-                        database.child("registration").child(registrationID).setValue(registration);
-                    }
-                }
-            }
-        });
-        mWebsiteEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (!hasFocus) {
-                    if (registration != null) {
-                        registration.setWebsite(((EditText) view).getText().toString());
-                        database.child("registration").child(registrationID).setValue(registration);
-                    }
-                }
-            }
-        });
-
         mTimeOpenEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((EditText) view).setFocusable(true);
                 showOpenTimePickerDialog();
-                ((EditText) view).requestFocus();
-                ((EditText) view).setFocusable(false);
-            }
-        });
-
-        mTimeOpenEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (hasFocus && registration != null) {
-                    registration.setTimeOpen(((EditText) view).getText().toString());
-                    database.child("registration").child(registrationID).setValue(registration);
-                }
             }
         });
 
         mTimeClosedEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((EditText) view).setFocusable(true);
                 showClosedTimePickerDialog();
-                ((EditText) view).requestFocus();
-                ((EditText) view).setFocusable(false);
-
-            }
-        });
-
-        mTimeClosedEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (hasFocus && registration != null) {
-                    registration.setTimeClosed(((EditText) view).getText().toString());
-                    database.child("registration").child(registrationID).setValue(registration);
-                }
             }
         });
 
@@ -327,10 +259,8 @@ public class RegistrationInfo extends AppCompatActivity {
                     if (registration != null) {
                         if (isChecked && !((Pantry) registration).isOpenOn(Pantry.SUNDAY)) {
                             ((Pantry) registration).setDayOperational(Pantry.SUNDAY, true);
-                            database.child("registration").child(registrationID).setValue(registration);
                         } else if (!isChecked && ((Pantry) registration).isOpenOn(Pantry.SUNDAY)) {
                             ((Pantry) registration).setDayOperational(Pantry.SUNDAY, false);
-                            database.child("registration").child(registrationID).setValue(registration);
                         }
                     }
                 }
@@ -341,10 +271,8 @@ public class RegistrationInfo extends AppCompatActivity {
                     if (registration != null) {
                         if (isChecked && !((Pantry) registration).isOpenOn(Pantry.MONDAY)) {
                             ((Pantry) registration).setDayOperational(Pantry.MONDAY, true);
-                            database.child("registration").child(registrationID).setValue(registration);
                         } else if (!isChecked && ((Pantry) registration).isOpenOn(Pantry.MONDAY)) {
                             ((Pantry) registration).setDayOperational(Pantry.MONDAY, false);
-                            database.child("registration").child(registrationID).setValue(registration);
                         }
                     }
                 }
@@ -355,10 +283,8 @@ public class RegistrationInfo extends AppCompatActivity {
                     if (registration != null) {
                         if (isChecked && !((Pantry) registration).isOpenOn(Pantry.TUESDAY)) {
                             ((Pantry) registration).setDayOperational(Pantry.TUESDAY, true);
-                            database.child("registration").child(registrationID).setValue(registration);
                         } else if (!isChecked && ((Pantry) registration).isOpenOn(Pantry.TUESDAY)) {
                             ((Pantry) registration).setDayOperational(Pantry.TUESDAY, false);
-                            database.child("registration").child(registrationID).setValue(registration);
                         }
                     }
                 }
@@ -369,10 +295,8 @@ public class RegistrationInfo extends AppCompatActivity {
                     if (registration != null) {
                         if (isChecked && !((Pantry) registration).isOpenOn(Pantry.WEDNESDAY)) {
                             ((Pantry) registration).setDayOperational(Pantry.WEDNESDAY, true);
-                            database.child("registration").child(registrationID).setValue(registration);
                         } else if (!isChecked && ((Pantry) registration).isOpenOn(Pantry.WEDNESDAY)) {
                             ((Pantry) registration).setDayOperational(Pantry.WEDNESDAY, false);
-                            database.child("registration").child(registrationID).setValue(registration);
                         }
                     }
                 }
@@ -383,10 +307,8 @@ public class RegistrationInfo extends AppCompatActivity {
                     if (registration != null) {
                         if (isChecked && !((Pantry) registration).isOpenOn(Pantry.THURSDAY)) {
                             ((Pantry) registration).setDayOperational(Pantry.THURSDAY, true);
-                            database.child("registration").child(registrationID).setValue(registration);
                         } else if (!isChecked && ((Pantry) registration).isOpenOn(Pantry.THURSDAY)) {
                             ((Pantry) registration).setDayOperational(Pantry.THURSDAY, false);
-                            database.child("registration").child(registrationID).setValue(registration);
                         }
                     }
                 }
@@ -397,10 +319,8 @@ public class RegistrationInfo extends AppCompatActivity {
                     if (registration != null) {
                         if (isChecked && !((Pantry) registration).isOpenOn(Pantry.FRIDAY)) {
                             ((Pantry) registration).setDayOperational(Pantry.FRIDAY, true);
-                            database.child("registration").child(registrationID).setValue(registration);
                         } else if (!isChecked && ((Pantry) registration).isOpenOn(Pantry.FRIDAY)) {
                             ((Pantry) registration).setDayOperational(Pantry.FRIDAY, false);
-                            database.child("registration").child(registrationID).setValue(registration);
                         }
                     }
                 }
@@ -411,10 +331,8 @@ public class RegistrationInfo extends AppCompatActivity {
                     if (registration != null) {
                         if (isChecked && !((Pantry) registration).isOpenOn(Pantry.SATURDAY)) {
                             ((Pantry) registration).setDayOperational(Pantry.SATURDAY, true);
-                            database.child("registration").child(registrationID).setValue(registration);
                         } else if (!isChecked && ((Pantry) registration).isOpenOn(Pantry.SATURDAY)) {
                             ((Pantry) registration).setDayOperational(Pantry.SATURDAY, false);
-                            database.child("registration").child(registrationID).setValue(registration);
                         }
                     }
                 }
@@ -424,25 +342,11 @@ public class RegistrationInfo extends AppCompatActivity {
             mEventDateEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ((EditText) view).setFocusable(true);
-                    showDatePickerDialog();;
-                    ((EditText) view).requestFocus();
-                    ((EditText) view).setFocusable(false);
+                    showDatePickerDialog();
 
-                }
-            });
-
-            mEventDateEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View view, boolean hasFocus) {
-                    if (hasFocus && registration != null) {
-                        ((Event) registration).setEventDate(((EditText) view).getText().toString());
-                        database.child("registration").child(registrationID).setValue(registration);
-                    }
                 }
             });
         }
-
 
         mDirectionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -462,6 +366,28 @@ public class RegistrationInfo extends AppCompatActivity {
                         "Choose how to view " + registration.getName() + "'s website:");
                 startActivity(chooser);
 
+            }
+        });
+
+        mUpdateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (registration != null) {
+                    //update the registration properly
+                    registration.setName(mNameEdit.getText().toString());
+                    registration.setAddress(mAddressEdit.getText().toString());
+                    registration.setPhoneNumber(mPhoneNumberEdit.getText().toString());
+                    registration.setEmailAddress(mEmailEdit.getText().toString());
+                    registration.setWebsite(mWebsiteEdit.getText().toString());
+                    registration.setTimeOpen(mTimeOpenEdit.getText().toString());
+                    registration.setTimeClosed(mTimeClosedEdit.getText().toString());
+                    if (!isPantry) ((Event) registration).setEventDate(mEventDateEdit.getText().toString());
+
+                    Log.i("TAGGY", registration.toString());
+
+                    //update in database
+                    database.child("registration").child(registrationID).setValue(registration);
+                }
             }
         });
 
@@ -527,10 +453,12 @@ public class RegistrationInfo extends AppCompatActivity {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-            //use event time as default
+            // Use the current time as the default values for the picker
+            final Calendar c = Calendar.getInstance();
+            int hour = c.get(Calendar.HOUR_OF_DAY);
+            int minute = c.get(Calendar.MINUTE);
 
-            // Create a new instance of TimePickerDialog and return
-            return null;//new TimePickerDialog(getActivity(), this, hour, minute, true);
+            return new TimePickerDialog(getActivity(), this, hour, minute, true);
         }
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -546,8 +474,12 @@ public class RegistrationInfo extends AppCompatActivity {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-            // Create a new instance of TimePickerDialog and return
-            return null;// new TimePickerDialog(getActivity(), this, hour, minute, true);
+            // Use the current time as the default values for the picker
+            final Calendar c = Calendar.getInstance();
+            int hour = c.get(Calendar.HOUR_OF_DAY);
+            int minute = c.get(Calendar.MINUTE);
+
+            return new TimePickerDialog(getActivity(), this, hour, minute, true);
         }
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
