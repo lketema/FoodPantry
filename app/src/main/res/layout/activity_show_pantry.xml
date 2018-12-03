@@ -10,80 +10,94 @@
 
 
         <!--Title-->
-
-        <TextView
-            android:id="@+id/pantryName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="8dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="30sp"
-            android:textStyle="bold" />
-
-
-        <TextView
-            android:id="@+id/pantryAddress"
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/registrationInfoLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/pantryName"
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:ems="10"
-            />
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/registrationName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
 
-        <TextView
-            android:id="@+id/pantryPhone"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_below="@id/pantryAddress"
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="100dp"
-            />
-
-        <TextView
-            android:id="@+id/pantryEmail"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_below="@id/pantryPhone"
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="100dp"
-            />
-
-        <TextView
-            android:id="@+id/pantryWebsite"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_below="@id/pantryEmail"
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="100dp"
-            />
+            <TextView
+                android:id="@+id/registrationAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/registrationName"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:ems="10"
+                />
 
 
-        <!-- Type -->
+            <TextView
+                android:id="@+id/registrationPhoneNumber"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_below="@id/registrationAddress"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="100dp"
+                />
 
-        <!--Time and date-->
-        <TextView
-            android:id="@+id/pantryTimeOpenClose"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_below="@+id/pantryWebsite"
-            />
+            <TextView
+                android:id="@+id/registrationEmail"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_below="@id/registrationPhoneNumber"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="100dp"
+                />
 
-        <!--Event Specific Layout-->
-        <TextView
-            android:id="@+id/eventDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/pantryTimeOpenClose"
-            />
+            <TextView
+                android:id="@+id/registrationWebsite"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_below="@id/registrationEmail"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="100dp"
+                />
+
+
+            <!-- Type -->
+
+            <!--Time and date-->
+            <TextView
+                android:id="@+id/registrationTimeOpenClose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="100dp"
+                android:layout_below="@+id/registrationWebsite"
+                />
+
+            <!--Event Specific Layout-->
+            <TextView
+                android:id="@+id/eventDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="100dp"
+                android:layout_below="@+id/registrationTimeOpenClose"
+                />
+
+        </LinearLayout>
+
+
 
 
         <!--Pantry Specific Layout-->
@@ -92,21 +106,31 @@
             android:id="@+id/pantry_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/pantryTimeOpenClose">
+            android:layout_below="@+id/registrationInfoLayout">
 
-            <TextView
-                android:id="@+id/pantryDays"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/days_open_string"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="8dp" />
+                android:id="@+id/pantryDaysLayout"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/pantryDays"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/days_open_string"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp" />
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:id="@+id/days_open_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/pantryDays"
+                android:layout_below="@id/pantryDaysLayout"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="20dp"
                 android:orientation="horizontal">
@@ -145,15 +169,23 @@
 
     </RelativeLayout>
 
-
-
-
-    <CheckBox
-        android:id="@+id/checkBox2"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:text="Favorites" />
+        android:gravity="center"
+        android:layout_weight="1">
+
+        <CheckBox
+            android:id="@+id/favorites"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:scaleX="2"
+            android:scaleY="2"
+            android:text="Favorites" />
+
+    </LinearLayout>
+
 
     <Button
         android:id="@+id/websiteButton"

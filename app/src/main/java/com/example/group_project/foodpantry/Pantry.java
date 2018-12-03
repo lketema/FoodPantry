@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Pantry extends Registration {
     
-    private static final int SUNDAY = 0, MONDAY = 1, TUESDAY = 2, WEDNESDAY = 3,
+    public static final int SUNDAY = 0, MONDAY = 1, TUESDAY = 2, WEDNESDAY = 3,
             THURSDAY = 4, FRIDAY = 5, SATURDAY = 6;
 
     private List<Boolean> daysOpen;

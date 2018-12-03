@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="onClickSearchButton"
-            android:text="Search" />
+            android:text="@string/search" />
 
 
 
@@ -44,7 +44,7 @@
             android:layout_height="40dp"
             android:layout_gravity="right|top"
             android:layout_marginStart="0dp"
-            android:layout_weight="1"
+
             app:srcCompat="@drawable/settings_icon" />
 
     </fragment>
