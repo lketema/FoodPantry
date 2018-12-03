@@ -138,30 +138,38 @@
                 <CheckBox android:id="@+id/checkbox_sun"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:clickable="false"
                     android:text="@string/sunday" />
+
                 <CheckBox android:id="@+id/checkbox_mon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:clickable="false"
                     android:text="@string/monday" />
                 <CheckBox android:id="@+id/checkbox_tue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:clickable="false"
                     android:text="@string/tuesday" />
                 <CheckBox android:id="@+id/checkbox_wed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:clickable="false"
                     android:text="@string/wednesday" />
                 <CheckBox android:id="@+id/checkbox_thu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:clickable="false"
                     android:text="@string/thursday" />
                 <CheckBox android:id="@+id/checkbox_fri"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:clickable="false"
                     android:text="@string/friday" />
                 <CheckBox android:id="@+id/checkbox_sat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:clickable="false"
                     android:text="@string/saturday" />
 
             </LinearLayout>

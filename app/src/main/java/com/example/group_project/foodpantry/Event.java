@@ -16,6 +16,10 @@ public class Event extends Registration {
         return eventDate;
     }
 
+    public String getEventDateForDisplay() {
+        return "Event's date is: " + eventDate;
+    }
+
     public void setEventDate(String eventDate) {
         this.eventDate = eventDate;
     }
