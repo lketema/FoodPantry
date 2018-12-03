@@ -76,6 +76,10 @@ public abstract class Registration {
         this.timeClosed = timeClosed;
     }
 
+    public String getTimeOpenClosedString() {
+        return "Open from: " + timeOpen + " to: " + timeClosed;
+    }
+
     public String toString() {
         return "Registration info: " + name + ", " + address + ", " + phoneNumber + ", "
                 + emailAddress + ", " + website + ", " + timeOpen + ", " + timeClosed;
