@@ -76,7 +76,7 @@ public class OptionsActivity extends Activity{
         registButton = (Button) findViewById(R.id.MyRegistrationsButton);
 
 
-        if(true/*user.getUserType().equals("owner")*/) {
+        if(user.getUserType().equals("owner")) {
             // Locate the button in activity_options.xml
             addEventButton = (Button) findViewById(R.id.AddEventButton);
             registButton = findViewById(R.id.MyRegistrationsButton);
