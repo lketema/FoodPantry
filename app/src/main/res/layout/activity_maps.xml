@@ -37,8 +37,8 @@
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.MapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-        <ImageView
+        android:layout_height="match_parent" />
+       <!-- <ImageView
             android:id="@+id/settingIcon"
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -46,8 +46,9 @@
             android:layout_marginStart="0dp"
 
             app:srcCompat="@drawable/settings_icon" />
+            </fragment>-->
 
-    </fragment>
+
 
 
 
