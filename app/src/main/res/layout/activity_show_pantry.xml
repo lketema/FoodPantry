@@ -143,6 +143,63 @@
                 android:layout_below="@+id/registrationWebsite"
                 />
 
+            <RelativeLayout
+                android:id="@+id/pChangeTimeOpenAndClose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="100dp"
+                android:layout_below="@+id/registrationTimeOpenClose">
+
+
+                <TextView
+                    android:id="@+id/pBeginRegistrationTimeOpenClose"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="Open from: "
+                    />
+
+                <EditText
+                    android:id="@+id/pChangeOpenTime"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toRightOf="@+id/pBeginRegistrationTimeOpenClose"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:clickable="true"
+                    android:enabled="false"
+                    />
+
+                <TextView
+                    android:id="@+id/pMiddleRegistrationTimeOpenClose"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toRightOf="@+id/pChangeOpenTime"
+                    android:text=" to: "
+                    />
+                <EditText
+                    android:id="@+id/pChangeClosedTime"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="20dp"
+                    android:focusable="false"
+                    android:clickable="true"
+                    android:enabled="false"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toRightOf="@+id/pMiddleRegistrationTimeOpenClose"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
             <!--Event Specific Layout-->
             <TextView
                 android:id="@+id/eventDate"
@@ -153,6 +210,22 @@
                 android:layout_marginEnd="100dp"
                 android:layout_below="@+id/registrationTimeOpenClose"
                 />
+
+
+            <EditText
+                android:id="@+id/pEventDate"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_below="@id/eventDate"
+                android:focusable="false"
+                android:clickable="true"
+                android:enabled="false"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="100dp"
+                />
+
+
 
         </LinearLayout>
 

@@ -76,7 +76,7 @@ public class AddEventActivity extends AppCompatActivity {
     private static boolean isEvent = false;
 
     private String userID = null;
-    private User user;
+    private PantryOwner user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -280,14 +280,14 @@ public class AddEventActivity extends AppCompatActivity {
         database.child("users").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.i("AddEvent", "here");
-                user = dataSnapshot.getValue(User.class);
+                if (dataSnapshot.hasChild("registrations")) {
+                    Log.i("AddEvent", "here");
+                    user = dataSnapshot.getValue(PantryOwner.class);
+                    user.addRegistration(key);
+                    database.child("users").child(userID).setValue(user);
+                    startConfirmationActivity();
+                }
 
-                user.addRegistration(key);
-
-                database.child("users").child(userID).setValue(user);
-
-                startConfirmationActivity();
             }
 
             @Override

@@ -119,16 +119,17 @@ public class RegistrationListActivity extends ListActivity {
         database.child("users").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                user = dataSnapshot.getValue(User.class);
-                user.removeRegistration(regID);
 
-                database.child("users").child(userID).setValue(user);
+                if (dataSnapshot.hasChild("registrations")) {
+                    PantryOwner pantryOwner = dataSnapshot.getValue(PantryOwner.class);
+                    pantryOwner.removeRegistration(regID);
+                    database.child("users").child(userID).setValue(pantryOwner);
+                }
 
                 database.child("registration").child(regID).removeValue();
 
                 ownedIDs.remove(regID);
                 mAdapter.remove(pos);
-
             }
 
             @Override
@@ -145,11 +146,15 @@ public class RegistrationListActivity extends ListActivity {
         database.child("users").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                user = dataSnapshot.getValue(User.class);
-                RegistrationListActivity.this.ownedIDs = user.getRegistrations();
+                if (dataSnapshot.hasChild("registrations")) {
+                    PantryOwner pantryOwner = dataSnapshot.getValue(PantryOwner.class);
 
-                for (String pid : ownedIDs) {
-                    addRegistrationInfo(pid);
+                    RegistrationListActivity.this.ownedIDs = pantryOwner.getRegistrations();
+
+                    for (String pid : ownedIDs) {
+                        addRegistrationInfo(pid);
+                    }
+
                 }
             }
 

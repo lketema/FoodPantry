@@ -7,8 +7,6 @@ public class User {
 
     private String name, email, phoneNumber, userType;
     private List<String> favorites = new ArrayList<>();
-    private List<String> registrations = new ArrayList<>();
-
 
     public User(String name, String email, String phoneNumber, String userType) {
         this.name = name;
@@ -35,10 +33,6 @@ public class User {
 
     public String getUserType() {
         return userType;
-    }
-
-    public List<String> getRegistrations() {
-        return registrations;
     }
 
     public List<String> getFavorites() {
@@ -71,17 +65,6 @@ public class User {
 
     public void removeFavorite(String registrationID) {
         this.favorites.remove(registrationID);
-    }
-
-    public void addRegistration(String regID) {
-        if (this.registrations == null) {
-            this.registrations = new ArrayList<>();
-        }
-        this.registrations.add(regID);
-    }
-
-    public void removeRegistration(String regID) {
-        this.registrations.remove(regID);
     }
 
 }
