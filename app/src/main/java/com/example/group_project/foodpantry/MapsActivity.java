@@ -8,10 +8,10 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
+
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -47,8 +46,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     public Location mCurrentLocation = null;
-    private boolean markersAdded = false;
     private final int LOCATION_PERMISSION_CODE = 4;
+    private final float ZOOM = 11.0f;
     Intent getsIntent;
     DatabaseReference databaseReference;
     Map<String, Pantry> mPantryHash;
@@ -59,15 +58,17 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // Obtain the MapFragment and get notified when the map is ready to be used.
-
-
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
         getsIntent = getIntent();
-        //get last known location through fused location
+
+        //provides last known device location if permission given.
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
+        // the settings icon which serves to open the OptionsActivity
         ImageView settingIcon = (ImageView) findViewById(R.id.settingIcon);
         settingIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,12 +87,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap = googleMap;
         //default
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                new LatLng(38.98, -76.94), 15f));
+                new LatLng(38.98, -76.94), ZOOM));
         getPhoneLocation();
 
+        // access firebase database for stored
         addMarkers();
-        // add Pantries from Database and google Search API
-        //this prevents the window from moving when clicking marker
 
     }
 
@@ -223,14 +223,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
-        markersAdded = true;
-
-    }
-    public Map<String, Pantry> getPantryList(){
-        return mPantryHash;
-    }
-    public Map<String, Event> getEventList(){
-        return mEventHash;
     }
 
     private Double[] getLatLng(String address){
@@ -255,13 +247,19 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
+    private Map<String, Pantry> getPantryList(){
+        return mPantryHash;
+    }
+    private Map<String, Event> getEventList(){
+        return mEventHash;
+    }
     /**
      * update location will move map view to specified latitude and longitude
      * if location is specified, it will update the mCurrentLocation
      * @param loc
      */
     private void updateLocation(double lat, double lng, Location loc){
-         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 15f));
+         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), ZOOM));
          if (loc != null){  // for case where user enable their location
              mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title("You"));
              mCurrentLocation = loc;
@@ -269,20 +267,25 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
     private void getPhoneLocation(){
         Log.i(TAG, "Getting Phone's Location Permission");
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             // Permission is not granted  --- request perms, return handled by onRequestPermissionsResult
             ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION},
                     LOCATION_PERMISSION_CODE);
         }
         else {
             try {
-                mFusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                mFusedLocationProviderClient.getLastLocation()
+                        .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
                         if (location != null) {
-                            MapsActivity.this.updateLocation(location.getLatitude(), location.getLongitude(), location);
+                            MapsActivity.this.updateLocation(location.getLatitude(),
+                                    location.getLongitude(), location);
                         } else {
                              Log.i(TAG, "Could not get location");
                         }

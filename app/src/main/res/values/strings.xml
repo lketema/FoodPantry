@@ -35,6 +35,12 @@
 
     <!-- MapActivity -->
     <string name="zipCodeAddress">Search with ZipCode or Address</string>
+    <string name="adaptarAddress">Address: %1$s</string>
+    <string name="adaptarPhone">Phone Number: %1$s</string>
+    <string name="adaptarWebsite">Website: %1$s</string>
+    <string name="adaptarTimeOpenClose">Time Open: %1$s</string>
+    <string name="adaptarEventDate">Event Date: %1$s</string>
+    <string name="search">Search</string>
 
     <!--Event Confirmation Strings-->
     <string name="title_activity_event_confirmation"><u>Registration Confirmed</u></string>
