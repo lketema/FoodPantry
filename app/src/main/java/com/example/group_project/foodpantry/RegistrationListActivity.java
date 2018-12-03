@@ -1,5 +1,6 @@
 package com.example.group_project.foodpantry;
 
+import android.app.ListActivity;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,7 +9,10 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Toast;
+import android.view.View.OnClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,13 +29,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
-public class RegistrationListActivity extends AppCompatActivity {
+public class RegistrationListActivity extends ListActivity {
 
     final private String TAG = "RegList";
 
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private LinearLayoutManager mLayoutManager;
+    private RegistrationListAdapter mAdapter;
 
     private String userID;
     private User user;
@@ -42,29 +44,21 @@ public class RegistrationListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registration_list_activty);
 
         userID = (String)getIntent().getExtras().get("userID");
 
-        Log.i(TAG, userID);
-
-        mRecyclerView = findViewById(R.id.reg_list_view);
-
-        mRecyclerView.setHasFixedSize(true);
-
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
         getUserRegistrations();
 
-        mAdapter = new RegistrationListAdapter(ownedThings);
-        mRecyclerView.setAdapter(mAdapter);
+        mAdapter = new RegistrationListAdapter(ownedThings, getApplicationContext());
+        getListView().setAdapter(mAdapter);
 
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
-                mLayoutManager.getOrientation());
-        mRecyclerView.addItemDecoration(dividerItemDecoration);
+        getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.i(TAG, adapterView.getClass().toString());
+                Log.i(TAG, view.getClass().toString());
+            }
+        });
 
     }
 
@@ -104,7 +98,6 @@ public class RegistrationListActivity extends AppCompatActivity {
                     Event temp = dataSnapshot.getValue(Event.class);
                     RegistrationListActivity.this.ownedThings.add(temp);
                 }
-                Log.i(TAG, pid);
                 mAdapter.notifyDataSetChanged();
             }
 

@@ -18,7 +18,8 @@
             android:text="PANTRY NAME"
             android:layout_marginStart="5dp"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/title_blue"/>
 
         <View
             android:layout_width="0dp"
@@ -106,6 +107,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
+        android:layout_marginBottom="5dp"
         android:layout_below="@id/phone_linear_layout"
         android:orientation="horizontal">
 
