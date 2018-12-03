@@ -153,11 +153,12 @@
 
             <TextView
                 android:id="@+id/textViewSignUpError"
-                android:layout_width="wrap_content"
+                android:layout_width="215dp"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toStartOf="@+id/textViewLogin"
-                android:textColor="@color/red"/>
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="81dp"
+                android:textColor="@color/red" />
 
         </RelativeLayout>
 
