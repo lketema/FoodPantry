@@ -95,15 +95,15 @@ public class RegistrationInfo extends AppCompatActivity {
 
         //get info from Intent
         Intent intent = getIntent();
-        final String registrationID = //"-LSkjneBfQkmH5uRnctE",
+        final String registrationID = "-LSkjneBfQkmH5uRnctE",
                 //"-LShP2YO09BOj_rW3Z4n",
-               "-LSoiOUalxyyMwiLJVts",
-                // intent.getStringExtra("registrationID"),
+               //"-LSoiOUalxyyMwiLJVts",
+                 intent.getStringExtra("registrationID"),
 
         userID = //"9NsphmjGzagiimXZwb9PQzWicXx1";
-                "foPc4vl745Z5oUe2NvrBaLlRUg83";
+                //"foPc4vl745Z5oUe2NvrBaLlRUg83";
                 //"1yfb4cmbjeZf85VEfhphObkkoVg1";
-                        //intent.getStringExtra("userID");
+                        intent.getStringExtra("userID");
 
         // access to database for registration
         DatabaseReference child = database.child("registration").child(registrationID);
@@ -398,7 +398,7 @@ public class RegistrationInfo extends AppCompatActivity {
 
                     //display Toast
                     Toast.makeText(RegistrationInfo.this, "Successfully updated registration!", Toast.LENGTH_SHORT);
-                    
+
                     //update in database
                     database.child("registration").child(registrationID).setValue(registration);
                 }
