@@ -27,4 +27,8 @@ public class PantryOwner extends User {
     public void removeRegistration(String registrationID) {
         this.registrations.remove(registrationID);
     }
+
+    public boolean ownsRegistration(String registrationID) {
+        return registrations.contains(registrationID);
+    }
 }

@@ -27,6 +27,7 @@ public class RegistrationInfo extends AppCompatActivity {
     private CheckBox mFavorite, mSun, mMon, mTue, mWed, mThu, mFri, mSat;
 
     private Registration registration;
+    private boolean isPantry = false;
     private User user;
 
     DatabaseReference database;
@@ -77,6 +78,8 @@ public class RegistrationInfo extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 if (dataSnapshot.hasChild("daysOpen")) {
+                    isPantry = true;
+
                     registration = (Pantry) dataSnapshot.getValue(Pantry.class);
 
                     //may as well set Pantry specific stuff here
@@ -126,6 +129,12 @@ public class RegistrationInfo extends AppCompatActivity {
                 //see if the user has this place as a favorite
                 //if so, check the favorites box
                 if (user.getFavorites().contains(registrationID)) mFavorite.setChecked(true);
+
+                //If user is an owner, set the privilege of editing the hours
+                if (user.getUserType().equals("owner")) {
+                    String eventOrPantry = isPantry ? "pantry" : "event";
+                    Toast.makeText(RegistrationInfo.this, "You own this " + eventOrPantry)
+                }
 
             }
 
