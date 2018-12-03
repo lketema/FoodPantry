@@ -96,7 +96,7 @@
         </activity>
 
 
-        <activity android:name=".RegistrationListActivty"></activity>
+        <activity android:name=".RegistrationListActivity"></activity>
     </application>
 
 </manifest>
