@@ -132,14 +132,14 @@ public class Signup extends AppCompatActivity {
         errMsg.setText("");
 
         if (fullname.length() == 0){
-            errMsg.setText("Name Cannot be empty!");
+            errMsg.setText("Please provide valid name");
             findViewById(R.id.editTextPhone).requestFocus();
             return false;
         }
 
         boolean isPhoneNumValid = phoneNumValidation(phone);
         if (isPhoneNumValid == false){
-            errMsg.setText("Invalid Phone Number!");
+            errMsg.setText("Please provide a valid phone number.");
             findViewById(R.id.editTextEmail).requestFocus();
             return false;
         }
@@ -147,13 +147,14 @@ public class Signup extends AppCompatActivity {
 
         boolean isEmailAddrValid = emailValidation(email);
         if (isEmailAddrValid == false){
-            errMsg.setText("Email must not be empty");
+            errMsg.setText("Please provide a valid email address. ");
             findViewById(R.id.editTextEmail).requestFocus();
             return false;
 
         }
-        if (password.length() == 0){
-            errMsg.setText("Password must not be empty");
+        Log.i(TAG, "PASSWORD LENGTH : " +password.length());
+        if (password.length() < 6){
+            errMsg.setText("Password must be at least 6 characters");
             findViewById(R.id.editTextPassword).requestFocus();
             return false;
         }
@@ -195,34 +196,38 @@ public class Signup extends AppCompatActivity {
         email = EditTextEmailAddr.getText().toString().trim();
         phone = EditTextPhoneNumber.getText().toString().trim();
 
-        boolean textFieldsvalidation = validateTextFields();
-        if(textFieldsvalidation == true){
+        TextView errMsg = (TextView) findViewById(R.id.textViewSignUpError);
+        errMsg.setText("");
+//        if (password.length() > 5) {
+            boolean textFieldsvalidation = validateTextFields();
+            if (textFieldsvalidation == true) {
 
-            mAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()){
-                                Log.i(TAG,"SUCCESS: UID is created with email and password");
-
-
-                                User user = new User(fullname, email, phone, userType);
-                                //DB: Add  into main profile of all users
-                                addProfileInDB(user, "users");
+                mAuth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    Log.i(TAG, "SUCCESS: UID is created with email and password");
 
 
+                                    User user = new User(fullname, email, phone, userType);
+                                    //DB: Add  into main profile of all users
+                                    addProfileInDB(user, "users");
 
 
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "User account is already created with given email.", Toast.LENGTH_LONG).show();
 
-
-                            } else {
-                                Toast.makeText(getApplicationContext(), "User account is already created with given email.", Toast.LENGTH_LONG).show();
+                                }
 
                             }
-
-                        }
-                    });
-        }
+                        });
+            } else {
+                Log.i(TAG, "VALIDATION FAILED");
+            }
+//        } else {
+//            errMsg.setText("Password must be at least 6 characters");
+//        }
 
     }
 
