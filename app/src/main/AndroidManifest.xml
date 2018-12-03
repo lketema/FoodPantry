@@ -97,6 +97,8 @@
 
 
         <activity android:name=".RegistrationListActivity"></activity>
+        <activity android:name=".FavoritesActivity"></activity>
+
     </application>
 
 </manifest>
