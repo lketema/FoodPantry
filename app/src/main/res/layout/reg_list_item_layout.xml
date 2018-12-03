@@ -18,7 +18,8 @@
             android:text="PANTRY NAME"
             android:layout_marginStart="5dp"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/title_blue"/>
 
         <View
             android:layout_width="0dp"
@@ -48,7 +49,7 @@
             android:layout_width="20dp"
             android:layout_height="match_parent"
             android:layout_marginStart="5dp"
-            android:src="@drawable/house"/>
+            android:src="@drawable/house2"/>
 
         <TextView
             android:id="@+id/address_text_view"
@@ -71,7 +72,7 @@
             android:layout_width="20dp"
             android:layout_height="match_parent"
             android:layout_marginStart="5dp"
-            android:src="@drawable/phone"/>
+            android:src="@drawable/phone2"/>
 
         <TextView
             android:id="@+id/phone_text_view"
@@ -89,7 +90,7 @@
             android:layout_width="20dp"
             android:layout_height="match_parent"
             android:layout_marginEnd="5dp"
-            android:src="@drawable/email"/>
+            android:src="@drawable/email2"/>
 
         <TextView
             android:id="@+id/email_text_view"
@@ -106,6 +107,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
+        android:layout_marginBottom="5dp"
         android:layout_below="@id/phone_linear_layout"
         android:orientation="horizontal">
 
@@ -113,7 +115,7 @@
             android:layout_width="20dp"
             android:layout_height="match_parent"
             android:layout_marginStart="5dp"
-            android:src="@drawable/website"/>
+            android:src="@drawable/website2"/>
 
         <TextView
             android:id="@+id/website_text_view"

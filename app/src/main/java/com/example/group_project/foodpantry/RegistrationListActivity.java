@@ -1,13 +1,18 @@
 package com.example.group_project.foodpantry;
 
+import android.app.ListActivity;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Toast;
+import android.view.View.OnClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,38 +29,36 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
-public class RegistrationListActivity extends AppCompatActivity {
+public class RegistrationListActivity extends ListActivity {
 
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    final private String TAG = "RegList";
+
+    private RegistrationListAdapter mAdapter;
 
     private String userID;
     private User user;
 
-    private List<Registration> ownedThings;
+    private List<Registration> ownedThings = new ArrayList<>();
     private List<String> ownedIDs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registration_list_activty);
 
         userID = (String)getIntent().getExtras().get("userID");
 
-        mRecyclerView = findViewById(R.id.reg_list_view);
-
-        mRecyclerView.setHasFixedSize(true);
-
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
         getUserRegistrations();
 
-        mAdapter = new RegistrationListAdapter(ownedThings); //TODO: put proper items as argument
-        mRecyclerView.setAdapter(mAdapter);
+        mAdapter = new RegistrationListAdapter(ownedThings, getApplicationContext());
+        getListView().setAdapter(mAdapter);
+
+        getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.i(TAG, adapterView.getClass().toString());
+                Log.i(TAG, view.getClass().toString());
+            }
+        });
 
     }
 
@@ -65,8 +68,9 @@ public class RegistrationListActivity extends AppCompatActivity {
         database.child("users").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.i(TAG, "here");
                 user = dataSnapshot.getValue(User.class);
-                ownedIDs = user.getRegistrations();
+                RegistrationListActivity.this.ownedIDs = user.getRegistrations();
 
                 for (String pid : ownedIDs) {
                     addRegistrationInfo(pid);
@@ -89,11 +93,12 @@ public class RegistrationListActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.hasChild("daysOpen")) {
                     Pantry temp = dataSnapshot.getValue(Pantry.class);
-                    ownedThings.add(temp);
+                    RegistrationListActivity.this.ownedThings.add(temp);
                 } else {
                     Event temp = dataSnapshot.getValue(Event.class);
-                    ownedThings.add(temp);
+                    RegistrationListActivity.this.ownedThings.add(temp);
                 }
+                mAdapter.notifyDataSetChanged();
             }
 
             @Override

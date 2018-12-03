@@ -82,12 +82,14 @@ public class Login extends AppCompatActivity {
         logInEmail = EditTextLogInEmail.getText().toString().trim();
         logInpassword = EditTextLogInPassword.getText().toString().trim();
 
+
         mAuth.signInWithEmailAndPassword(logInEmail, logInpassword)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         TextView errMsg = (TextView) findViewById(R.id.textViewLogInError);
                         errMsg.setText("");
+                        emailVerifyMsg.setVisibility(TextView.INVISIBLE);
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
@@ -114,7 +116,7 @@ public class Login extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            errMsg.setText("Please provide a Valid Email/Password");
+                            errMsg.setText("Email and/or Password do not match ");
                             Toast.makeText(Login.this, "Invalid Email or Password.",
                                     Toast.LENGTH_LONG).show();
                             EditTextLogInPassword.setText("");

@@ -280,6 +280,7 @@ public class AddEventActivity extends AppCompatActivity {
         database.child("users").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.i("AddEvent", "here");
                 user = dataSnapshot.getValue(User.class);
 
                 user.addRegistration(key);
