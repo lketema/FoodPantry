@@ -1,14 +1,10 @@
 package com.example.group_project.foodpantry;
 
-import android.arch.lifecycle.ViewModel;
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.List;
@@ -19,7 +15,7 @@ public class RegistrationListAdapter extends BaseAdapter {
     private final Context mContext;
 
 
-    public RegistrationListAdapter(List<Registration> items, Context context) {
+    RegistrationListAdapter(List<Registration> items, Context context) {
         this.items = items;
         this.mContext = context;
     }
@@ -85,16 +81,16 @@ public class RegistrationListAdapter extends BaseAdapter {
 
     public static class ViewHolder {
         // each data item is just a string in this case
-        public TextView mNameTextView;
-        public TextView mAddressTextView;
-        public TextView mEmailTextView;
-        public TextView mPhoneTextView;
-        public TextView mWebsiteTextView;
-        public TextView mIsEventTextView;
-        public int position;
-        public View v;
+        TextView mNameTextView;
+        TextView mAddressTextView;
+        TextView mEmailTextView;
+        TextView mPhoneTextView;
+        TextView mWebsiteTextView;
+        TextView mIsEventTextView;
+        int position;
+        View v;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             this.v = itemView;
 
             mNameTextView = itemView.findViewById(R.id.name_text_view);
