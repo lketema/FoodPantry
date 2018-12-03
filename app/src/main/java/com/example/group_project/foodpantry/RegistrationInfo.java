@@ -63,10 +63,10 @@ public class RegistrationInfo extends AppCompatActivity {
 
         //get info from Intent
         Intent intent = getIntent();
-        final String registrationID = "-LSkjneBfQkmH5uRnctE",
-                //intent.getStringExtra("registrationID"),
-                userID = "1yfb4cmbjeZf85VEfhphObkkoVg1";
-                        //intent.getStringExtra("userID");
+        final String registrationID = //"-LSkjneBfQkmH5uRnctE",
+                intent.getStringExtra("registrationID"),
+                userID = //"1yfb4cmbjeZf85VEfhphObkkoVg1";
+                        intent.getStringExtra("userID");
 
         // access to database for registration
         DatabaseReference child = database.child("registration").child(registrationID);
