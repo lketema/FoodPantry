@@ -37,7 +37,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback{
@@ -45,10 +47,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     public Location mCurrentLocation = null;
-    private Marker mLastSelectedMarker;
+    private boolean markersAdded = false;
     private final int LOCATION_PERMISSION_CODE = 4;
     Intent getsIntent;
     DatabaseReference databaseReference;
+    Map<String, Pantry> mPantryHash;
+    Map<String, Event> mEventHash;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +77,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 startActivity(nextScreen);
             }
         });
-
+        mPantryHash = new HashMap<>();
+        mEventHash = new HashMap<>();
     }
 
     @Override
@@ -157,12 +162,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         to get Id, do postSnapshot.getKey()
                         */
                             if (latlng.length == 2 && latlng[0] != null && latlng[1] != null) {
-                                mMap.addMarker(new MarkerOptions()
+                                MapsActivity.this.mMap.addMarker(new MarkerOptions()
                                         .position(new LatLng(latlng[0], latlng[1]))
                                         .title(postSnapshot.getKey())
                                         .icon(BitmapDescriptorFactory
                                                 .defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
                                 );
+                                MapsActivity.this.mPantryHash.put(postSnapshot.getKey(), temp);
                             }
                         }
                     }
@@ -172,13 +178,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         if(temp != null) {
                             Double[] latlng = getLatLng(temp.getAddress());
                             if (latlng.length == 2 && latlng[0] != null && latlng[1] != null) {
-                                mMap.addMarker(new MarkerOptions()
+                                MapsActivity.this.mMap.addMarker(new MarkerOptions()
                                         .position(new LatLng(latlng[0], latlng[1]))
                                         .title(postSnapshot.getKey())
                                         .icon(BitmapDescriptorFactory
                                                 .defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA))
                                 );
+                                MapsActivity.this.mEventHash.put(postSnapshot.getKey(), temp);
                             }
+
                         }
                     }
                 }
@@ -203,7 +211,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     }
                 });
 
-        mMap.setInfoWindowAdapter(new CustomInfoAdapterMaps(this));
+        mMap.setInfoWindowAdapter(new CustomInfoAdapterMaps(this, getEventList(), getPantryList()));
 
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
@@ -215,8 +223,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
+        markersAdded = true;
 
-
+    }
+    public Map<String, Pantry> getPantryList(){
+        return mPantryHash;
+    }
+    public Map<String, Event> getEventList(){
+        return mEventHash;
     }
 
     private Double[] getLatLng(String address){
