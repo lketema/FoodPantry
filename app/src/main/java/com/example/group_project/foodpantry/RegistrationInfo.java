@@ -397,7 +397,7 @@ public class RegistrationInfo extends AppCompatActivity {
                     Log.i("TAGGY", registration.toString());
 
                     //display Toast
-                    Toast.makeText(RegistrationInfo.this, "Successfully updated registration!", Toast.LENGTH_SHORT);
+                    Toast.makeText(RegistrationInfo.this, "Successfully updated registration!", Toast.LENGTH_SHORT).show();
 
                     //update in database
                     database.child("registration").child(registrationID).setValue(registration);
