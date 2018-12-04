@@ -24,7 +24,7 @@ public class CustomInfoAdapterMaps implements GoogleMap.InfoWindowAdapter {
         this.mContext = c;
 
         clickForMore = (TextView) this.mInfoWindowView.findViewById(R.id.registrationMoreInfo);
-        clickForMore.setVisibility(View.GONE);
+     //   clickForMore.setVisibility(View.GONE);
 
         mEvents = events;
         mPantry = pantry;
@@ -33,11 +33,6 @@ public class CustomInfoAdapterMaps implements GoogleMap.InfoWindowAdapter {
 
     private void render(Marker marker, View view){
         registrationName = (TextView) view.findViewById(R.id.registrationName);
-        registrationAddress = (TextView) view.findViewById(R.id.registrationAddress);
-        registrationPhone = (TextView) view.findViewById(R.id.registrationPhone);
-        registrationWebsite = (TextView) view.findViewById(R.id.registrationWebsite);
-        eventDate = (TextView) view.findViewById(R.id.eventDate);
-        registrationTimeOpenClose = (TextView) view.findViewById(R.id.registrationTimeOpenClose);
 
         final String registrationID = marker.getTitle();
 
@@ -52,6 +47,15 @@ public class CustomInfoAdapterMaps implements GoogleMap.InfoWindowAdapter {
         }
 
     }
+    private void displayPantry(Pantry pantry){
+        //clickForMore.setVisibility(View.GONE);
+        CustomInfoAdapterMaps.this.registrationName.setText(pantry.getName());
+    }
+
+    private void displayEvent(Event event){
+        CustomInfoAdapterMaps.this.registrationName.setText(event.getName());
+    }
+
 
     private void displayCommon(String name, String address, String phone,
                                String website, String time){
@@ -68,22 +72,6 @@ public class CustomInfoAdapterMaps implements GoogleMap.InfoWindowAdapter {
         CustomInfoAdapterMaps.this.registrationTimeOpenClose.setText(this.mContext.getResources()
                 .getString(R.string.adaptarTimeOpenClose, time));
         CustomInfoAdapterMaps.this.clickForMore.setVisibility(View.VISIBLE);
-
-    }
-    private void displayPantry(Pantry pantry){
-        displayCommon(pantry.getName(), pantry.getAddress(), pantry.getPhoneNumber(),
-                pantry.getWebsite(), pantry.getTimeOpen()+ " - " + pantry.getTimeClosed() );
-        CustomInfoAdapterMaps.this.eventDate.setVisibility(View.GONE);
-
-    }
-
-    private void displayEvent(Event event){
-        displayCommon(event.getName(), event.getAddress(), event.getPhoneNumber(),
-                event.getWebsite(), event.getTimeOpen()+ " - " + event.getTimeClosed() );
-
-        CustomInfoAdapterMaps.this.eventDate.setText(this.mContext.getResources()
-                .getString(R.string.adaptarEventDate, event.getEventDate()));
-        CustomInfoAdapterMaps.this.eventDate.setVisibility(View.VISIBLE);
 
     }
 
