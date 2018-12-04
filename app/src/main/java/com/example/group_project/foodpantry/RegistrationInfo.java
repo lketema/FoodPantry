@@ -373,11 +373,20 @@ public class RegistrationInfo extends AppCompatActivity {
         mWebsiteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                String urls = registration.getWebsite();
+                if (!urls.startsWith("http://") && !urls.startsWith("https://")) urls = "http://" + urls;
                 Intent enterRegistrationWebsiteIntent = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse(registration.getWebsite()));
+                        Uri.parse(urls));
+
+
                 Intent chooser = Intent.createChooser(enterRegistrationWebsiteIntent,
                         "Choose how to view " + registration.getName() + "'s website:");
-                startActivity(chooser);
+                if (getPackageManager().resolveActivity(enterRegistrationWebsiteIntent, 0) != null){
+                    startActivity(enterRegistrationWebsiteIntent);
+                }
+
+              //  startActivity(chooser);
 
             }
         });

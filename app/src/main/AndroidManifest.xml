@@ -39,60 +39,31 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="Food Pantry Map">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:label="Food Pantry Map"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".OptionsActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".Signup">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity
+            android:name=".OptionsActivity"/>
+        <activity
+            android:name=".Signup"/>
         <activity
             android:name=".AddEventActivity"
             android:label="@string/title_activity_add_event"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".EventConfirmationActivity"
             android:label="@string/title_activity_event_confirmation"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
 
 
-        <activity android:name=".ForgotPassword"></activity>
-        <activity android:name=".RegistrationInfo">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
+        <activity
+            android:name=".ForgotPassword"/>
+        <activity
+            android:name=".RegistrationInfo"/>
 
-
-        <activity android:name=".RegistrationListActivity"></activity>
-        <activity android:name=".FavoritesActivity"></activity>
+        <activity
+            android:name=".RegistrationListActivity"/>
+        <activity
+            android:name=".FavoritesActivity"/>
 
     </application>
 
