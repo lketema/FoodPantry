@@ -19,69 +19,56 @@
         android:layout_height="match_parent"
         android:layout_weight="0.4">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
+        <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="104dp"
                 android:layout_alignParentStart="true"
+                android:layout_centerHorizontal="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="0dp"
+            android:layout_marginBottom="20dp"
                 app:srcCompat="@drawable/logo23" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true">
-
-                <EditText
+        <EditText
                     android:id="@+id/editTextName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_above="@+id/editTextPhone"
-                    android:layout_alignStart="@+id/editTextPhone"
+                    android:layout_below="@+id/imageView"
+                    android:layout_centerHorizontal="true"
                     android:ems="10"
                     android:hint="Fullname"
                     android:inputType="text" />
 
-                <EditText
+        <EditText
                     android:id="@+id/editTextPhone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginBottom="102dp"
-                    android:layout_marginEnd="72dp"
+                    android:layout_below="@id/editTextName"
+                    android:layout_centerHorizontal="true"
                     android:ems="10"
                     android:hint="Phone Number"
                     android:inputType="text|phone" />
 
-                <EditText
+        <EditText
                     android:id="@+id/editTextEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignStart="@+id/editTextPhone"
-                    android:layout_marginBottom="53dp"
+                    android:layout_below="@+id/editTextPhone"
+                    android:layout_centerHorizontal="true"
                     android:ems="10"
                     android:hint="Email"
                     android:inputType="textEmailAddress" />
 
-                <EditText
+        <EditText
                     android:id="@+id/editTextPassword"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignStart="@+id/editTextPhone"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/editTextEmail"
                     android:ems="10"
                     android:hint="Password"
                     android:inputType="textPassword" />
-            </RelativeLayout>
-        </RelativeLayout>
     </RelativeLayout>
 
     <RelativeLayout
@@ -89,79 +76,67 @@
         android:layout_height="match_parent"
         android:layout_weight="0.6">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <Button
+            android:id="@+id/buttonRegister"
+            android:layout_width="202dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="37dp"
+            android:text="Register"
+            android:visibility="visible" />
 
-            <Button
-                android:id="@+id/buttonRegister"
-                android:layout_width="202dp"
+        <TextView
+            android:id="@+id/textViewLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="15dp"
+            android:text="Already registered! Login Me."
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/radioButtonGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:checkedButton="@+id/radioButtonVolunteer">
+
+            <RadioButton
+                android:id="@+id/radioButtonVolunteer"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="37dp"
-                android:text="Register"
-                android:visibility="visible" />
+                android:layout_weight="1"
+                android:text="Volunteer"/>
+
+            <RadioButton
+                android:id="@+id/radioButtonOwner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Pantry Owner"/>
+
+            <RadioButton
+                android:id="@+id/radioButtonRcp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Recipient"/>
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/textViewSignUpError"
+            android:layout_width="215dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="81dp"
+            android:textColor="@color/red" />
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true">
-
-            <TextView
-                android:id="@+id/textViewLogin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="15dp"
-                android:text="Already registered! Login Me."
-                android:textStyle="bold" />
-
-            <RadioGroup
-                android:id="@+id/radioButtonGroup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignStart="@+id/textViewLogin"
-                android:checkedButton="@+id/radioButtonVolunteer">
-
-                <RadioButton
-                    android:id="@+id/radioButtonVolunteer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Volunteer"/>
-
-                <RadioButton
-                    android:id="@+id/radioButtonOwner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Pantry Owner"/>
-
-                <RadioButton
-                    android:id="@+id/radioButtonRcp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Recipient"/>
-            </RadioGroup>
-
-            <TextView
-                android:id="@+id/textViewSignUpError"
-                android:layout_width="215dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="81dp"
-                android:textColor="@color/red" />
-
-        </RelativeLayout>
-
-    </RelativeLayout>
 </LinearLayout>
     <!--</android.support.constraint.ConstraintLayout>-->
