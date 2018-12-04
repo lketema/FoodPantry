@@ -21,10 +21,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="6dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="2dp"
                 android:textStyle="italic"
                 android:textColor="@color/congrats_blue"
+                android:visibility="gone"
                 />
 
             <TextView
@@ -32,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="30sp"
                 android:textStyle="bold" />
@@ -43,17 +45,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="2dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="30sp"
-                android:textStyle="bold" />
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+
+                />
 
             <TextView
                 android:id="@+id/registrationAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/registrationName"
+                android:layout_below="@+id/pRegistrationName"
                 android:layout_marginTop="5dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
@@ -65,18 +70,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/registrationName"
-                android:layout_marginTop="5dp"
+                android:layout_below="@+id/registrationAddress"
+                android:layout_marginTop="2dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:ems="10"
+                android:visibility="gone"
                 />
 
             <TextView
                 android:id="@+id/registrationPhoneNumber"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:layout_below="@id/registrationAddress"
+                android:layout_below="@id/pRegistrationAddress"
                 android:layout_marginTop="5dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="100dp"
@@ -85,17 +91,18 @@
                 android:id="@+id/pRegistrationPhoneNumber"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:layout_below="@id/registrationAddress"
-                android:layout_marginTop="5dp"
+                android:layout_below="@id/registrationPhoneNumber"
+                android:layout_marginTop="2dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="100dp"
+                android:visibility="gone"
                 />
 
             <TextView
                 android:id="@+id/registrationEmail"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:layout_below="@id/registrationPhoneNumber"
+                android:layout_below="@id/pRegistrationPhoneNumber"
                 android:layout_marginTop="5dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="100dp"
@@ -104,17 +111,18 @@
                 android:id="@+id/pRegistrationEmail"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:layout_below="@id/registrationPhoneNumber"
-                android:layout_marginTop="5dp"
+                android:layout_below="@id/registrationEmail"
+                android:layout_marginTop="2dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="100dp"
+                android:visibility="gone"
                 />
 
             <TextView
                 android:id="@+id/registrationWebsite"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:layout_below="@id/registrationEmail"
+                android:layout_below="@id/pRegistrationEmail"
                 android:layout_marginTop="5dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="100dp"
@@ -123,10 +131,11 @@
                 android:id="@+id/pRegistrationWebsite"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:layout_below="@id/registrationEmail"
-                android:layout_marginTop="5dp"
+                android:layout_below="@id/registrationWebsite"
+                android:layout_marginTop="2dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="100dp"
+                android:visibility="gone"
                 />
 
 
@@ -139,17 +148,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginEnd="100dp"
-                android:layout_below="@+id/registrationWebsite"
+                android:layout_marginEnd="10dp"
+                android:layout_below="@+id/pRegistrationWebsite"
                 />
 
             <RelativeLayout
                 android:id="@+id/pChangeTimeOpenAndClose"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="100dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:visibility="gone"
                 android:layout_below="@+id/registrationTimeOpenClose">
 
 
@@ -157,44 +167,45 @@
                     android:id="@+id/pBeginRegistrationTimeOpenClose"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="10dp"
-                    android:text="Open from: "
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="2dp"
+                    android:textSize="20sp"
+                    android:text="Open from:"
                     />
 
                 <EditText
                     android:id="@+id/pChangeOpenTime"
                     android:layout_width="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="2dp"
                     android:layout_toRightOf="@+id/pBeginRegistrationTimeOpenClose"
                     android:layout_height="wrap_content"
                     android:focusable="false"
                     android:clickable="true"
-                    android:enabled="false"
                     />
 
                 <TextView
                     android:id="@+id/pMiddleRegistrationTimeOpenClose"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="2dp"
+                    android:textSize="20sp"
                     android:layout_toRightOf="@+id/pChangeOpenTime"
-                    android:text=" to: "
+                    android:text="to:"
                     />
                 <EditText
                     android:id="@+id/pChangeClosedTime"
                     android:layout_width="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="2dp"
                     android:focusable="false"
                     android:clickable="true"
-                    android:enabled="false"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginEnd="2dp"
                     android:layout_toRightOf="@+id/pMiddleRegistrationTimeOpenClose"
                     android:layout_height="wrap_content" />
 
@@ -208,22 +219,44 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="100dp"
-                android:layout_below="@+id/registrationTimeOpenClose"
+                android:layout_below="@+id/pChangeTimeOpenAndClose"
                 />
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
 
-            <EditText
-                android:id="@+id/pEventDate"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:layout_below="@id/eventDate"
-                android:focusable="false"
-                android:clickable="true"
-                android:enabled="false"
-                android:layout_marginTop="5dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="100dp"
-                />
+                <TextView
+                    android:id="@+id/pTextEventDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_below="@+id/eventDate"
+                    android:text="Event's date is: "
+                    android:visibility="gone"
+                    android:layout_toLeftOf="@+id/pEventDate"
+                    android:textSize="20sp"/>
+
+
+                <EditText
+                    android:id="@+id/pEventDate"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_below="@id/eventDate"
+                    android:layout_toRightOf="@+id/pTextEventDate"
+                    android:focusable="false"
+                    android:clickable="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="2dp"
+                    android:visibility="gone"
+                    />
+
+            </LinearLayout>
+
 
 
 
@@ -339,6 +372,24 @@
         android:layout_height="wrap_content"
         android:text="Directions"
         android:layout_weight="1"/>
+
+    <Button
+        android:id="@+id/updateButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Update Registration"
+        android:layout_weight="1"
+        android:visibility="gone"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Return to Previous Page"
+        android:layout_weight="1"
+        android:id="@+id/goBackButton"
+        />
+
 
 
 </LinearLayout>

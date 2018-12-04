@@ -49,36 +49,15 @@ public class FavoritesActivity extends ListActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.i(TAG, "short click");
-//                String regId = ownedIDs.get(i);
-//
-//                Intent intent = new Intent(FavoritesActivity.this, RegistrationInfo.class);
-//
-//                intent.putExtra("registrationID", regId);
-//                intent.putExtra("userID", userID);
-//
-//                startActivity(intent);
-            }
-        });
+                String regId = ownedIDs.get(i);
 
-        getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-                                           final int pos, long id) {
+                Intent intent = new Intent(FavoritesActivity.this, RegistrationInfo.class);
 
-                final String regId = ownedIDs.get(pos);
-                    new AlertDialog.Builder(FavoritesActivity.this)
-                            .setTitle("Remove Favorite")
-                            .setMessage("Would you like to remove this from your Favorites?")
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                intent.putExtra("registrationID", regId);
+                intent.putExtra("userID", userID);
+                intent.putExtra("return", "FavoritesActivity");
 
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    deleteFav(regId, pos);
-                                }})
-                            .setNegativeButton(android.R.string.no, null).show();
-
-
-                return true;
+                startActivity(intent);
             }
         });
 

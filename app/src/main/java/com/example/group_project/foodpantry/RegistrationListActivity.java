@@ -57,40 +57,40 @@ public class RegistrationListActivity extends ListActivity {
         mAdapter = new RegistrationListAdapter(ownedThings, getApplicationContext());
         getListView().setAdapter(mAdapter);
 
-        getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-                                           final int pos, long id) {
-
-                final String regId = ownedIDs.get(pos);
-
-                if (mAdapter.getItem(pos) instanceof Event) {
-                    new AlertDialog.Builder(RegistrationListActivity.this)
-                            .setTitle("Delete Event")
-                            .setMessage("Would you like to delete this event?")
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    deleteReg(regId, pos);
-                                }})
-                            .setNegativeButton(android.R.string.no, null).show();
-                } else {
-                    new AlertDialog.Builder(RegistrationListActivity.this)
-                            .setTitle("Delete Pantry")
-                            .setMessage("Would you like to delete this pantry?")
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    deleteReg(regId, pos);
-                                }})
-                            .setNegativeButton(android.R.string.no, null).show();
-                }
-
-                return true;
-            }
-        });
+//        getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+//                                           final int pos, long id) {
+//
+//                final String regId = ownedIDs.get(pos);
+//
+//                if (mAdapter.getItem(pos) instanceof Event) {
+//                    new AlertDialog.Builder(RegistrationListActivity.this)
+//                            .setTitle("Delete Event")
+//                            .setMessage("Would you like to delete this event?")
+//                            .setIcon(android.R.drawable.ic_dialog_alert)
+//                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+//
+//                                public void onClick(DialogInterface dialog, int whichButton) {
+//                                    deleteReg(regId, pos);
+//                                }})
+//                            .setNegativeButton(android.R.string.no, null).show();
+//                } else {
+//                    new AlertDialog.Builder(RegistrationListActivity.this)
+//                            .setTitle("Delete Pantry")
+//                            .setMessage("Would you like to delete this pantry?")
+//                            .setIcon(android.R.drawable.ic_dialog_alert)
+//                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+//
+//                                public void onClick(DialogInterface dialog, int whichButton) {
+//                                    deleteReg(regId, pos);
+//                                }})
+//                            .setNegativeButton(android.R.string.no, null).show();
+//                }
+//
+//                return true;
+//            }
+//        });
 
         getListView().setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -102,6 +102,7 @@ public class RegistrationListActivity extends ListActivity {
 
                 intent.putExtra("registrationID", regId);
                 intent.putExtra("userID", userID);
+                intent.putExtra("return", "RegistrationListActivity");
 
                 startActivity(intent);
             }

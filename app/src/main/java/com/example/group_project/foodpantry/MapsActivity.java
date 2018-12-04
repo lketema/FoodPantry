@@ -46,7 +46,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback{
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapLoadedCallback{
     private String TAG = "Maps Activity";
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationProviderClient;
@@ -58,6 +58,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     Map<String, Pantry> mPantryHash;
     Map<String, Event> mEventHash;
     private String userType, currentID;
+
+    private boolean hasRegistrations = false;
 
     //for purpose of immutability
     ArrayList<User> listUser;
@@ -101,17 +103,19 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mEventHash = new HashMap<>();
         userType = "";
         listUser = new ArrayList<>();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         mMap = googleMap;
         //default
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                 new LatLng(38.98, -76.94), ZOOM));
         getPhoneLocation();
-
-        // access firebase database for stored
+        mMap.setOnMapLoadedCallback(this);
+        // access firebase database for stored and also add on registration added listener
         addMarkers();
 
     }
@@ -166,15 +170,20 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
      */
 
     private void addMarkers(){
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+
         databaseReference.child("registration")
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+                .addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    if(postSnapshot.hasChild("daysOpen")){
+                    if((!MapsActivity.this.mPantryHash.isEmpty() && MapsActivity.this.mPantryHash.containsKey(postSnapshot.getKey()))
+                            || !MapsActivity.this.mEventHash.isEmpty() && MapsActivity.this.mEventHash.containsKey(postSnapshot.getKey())){
+
+                        // do nothing if pantry already in map
+                    }
+                    else if(postSnapshot.hasChild("daysOpen")){
                         Pantry temp = postSnapshot.getValue(Pantry.class);
                         if(temp != null) {
                             Double[] latlng = getLatLng(temp.getAddress());
@@ -240,9 +249,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Intent nextScreen = new Intent(MapsActivity.this, RegistrationInfo.class);
                 nextScreen.putExtra("userID", currentID);
                 nextScreen.putExtra("registrationID", marker.getTitle());
+                nextScreen.putExtra("return", "MapsActivity");
                 startActivity(nextScreen);
             }
         });
+
+        //
 
     }
 
@@ -333,20 +345,22 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
        // Toast.makeText(getApplicationContext(), currentID, Toast.LENGTH_LONG).show();
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference.child("users")
+        databaseReference.child("users").child(currentID)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                            if (ds.getKey().equals(MapsActivity.this.currentID)) {
-                                User userTemp = ds.getValue(User.class);
-                                if (userTemp != null) {
-                                    if (!userTemp.getUserType().equals("owner")) {
-                                        addEventMenu.setVisible(false);
-                                        myRegistrationMenu.setVisible(false);
-                                    }
-                                }
-                            }
+
+                        Log.i("MapsActivity", "Found user");
+
+                        User tempuser = dataSnapshot.getValue(User.class);
+
+                        if (!tempuser.getUserType().equals("owner")) {
+                            addEventMenu.setVisible(false);
+                            myRegistrationMenu.setVisible(false);
+                        }
+
+                        if (dataSnapshot.hasChild("registrations")) {
+                            MapsActivity.this.hasRegistrations = true;
                         }
                     }
 
@@ -370,10 +384,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 startActivity(myIntent);
                 return true;
             case R.id.myRegistrationsMenu:
-                myIntent = new Intent(MapsActivity.this,  RegistrationListActivity.class);
-                myIntent.putExtra("userID", currentID);
-                startActivity(myIntent);
-                return true;
+                if (hasRegistrations) {
+                    myIntent = new Intent(MapsActivity.this,  RegistrationListActivity.class);
+                    myIntent.putExtra("userID", currentID);
+                    startActivity(myIntent);
+                    return true;
+                } else {
+                    Toast.makeText(getApplicationContext(), "No registrations! Choose Add an Event to get started.", Toast.LENGTH_LONG).show();
+                    return true;
+                }
+
             case R.id.addAnEventMenu:
                 // AddEventActivity.class
                 myIntent = new Intent(MapsActivity.this,  AddEventActivity.class);
@@ -417,4 +437,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
+    @Override
+    public void onMapLoaded() {
+        findViewById(R.id.loadingMaps).setVisibility(View.GONE);
+    }
 }
