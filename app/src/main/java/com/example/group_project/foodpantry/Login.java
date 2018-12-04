@@ -32,7 +32,7 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        Log.i(TAG, "OnCreate()");
         EditTextLogInEmail = (EditText) findViewById(R.id.editTextLogInEmail);
         EditTextLogInPassword = (EditText) findViewById(R.id.editTextLogInPassword);
 
@@ -81,8 +81,11 @@ public class Login extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+        Log.i(TAG, "On Create");
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
+        mAuth.signOut();
+        EditTextLogInPassword.setText("");
 //        updateUI(currentUser);
     }
 
@@ -92,6 +95,7 @@ public class Login extends AppCompatActivity {
 
         TextView errMsg = (TextView) findViewById(R.id.textViewLogInError);
         errMsg.setText("");
+
 
         emailVerifyMsg.setVisibility(TextView.INVISIBLE);
         if (validateTextFields() == true) {
