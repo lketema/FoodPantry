@@ -451,7 +451,9 @@ public class RegistrationInfo extends AppCompatActivity {
 
         String name = mNameEdit.getText().toString().trim(),
                 phoneNum = mPhoneNumberEdit.getText().toString().trim(),
-                email = mEmailEdit.getText().toString().trim();
+                email = mEmailEdit.getText().toString().trim(),
+                timeOpen = mTimeOpenEdit.getText().toString(),
+                timeClosed = mTimeClosedEdit.getText().toString();
 
         String emailRegex = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                 +"[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$",
@@ -469,7 +471,7 @@ public class RegistrationInfo extends AppCompatActivity {
             return false;
         }
 
-        if (phoneNum.length() > 10 || !Pattern.matches(phoneNumRegex, phoneNum)) {
+        if (phoneNum.length() > 12 || phoneNum.length() < 10 || !Pattern.matches(phoneNumRegex, phoneNum)) {
             Toast.makeText(RegistrationInfo.this, "Please provide a 10 digit phone number", Toast.LENGTH_SHORT).show();
             findViewById(R.id.pRegistrationPhoneNumber).requestFocus();
             return false;
@@ -487,6 +489,29 @@ public class RegistrationInfo extends AppCompatActivity {
             return false;
         }
 
+        if (!closeAfterOpen(timeOpen, timeClosed)) {
+            Toast.makeText(RegistrationInfo.this, "Open time must come before close time", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean closeAfterOpen(String openTime, String closeTime) {
+        String[] openSegments = openTime.split(":");
+        String[] closeSegments = closeTime.split(":");
+
+        int openHour = Integer.parseInt(openSegments[0]);
+        int closeHour = Integer.parseInt(closeSegments[0]);
+
+        int openMinute = Integer.parseInt(openSegments[1]);
+        int closeMinute = Integer.parseInt(closeSegments[1]);
+
+        if (closeHour < openHour) {
+            return false;
+        } else if (closeHour == openHour && closeMinute < openMinute) {
+            return false;
+        }
         return true;
     }
 
