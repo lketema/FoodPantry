@@ -102,7 +102,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="15dp"
-                android:text="Not registered yet! Create Account"
+                android:text="Not registered yet? Create Account"
                 android:textStyle="bold" />
 
 
@@ -113,7 +113,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="51dp"
-                android:text="Forgot Password"
+                android:text="Forgot Password?"
                 android:textStyle="bold" />
 
 
