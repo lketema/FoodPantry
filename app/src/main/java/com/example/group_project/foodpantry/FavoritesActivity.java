@@ -137,4 +137,41 @@ public class FavoritesActivity extends ListActivity {
             }
         });
     }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        Intent resumeIntent = getIntent();
+        Log.i("TAGGY", "we in here");
+
+        Bundle extras = resumeIntent.getExtras();
+
+        Log.i("TAGGY", "Returning: " + extras.getString("returning"));
+
+        if(extras.containsKey("returning")){
+            Log.i("TAGGY", "we out here");
+            userID = (String) resumeIntent.getExtras().get("userID");
+
+            getUserRegistrations();
+
+            mAdapter = new RegistrationListAdapter(favedThings, getApplicationContext());
+            getListView().setAdapter(mAdapter);
+
+            getListView().setOnItemClickListener(new OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Log.i(TAG, "short click");
+                    String regId = ownedIDs.get(i);
+
+                    Intent intent = new Intent(FavoritesActivity.this, RegistrationInfo.class);
+
+                    intent.putExtra("registrationID", regId);
+                    intent.putExtra("userID", userID);
+                    intent.putExtra("return", "FavoritesActivity");
+
+                    startActivity(intent);
+                }
+            });
+        }
+    }
 }

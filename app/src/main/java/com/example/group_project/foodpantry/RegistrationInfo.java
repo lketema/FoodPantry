@@ -127,7 +127,7 @@ public class RegistrationInfo extends AppCompatActivity {
                 returnIntent = new Intent(RegistrationInfo.this, FavoritesActivity.class)
                         .putExtra("userID", userID)
                         .putExtra("registrationID", registrationID)
-                        .putExtra("returning", true);
+                        .putExtra("returning", "true");
                 returnIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                         | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         }
