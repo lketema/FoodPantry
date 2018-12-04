@@ -10,7 +10,7 @@
 
     <item
         android:id="@+id/addAnEventMenu"
-        android:title="Add an Event"/>
+        android:title="Add Registration"/>
 
     <item
         android:id="@+id/logoutMenu"

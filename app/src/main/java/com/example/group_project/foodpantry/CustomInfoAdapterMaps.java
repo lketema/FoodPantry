@@ -29,7 +29,7 @@ public class CustomInfoAdapterMaps implements GoogleMap.InfoWindowAdapter {
 
     private void render(Marker marker, View view){
         registrationName = (TextView) view.findViewById(R.id.registrationName);
-        clickForMore = (TextView) view.findViewById(R.id.registrationMoreInfo);
+       // clickForMore = (TextView) view.findViewById(R.id.registrationMoreInfo);
         registrationType = (TextView) view.findViewById(R.id.registrationType);
 
         final String registrationID = marker.getTitle();
@@ -47,19 +47,24 @@ public class CustomInfoAdapterMaps implements GoogleMap.InfoWindowAdapter {
     }
     private void displayPantry(Pantry pantry){
 
+        this.mInfoWindowView.setBackgroundResource(R.drawable.rounded_corners);
         registrationName.setText(pantry.getName());
         registrationType.setText("(pantry)");
     }
 
     private void displayEvent(Event event){
+        this.mInfoWindowView.setBackgroundResource(R.drawable.rounded_corners_events);
         registrationName.setText(event.getName());
         registrationType.setText("(event)");
     }
 
     @Override
     public View getInfoWindow(Marker marker) {
+
         render(marker, this.mInfoWindowView);
         return mInfoWindowView;
+
+
 
     }
 
@@ -67,6 +72,7 @@ public class CustomInfoAdapterMaps implements GoogleMap.InfoWindowAdapter {
     public View getInfoContents(Marker marker) {
         render(marker, this.mInfoWindowView);
         return mInfoWindowView;
+
 
     }
 }
