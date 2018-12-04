@@ -13,7 +13,7 @@ import java.util.Map;
 public class CustomInfoAdapterMaps implements GoogleMap.InfoWindowAdapter {
     private final View mInfoWindowView;
     private Context mContext;
-    private TextView registrationName, clickForMore, registrationType;
+    private TextView registrationName, registrationType;
     private Map<String, Event> mEvents;
     private Map<String, Pantry> mPantry;
 
@@ -49,13 +49,13 @@ public class CustomInfoAdapterMaps implements GoogleMap.InfoWindowAdapter {
 
         this.mInfoWindowView.setBackgroundResource(R.drawable.rounded_corners);
         registrationName.setText(pantry.getName());
-        registrationType.setText("(pantry)");
+        registrationType.setText(R.string.mapsPantry);
     }
 
     private void displayEvent(Event event){
         this.mInfoWindowView.setBackgroundResource(R.drawable.rounded_corners_events);
         registrationName.setText(event.getName());
-        registrationType.setText("(event)");
+        registrationType.setText(R.string.mapsEvent);
     }
 
     @Override
@@ -64,15 +64,12 @@ public class CustomInfoAdapterMaps implements GoogleMap.InfoWindowAdapter {
         render(marker, this.mInfoWindowView);
         return mInfoWindowView;
 
-
-
     }
 
     @Override
     public View getInfoContents(Marker marker) {
         render(marker, this.mInfoWindowView);
         return mInfoWindowView;
-
 
     }
 }

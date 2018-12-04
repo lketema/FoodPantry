@@ -37,7 +37,7 @@
         android:layout_marginTop="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginEnd="2dp"
-        android:text="Click for More Info!" />
+        android:text="@string/clickForMore"/>
 
 
 </RelativeLayout>

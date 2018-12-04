@@ -35,11 +35,10 @@
 
     <!-- MapActivity -->
     <string name="zipCodeAddress">Search with ZipCode or Address</string>
-    <string name="adaptarAddress">Address: %1$s</string>
-    <string name="adaptarPhone">Phone Number: %1$s</string>
-    <string name="adaptarWebsite">Website: %1$s</string>
-    <string name="adaptarTimeOpenClose">Time Open: %1$s</string>
-    <string name="adaptarEventDate">Event Date: %1$s</string>
+    <string name="clickForMore">Click for More Info!</string>
+    <string name="mapsPantry">(pantry)</string>
+    <string name="mapsEvent">(event)</string>
+
     <string name="search">Search</string>
 
     <!--Event Confirmation Strings-->
