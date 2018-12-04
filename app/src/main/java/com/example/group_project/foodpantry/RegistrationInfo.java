@@ -106,31 +106,14 @@ public class RegistrationInfo extends AppCompatActivity {
                 //"foPc4vl745Z5oUe2NvrBaLlRUg83";
                 //"1yfb4cmbjeZf85VEfhphObkkoVg1";
 
-        switch(intent.getStringExtra("return")) {
-            case "MapsActivity":
-                returnIntent = new Intent(RegistrationInfo.this, MapsActivity.class)
-                        .putExtra("userID", userID)
-                        .putExtra("registrationID", registrationID)
-                        .putExtra("returning", true);
-                returnIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                        | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                break;
-            case "RegistrationListActivity":
-                returnIntent = new Intent(RegistrationInfo.this, RegistrationListActivity.class)
-                        .putExtra("userID", userID)
-                        .putExtra("registrationID", registrationID)
-                        .putExtra("returning", true);
-                returnIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                        | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                break;
-            default: // "FavoritesActivity"
-                returnIntent = new Intent(RegistrationInfo.this, FavoritesActivity.class)
-                        .putExtra("userID", userID)
-                        .putExtra("registrationID", registrationID)
-                        .putExtra("returning", "true");
-                returnIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                        | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        }
+
+        returnIntent = new Intent(RegistrationInfo.this, MapsActivity.class)
+                .putExtra("userID", userID)
+                .putExtra("registrationID", registrationID)
+                .putExtra("returning", true);
+        returnIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
 
         // access to database for registration
         DatabaseReference child = database.child("registration").child(registrationID);
