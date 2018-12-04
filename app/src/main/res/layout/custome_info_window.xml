@@ -16,8 +16,20 @@
         android:layout_marginTop="3dp"
         android:textSize="15sp"
         android:textStyle="bold" />
+    <TextView
+        android:id="@+id/registrationMoreInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/registrationName"
+        android:layout_marginTop="2dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
+        android:text="Click for More Info!" />
 
 
+</RelativeLayout>
+
+    <!--
     <TextView
         android:id="@+id/registrationAddress"
         android:layout_width="wrap_content"
@@ -30,10 +42,7 @@
 
         />
 
-    <!--
-    android:ems="10"
-    android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp" -->
+
     <TextView
         android:id="@+id/registrationPhone"
         android:layout_height="wrap_content"
@@ -56,9 +65,6 @@
 
 
 
-    <!-- Type -->
-
-    <!--Time and date-->
     <TextView
         android:id="@+id/registrationTimeOpenClose"
         android:layout_width="wrap_content"
@@ -69,7 +75,7 @@
         android:layout_below="@+id/registrationWebsite"
         />
 
-    <!--Event Specific Layout-->
+
     <TextView
         android:id="@+id/eventDate"
         android:layout_width="wrap_content"
@@ -78,19 +84,9 @@
         android:layout_marginTop="2dp"
         android:layout_marginStart="2dp"
         android:layout_marginEnd="2dp"
-         />
-
-    <TextView
-        android:id="@+id/registrationMoreInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/eventDate"
-        android:layout_marginTop="2dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="2dp"
-        android:text="Click for More Info!" />
+         /> -->
+    <!--Event Specific Layout-->
 
 
-    </RelativeLayout>
 
 

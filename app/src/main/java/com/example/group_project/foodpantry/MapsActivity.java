@@ -180,47 +180,40 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    if((!MapsActivity.this.mPantryHash.isEmpty() && MapsActivity.this.mPantryHash.containsKey(postSnapshot.getKey()))
-                            || !MapsActivity.this.mEventHash.isEmpty() && MapsActivity.this.mEventHash.containsKey(postSnapshot.getKey())){
-
-                        // do nothing if pantry already in map
-                    }
-                    else if(postSnapshot.hasChild("daysOpen")){
-                        Pantry temp = postSnapshot.getValue(Pantry.class);
-                        if(temp != null) {
-                            Double[] latlng = getLatLng(temp.getAddress());
-                        /*
-                        When adding marker store the event or pantry ID as name
-                        to get Id, do postSnapshot.getKey()
-                        */
-                            if (latlng.length == 2 && latlng[0] != null && latlng[1] != null) {
-                                MapsActivity.this.mMap.addMarker(new MarkerOptions()
-                                        .position(new LatLng(latlng[0], latlng[1]))
-                                        .title(postSnapshot.getKey())
-                                        .icon(BitmapDescriptorFactory
-                                                .defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
-                                );
-                                MapsActivity.this.mPantryHash.put(postSnapshot.getKey(), temp);
+                        if(postSnapshot.hasChild("daysOpen")){
+                            Pantry temp = postSnapshot.getValue(Pantry.class);
+                            if(temp != null && (MapsActivity.this.mPantryHash.isEmpty() || !MapsActivity.this.mPantryHash.containsKey(postSnapshot.getKey()))) {
+                                Double[] latlng = getLatLng(temp.getAddress());
+                            /*
+                            When adding marker store the event or pantry ID as name
+                            to get Id, do postSnapshot.getKey()
+                            */
+                                if (latlng.length == 2 && latlng[0] != null && latlng[1] != null) {
+                                    MapsActivity.this.mMap.addMarker(new MarkerOptions()
+                                            .position(new LatLng(latlng[0], latlng[1]))
+                                            .title(postSnapshot.getKey())
+                                            .icon(BitmapDescriptorFactory
+                                                    .defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                                    MapsActivity.this.mPantryHash.put(postSnapshot.getKey(), temp);
+                                }
                             }
                         }
-                    }
-                    else{
-                        Log.i(TAG, "I am a");
-                        Event temp = postSnapshot.getValue(Event.class);
-                        if(temp != null) {
-                            Double[] latlng = getLatLng(temp.getAddress());
-                            if (latlng.length == 2 && latlng[0] != null && latlng[1] != null) {
-                                MapsActivity.this.mMap.addMarker(new MarkerOptions()
-                                        .position(new LatLng(latlng[0], latlng[1]))
-                                        .title(postSnapshot.getKey())
-                                        .icon(BitmapDescriptorFactory
-                                                .defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA))
-                                );
-                                MapsActivity.this.mEventHash.put(postSnapshot.getKey(), temp);
-                            }
+                        else{
+                            Event temp = postSnapshot.getValue(Event.class);
+                            if(temp != null && (MapsActivity.this.mEventHash.isEmpty() || !MapsActivity.this.mEventHash.containsKey(postSnapshot.getKey()))) {
+                                Double[] latlng = getLatLng(temp.getAddress());
 
+                                if (latlng.length == 2 && latlng[0] != null && latlng[1] != null) {
+                                    MapsActivity.this.mMap.addMarker(new MarkerOptions()
+                                            .position(new LatLng(latlng[0], latlng[1]))
+                                            .title(postSnapshot.getKey())
+                                            .icon(BitmapDescriptorFactory
+                                                    .defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA))
+                                    );
+                                    MapsActivity.this.mEventHash.put(postSnapshot.getKey(), temp);
+                                }
+                            }
                         }
-                    }
                 }
             }
 
@@ -239,7 +232,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                             marker.showInfoWindow();
                         }
 
-                        return true;
+                        return false;
                     }
                 });
 
@@ -355,14 +348,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         Log.i("MapsActivity", "Found user");
 
                         User tempuser = dataSnapshot.getValue(User.class);
+                        if(tempuser != null) {
+                            if (!tempuser.getUserType().equals("owner")) {
+                                addEventMenu.setVisible(false);
+                                myRegistrationMenu.setVisible(false);
+                            }
 
-                        if (!tempuser.getUserType().equals("owner")) {
-                            addEventMenu.setVisible(false);
-                            myRegistrationMenu.setVisible(false);
-                        }
-
-                        if (dataSnapshot.hasChild("registrations")) {
-                            MapsActivity.this.hasRegistrations = true;
+                            if (dataSnapshot.hasChild("registrations")) {
+                                MapsActivity.this.hasRegistrations = true;
+                            }
                         }
 
                         if (dataSnapshot.hasChild("favorites")) {
