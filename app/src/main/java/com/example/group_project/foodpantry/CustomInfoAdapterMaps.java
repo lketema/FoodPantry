@@ -13,19 +13,15 @@ import java.util.Map;
 public class CustomInfoAdapterMaps implements GoogleMap.InfoWindowAdapter {
     private final View mInfoWindowView;
     private Context mContext;
-    private TextView registrationName, registrationAddress, registrationPhone, registrationWebsite,
-            eventDate, registrationTimeOpenClose, clickForMore;
-    Map<String, Event> mEvents;
-    Map<String, Pantry> mPantry;
+    private TextView registrationName, clickForMore, registrationType;
+    private Map<String, Event> mEvents;
+    private Map<String, Pantry> mPantry;
 
-    private String TAG = "Custom Info Adapter";
+   // private String TAG = "Custom Info Adapter";
     public CustomInfoAdapterMaps(Context c, Map<String, Event> events, Map<String, Pantry> pantry ){
+
         this.mInfoWindowView = LayoutInflater.from(c).inflate(R.layout.custome_info_window, null);
         this.mContext = c;
-
-        clickForMore = (TextView) this.mInfoWindowView.findViewById(R.id.registrationMoreInfo);
-        clickForMore.setVisibility(View.GONE);
-
         mEvents = events;
         mPantry = pantry;
 
@@ -33,11 +29,8 @@ public class CustomInfoAdapterMaps implements GoogleMap.InfoWindowAdapter {
 
     private void render(Marker marker, View view){
         registrationName = (TextView) view.findViewById(R.id.registrationName);
-        registrationAddress = (TextView) view.findViewById(R.id.registrationAddress);
-        registrationPhone = (TextView) view.findViewById(R.id.registrationPhone);
-        registrationWebsite = (TextView) view.findViewById(R.id.registrationWebsite);
-        eventDate = (TextView) view.findViewById(R.id.eventDate);
-        registrationTimeOpenClose = (TextView) view.findViewById(R.id.registrationTimeOpenClose);
+        clickForMore = (TextView) view.findViewById(R.id.registrationMoreInfo);
+        registrationType = (TextView) view.findViewById(R.id.registrationType);
 
         final String registrationID = marker.getTitle();
 
@@ -52,55 +45,29 @@ public class CustomInfoAdapterMaps implements GoogleMap.InfoWindowAdapter {
         }
 
     }
-
-    private void displayCommon(String name, String address, String phone,
-                               String website, String time){
-
-        // set the common property for pantry or event
-        CustomInfoAdapterMaps.this.registrationName.setText(name);
-
-        CustomInfoAdapterMaps.this.registrationAddress.setText(this.mContext.getResources()
-                .getString(R.string.adaptarAddress, address));
-        CustomInfoAdapterMaps.this.registrationPhone.setText(this.mContext.getResources()
-                .getString(R.string.adaptarPhone, phone));
-        CustomInfoAdapterMaps.this.registrationWebsite.setText(this.mContext.getResources()
-                .getString(R.string.adaptarWebsite, website));
-        CustomInfoAdapterMaps.this.registrationTimeOpenClose.setText(this.mContext.getResources()
-                .getString(R.string.adaptarTimeOpenClose, time));
-        CustomInfoAdapterMaps.this.clickForMore.setVisibility(View.VISIBLE);
-
-    }
     private void displayPantry(Pantry pantry){
-        displayCommon(pantry.getName(), pantry.getAddress(), pantry.getPhoneNumber(),
-                pantry.getWebsite(), pantry.getTimeOpen()+ " - " + pantry.getTimeClosed() );
-        CustomInfoAdapterMaps.this.eventDate.setVisibility(View.GONE);
 
+        registrationName.setText(pantry.getName());
+        registrationType.setText("(pantry)");
     }
 
     private void displayEvent(Event event){
-        displayCommon(event.getName(), event.getAddress(), event.getPhoneNumber(),
-                event.getWebsite(), event.getTimeOpen()+ " - " + event.getTimeClosed() );
-
-        CustomInfoAdapterMaps.this.eventDate.setText(this.mContext.getResources()
-                .getString(R.string.adaptarEventDate, event.getEventDate()));
-        CustomInfoAdapterMaps.this.eventDate.setVisibility(View.VISIBLE);
-
+        registrationName.setText(event.getName());
+        registrationType.setText("(event)");
     }
-
 
     @Override
     public View getInfoWindow(Marker marker) {
-
         render(marker, this.mInfoWindowView);
         return mInfoWindowView;
-        //return null;
+
     }
 
     @Override
     public View getInfoContents(Marker marker) {
         render(marker, this.mInfoWindowView);
         return mInfoWindowView;
-        //return null;
+
     }
 }
 // below for database access but since process is asynchronous, it won't work properly

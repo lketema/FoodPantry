@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/background_gray">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -20,9 +21,8 @@
                 android:id="@+id/PrivilegesTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:layout_marginTop="4dp"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginBottom="2dp"
                 android:textStyle="italic"
                 android:textColor="@color/congrats_blue"
@@ -33,8 +33,9 @@
                 android:id="@+id/registrationName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:layout_marginTop="4dp"
+                android:layout_marginStart="5dp"
+                android:text="PANTRY NAME"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="30sp"
                 android:textStyle="bold" />
@@ -44,100 +45,145 @@
                 android:id="@+id/pRegistrationName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:layout_marginTop="2dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
+                android:hint="Name"
                 android:textSize="28sp"
                 android:textStyle="bold"
                 android:visibility="gone"
 
                 />
 
-            <TextView
-                android:id="@+id/registrationAddress"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/pRegistrationName"
-                android:layout_marginTop="5dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:ems="10"
-                />
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/pRegistrationAddress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/registrationAddress"
-                android:layout_marginTop="2dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:ems="10"
-                android:visibility="gone"
-                />
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:src="@drawable/house2"/>
+
+                <TextView
+                    android:id="@+id/registrationAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="5dp"
+                    android:text="123 Example Road College Park, MD"
+                    android:ems="10"
+                    />
+
+                <EditText
+                    android:id="@+id/pRegistrationAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="5dp"
+                    android:ems="10"
+                    android:hint="Address"
+                    android:visibility="gone"
+                    />
+
+            </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:src="@drawable/phone2"/>
 
             <TextView
                 android:id="@+id/registrationPhoneNumber"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:layout_below="@id/pRegistrationAddress"
                 android:layout_marginTop="5dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="100dp"
+                android:layout_marginStart="5dp"
+                android:text="1231231234"
                 />
+
+
             <EditText
                 android:id="@+id/pRegistrationPhoneNumber"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:layout_below="@id/registrationPhoneNumber"
                 android:layout_marginTop="2dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="100dp"
+                android:layout_marginStart="5dp"
                 android:visibility="gone"
+                android:hint="Phone Number"
                 />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:src="@drawable/email2"/>
 
             <TextView
                 android:id="@+id/registrationEmail"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:layout_below="@id/pRegistrationPhoneNumber"
                 android:layout_marginTop="5dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="100dp"
+                android:layout_marginStart="5dp"
+                android:text="xxxxxxxxxxxxxxx@gmail.com"
                 />
+
             <EditText
                 android:id="@+id/pRegistrationEmail"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:layout_below="@id/registrationEmail"
                 android:layout_marginTop="2dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="100dp"
+                android:layout_marginStart="5dp"
                 android:visibility="gone"
+                android:hint="Email"
                 />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:src="@drawable/website2"/>
 
             <TextView
                 android:id="@+id/registrationWebsite"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:layout_below="@id/pRegistrationEmail"
                 android:layout_marginTop="5dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="100dp"
+                android:layout_marginStart="5dp"
+                android:text="www.webisteurl.com"
                 />
+
             <EditText
                 android:id="@+id/pRegistrationWebsite"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:layout_below="@id/registrationWebsite"
                 android:layout_marginTop="2dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="100dp"
+                android:layout_marginStart="5dp"
                 android:visibility="gone"
+                android:hint="Website URL"
                 />
 
+        </LinearLayout>
 
             <!-- Type -->
 
@@ -149,7 +195,6 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="10dp"
-                android:layout_below="@+id/pRegistrationWebsite"
                 />
 
             <RelativeLayout
@@ -159,15 +204,13 @@
                 android:layout_marginTop="2dp"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp"
-                android:visibility="gone"
-                android:layout_below="@+id/registrationTimeOpenClose">
+                android:visibility="gone" >
 
 
                 <TextView
                     android:id="@+id/pBeginRegistrationTimeOpenClose"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="7dp"
                     android:layout_marginStart="5dp"
                     android:layout_marginEnd="2dp"

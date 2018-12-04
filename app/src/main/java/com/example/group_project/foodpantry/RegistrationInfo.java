@@ -49,6 +49,8 @@ public class RegistrationInfo extends AppCompatActivity {
 
     private static DatabaseReference database;
 
+    private Intent returnIntent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,23 +106,30 @@ public class RegistrationInfo extends AppCompatActivity {
                 //"foPc4vl745Z5oUe2NvrBaLlRUg83";
                 //"1yfb4cmbjeZf85VEfhphObkkoVg1";
 
-        final Intent returnIntent;
-
         switch(intent.getStringExtra("return")) {
             case "MapsActivity":
                 returnIntent = new Intent(RegistrationInfo.this, MapsActivity.class)
                         .putExtra("userID", userID)
-                        .putExtra("registrationID", registrationID);
+                        .putExtra("registrationID", registrationID)
+                        .putExtra("returning", true);
+                returnIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 break;
             case "RegistrationListActivity":
                 returnIntent = new Intent(RegistrationInfo.this, RegistrationListActivity.class)
                         .putExtra("userID", userID)
-                        .putExtra("registrationID", registrationID);
+                        .putExtra("registrationID", registrationID)
+                        .putExtra("returning", true);
+                returnIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 break;
             default: // "FavoritesActivity"
                 returnIntent = new Intent(RegistrationInfo.this, FavoritesActivity.class)
                         .putExtra("userID", userID)
-                        .putExtra("registrationID", registrationID);
+                        .putExtra("registrationID", registrationID)
+                        .putExtra("returning", true);
+                returnIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         }
 
         // access to database for registration
@@ -430,6 +439,11 @@ public class RegistrationInfo extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(returnIntent);
     }
 
     private boolean allFieldsAreValid() {
