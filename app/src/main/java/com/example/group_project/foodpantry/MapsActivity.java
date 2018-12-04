@@ -208,7 +208,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                                             .position(new LatLng(latlng[0], latlng[1]))
                                             .title(postSnapshot.getKey())
                                             .icon(BitmapDescriptorFactory
-                                                    .defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA))
+                                                    .defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
                                     );
                                     MapsActivity.this.mEventHash.put(postSnapshot.getKey(), temp);
                                 }

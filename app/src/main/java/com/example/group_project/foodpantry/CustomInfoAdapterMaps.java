@@ -13,19 +13,15 @@ import java.util.Map;
 public class CustomInfoAdapterMaps implements GoogleMap.InfoWindowAdapter {
     private final View mInfoWindowView;
     private Context mContext;
-    private TextView registrationName, registrationAddress, registrationPhone, registrationWebsite,
-            eventDate, registrationTimeOpenClose, clickForMore;
-    Map<String, Event> mEvents;
-    Map<String, Pantry> mPantry;
+    private TextView registrationName, clickForMore, registrationType;
+    private Map<String, Event> mEvents;
+    private Map<String, Pantry> mPantry;
 
-    private String TAG = "Custom Info Adapter";
+   // private String TAG = "Custom Info Adapter";
     public CustomInfoAdapterMaps(Context c, Map<String, Event> events, Map<String, Pantry> pantry ){
+
         this.mInfoWindowView = LayoutInflater.from(c).inflate(R.layout.custome_info_window, null);
         this.mContext = c;
-
-        clickForMore = (TextView) this.mInfoWindowView.findViewById(R.id.registrationMoreInfo);
-     //   clickForMore.setVisibility(View.GONE);
-
         mEvents = events;
         mPantry = pantry;
 
@@ -33,6 +29,8 @@ public class CustomInfoAdapterMaps implements GoogleMap.InfoWindowAdapter {
 
     private void render(Marker marker, View view){
         registrationName = (TextView) view.findViewById(R.id.registrationName);
+        clickForMore = (TextView) view.findViewById(R.id.registrationMoreInfo);
+        registrationType = (TextView) view.findViewById(R.id.registrationType);
 
         final String registrationID = marker.getTitle();
 
@@ -48,47 +46,28 @@ public class CustomInfoAdapterMaps implements GoogleMap.InfoWindowAdapter {
 
     }
     private void displayPantry(Pantry pantry){
-        //clickForMore.setVisibility(View.GONE);
-        CustomInfoAdapterMaps.this.registrationName.setText(pantry.getName());
+
+        registrationName.setText(pantry.getName());
+        registrationType.setText("(pantry)");
     }
 
     private void displayEvent(Event event){
-        CustomInfoAdapterMaps.this.registrationName.setText(event.getName());
+        registrationName.setText(event.getName());
+        registrationType.setText("(event)");
     }
-
-
-    private void displayCommon(String name, String address, String phone,
-                               String website, String time){
-
-        // set the common property for pantry or event
-        CustomInfoAdapterMaps.this.registrationName.setText(name);
-
-        CustomInfoAdapterMaps.this.registrationAddress.setText(this.mContext.getResources()
-                .getString(R.string.adaptarAddress, address));
-        CustomInfoAdapterMaps.this.registrationPhone.setText(this.mContext.getResources()
-                .getString(R.string.adaptarPhone, phone));
-        CustomInfoAdapterMaps.this.registrationWebsite.setText(this.mContext.getResources()
-                .getString(R.string.adaptarWebsite, website));
-        CustomInfoAdapterMaps.this.registrationTimeOpenClose.setText(this.mContext.getResources()
-                .getString(R.string.adaptarTimeOpenClose, time));
-        CustomInfoAdapterMaps.this.clickForMore.setVisibility(View.VISIBLE);
-
-    }
-
 
     @Override
     public View getInfoWindow(Marker marker) {
-
         render(marker, this.mInfoWindowView);
         return mInfoWindowView;
-        //return null;
+
     }
 
     @Override
     public View getInfoContents(Marker marker) {
         render(marker, this.mInfoWindowView);
         return mInfoWindowView;
-        //return null;
+
     }
 }
 // below for database access but since process is asynchronous, it won't work properly
