@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/white"
     android:id="@+id/customInfoAdapter">
 
 
@@ -42,65 +41,3 @@
 
 
 </RelativeLayout>
-
-    <!--
-    <TextView
-        android:id="@+id/registrationAddress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/registrationName"
-        android:layout_marginTop="2dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="2dp"
-
-        />
-
-
-    <TextView
-        android:id="@+id/registrationPhone"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_below="@id/registrationAddress"
-        android:layout_marginTop="2dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="2dp"
-        />
-
-    <TextView
-        android:id="@+id/registrationWebsite"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_below="@id/registrationPhone"
-        android:layout_marginTop="2dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="2dp"
-        />
-
-
-
-    <TextView
-        android:id="@+id/registrationTimeOpenClose"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="2dp"
-        android:layout_below="@+id/registrationWebsite"
-        />
-
-
-    <TextView
-        android:id="@+id/eventDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/registrationTimeOpenClose"
-        android:layout_marginTop="2dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="2dp"
-         /> -->
-    <!--Event Specific Layout-->
-
-
-
-

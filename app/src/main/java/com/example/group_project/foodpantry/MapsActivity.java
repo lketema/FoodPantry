@@ -52,7 +52,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private FusedLocationProviderClient mFusedLocationProviderClient;
     public Location mCurrentLocation = null;
     private final int LOCATION_PERMISSION_CODE = 4;
-    private final float ZOOM = 11.0f;
+    private final float ZOOM = 12.0f;
 
     DatabaseReference databaseReference;
     Map<String, Pantry> mPantryHash;
@@ -227,12 +227,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 new GoogleMap.OnMarkerClickListener() {
                     public boolean onMarkerClick(Marker marker) {
                         //MapsActivity.this.mMap.setInfoWindowAdapter(new CustomInfoAdapterMaps(MapsActivity.this));
-
+                        //Toast.makeText(getApplicationContext(), marker.getTitle(), Toast.LENGTH_LONG).show();
                         if(marker != null && !marker.getTitle().equals("You")) {
+                          //  Toast.makeText(getApplicationContext(), marker.getTitle(), Toast.LENGTH_LONG).show();
                             marker.showInfoWindow();
                         }
 
-                        return false;
+                        return true;
                     }
                 });
 
@@ -420,7 +421,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     startActivity(myIntent);
                     return true;
                 } else {
-                    Toast.makeText(getApplicationContext(), "No Favorites! Click on a label on the map to add one.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "No Favorites Found!", Toast.LENGTH_LONG).show();
                     return true;
                 }
             case R.id.myRegistrationsMenu:
@@ -430,7 +431,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     startActivity(myIntent);
                     return true;
                 } else {
-                    Toast.makeText(getApplicationContext(), "No registrations! Choose Add an Event to get started.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "No Registrations Found!", Toast.LENGTH_LONG).show();
                     return true;
                 }
 
