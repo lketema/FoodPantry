@@ -123,14 +123,18 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/textViewSignUp"
                 android:layout_centerHorizontal="true"
+                android:layout_marginBottom="5dp"
                 android:text=""
                 android:textColor="@color/red" />
 
             <TextView
                 android:id="@+id/textViewVerificationMsg"
-                android:layout_width="259dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/textViewForgotPassword"
                 android:text="We have sent a verification email to your email address. Please verify your email address."
                 android:textColor="@color/red"
                 android:visibility="gone"/>
